@@ -1,0 +1,23 @@
+{
+  "name": "portfolio-dina",
+  "version": "1.0.0",
+  "description": "A fully responsive graphic design portfolio website with a content management system to keep the portfolio up-to-date.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allison-Eigsti/portfolio-dina.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Allison-Eigsti/portfolio-dina/issues"
+  },
+  "homepage": "https://github.com/Allison-Eigsti/portfolio-dina#readme",
+  "dependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
