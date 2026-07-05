@@ -1,0 +1,51 @@
+{
+  "entity": "Category",
+  "description": "Stores portfolio categories and their layout configuration for displaying projects on the website.",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "ObjectId",
+      "required": true
+    },
+    {
+      "name": "name",
+      "type": "String",
+      "required": true
+    },
+    {
+      "name": "slug",
+      "type": "String",
+      "required": true
+    },
+    {
+      "name": "layoutType",
+      "type": "String",
+      "required": true
+    },
+    {
+      "name": "columns",
+      "type": "Number",
+      "required": true
+    },
+    {
+      "name": "spacing",
+      "type": "Number",
+      "required": true
+    },
+    {
+      "name": "displayOrder",
+      "type": "Number",
+      "required": true
+    },
+    {
+      "name": "createdAt",
+      "type": "Date",
+      "required": true
+    },
+    {
+      "name": "updatedAt",
+      "type": "Date",
+      "required": true
+    }
+  ]
+}

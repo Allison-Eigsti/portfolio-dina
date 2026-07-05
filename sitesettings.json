@@ -1,0 +1,31 @@
+{
+  "entity": "SiteSettings",
+  "description": "Stores global website content and settings such as the homepage, About Me section, and social media links.",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "ObjectId",
+      "required": true
+    },
+    {
+      "name": "homepage",
+      "type": "Object",
+      "required": true
+    },
+    {
+      "name": "about",
+      "type": "Object",
+      "required": true
+    },
+    {
+      "name": "socialLinks",
+      "type": "Object",
+      "required": true
+    },
+    {
+      "name": "updatedAt",
+      "type": "Date",
+      "required": true
+    }
+  ]
+}
