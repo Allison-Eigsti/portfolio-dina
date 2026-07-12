@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Esports & Gaming",
+    "slug": "esports-gaming",
+    "description": "Broadcast graphics, tournament branding and esports visual identity projects.",
+    "thumbnail": {
+      "url": "/uploads/categories/esports-cover.webp",
+      "alt": "Esports & Gaming category cover image"
+    },
+    "displayOrder": 1,
+    "createdAt": "2026-07-12T18:00:00.000Z",
+    "updatedAt": "2026-07-12T18:00:00.000Z"
+  },
+  {
+    "name": "Brands & Campaigns",
+    "slug": "brands-campaigns",
+    "description": "Brand identities, campaigns and marketing design.",
+    "thumbnail": {
+      "url": "/uploads/categories/brands-cover.webp",
+      "alt": "Brands & Campaigns category cover image"
+    },
+    "displayOrder": 2,
+    "createdAt": "2026-07-12T18:00:00.000Z",
+    "updatedAt": "2026-07-12T18:00:00.000Z"
+  }
+]
