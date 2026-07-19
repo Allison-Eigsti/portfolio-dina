@@ -47,14 +47,11 @@ const categorySchema = new mongoose.Schema({
 })
 
 // Generate a human-readable slug
-categorySchema.pre('validate', function (next) {
-    if (this.isModified('name')) {
-        this.slug = slugify(this.name, {
-            lower: true,
-            strict: true
-        });
-    }
-    next();
+categorySchema.pre('validate', function () {
+    this.slug = slugify(this.title, {
+        lower: true,
+        strict: true
+    });
 });
 
 

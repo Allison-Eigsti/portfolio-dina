@@ -1,6 +1,5 @@
 const Project = require('../models/Project')
-const projectModel = require('../models/Project')
-
+const Category = require('../models/Category')
 
 
 async function getAllProjects(req, res) {
@@ -57,6 +56,11 @@ async function createProject(req, res) {
 
         const categoryExists = await Category.findById(category)
 
+        const categories = await Category.find();
+
+        console.log(categories);
+        console.log("Incoming category:", category);
+
         if (!categoryExists) {
             return res.status(400).json({
                 message: "Category does not exist"
@@ -84,6 +88,7 @@ async function createProject(req, res) {
         return res.status(201).json(project)
 
     } catch(err) {
+        console.error(err);
 
         if (err.code === 11000) {
             return res.status(400).json({

@@ -136,14 +136,11 @@ const projectSchema = new mongoose.Schema({
 
 
 // Generate a human-readable slug
-projectSchema.pre('validate', function (next) {
-    if (this.isModified('title')) {
-        this.slug = slugify(this.title, {
-            lower: true,
-            strict: true
-        });
-    }
-    next();
+projectSchema.pre('validate', function () {
+    this.slug = slugify(this.title, {
+        lower: true,
+        strict: true
+    });
 });
 
 const Project = mongoose.model('Project', projectSchema)
