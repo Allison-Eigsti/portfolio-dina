@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const slugify = require('slugify')
 
 const projectSchema = new mongoose.Schema({
     title: {
@@ -10,7 +11,10 @@ const projectSchema = new mongoose.Schema({
 
     slug: {
         type: String,
-        unique: true
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
     },
 
     category: {
@@ -59,14 +63,15 @@ const projectSchema = new mongoose.Schema({
     thumbnail: {
         type: {
             url: {
-            type: String,
-            required: true
-        },
-        alt: {
-            type: String,
-            default: ''
+                type: String,
+                required: true
+            },
+            alt: {
+                type: String,
+                default: ""
+            }
         }
-    }},
+    },
 
     images: {
         type: [{
@@ -128,3 +133,19 @@ const projectSchema = new mongoose.Schema({
 {
     timestamps: true
 })
+
+
+// Generate a human-readable slug
+projectSchema.pre('validate', function (next) {
+    if (this.isModified('title')) {
+        this.slug = slugify(this.title, {
+            lower: true,
+            strict: true
+        });
+    }
+    next();
+});
+
+const Project = mongoose.model('Project', projectSchema)
+
+module.exports = Project
