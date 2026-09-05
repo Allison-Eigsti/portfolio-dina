@@ -2,7 +2,7 @@
   "name": "portfolio-dina",
   "version": "1.0.0",
   "description": "A fully responsive graphic design portfolio website with a content management system to keep the portfolio up-to-date.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
