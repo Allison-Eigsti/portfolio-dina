@@ -4,12 +4,17 @@ const connectDB = require('./config/db.js')
 
 // import API routes // Make sure paths after restructuring are working
 const projectRouter = require('./routes/projectRouter.js')
+const authRouter = require('./routes/authRouter.js')
+
 
 // import Middlewares
 const logger = require('./middleware/logger.js')
+const helmet = require('helmet')
+const debug = require('debug')('app')
 //import cors
 const serverError = require('./middleware/server-error.js')
 const notFound = require('./middleware/not-found.js')
+
 
 
 const app = express()
@@ -22,10 +27,11 @@ connectDB()
 // Middleware
 app.use(express.json())
 app.use(logger)
+app.use(helmet())
 
-app.get('/', (req, res) => {
-    console.log('Hello World')
-})
+
+// Unprotected Routes
+app.use('/auth', authRouter)
 
 //Application routing
 app.use('/projects', projectRouter)
