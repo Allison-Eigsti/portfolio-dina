@@ -1,7 +1,7 @@
 require("dotenv").config()
 
-const User = require("./models/User.js")
-const bcrypt = require("bcryptjs")
+const User = require("../models/User")
+const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 async function loginUser(req, res) {
@@ -69,5 +69,5 @@ async function getUser(req, res) {
 
 module.exports = {
   loginUser,
-  getUser,
+  getUser
 }
