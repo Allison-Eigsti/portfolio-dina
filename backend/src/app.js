@@ -1,4 +1,5 @@
 const express = require('express')
+const connectDB = require('./config/db.js')
 
 
 // import API routes // Make sure paths after restructuring are working
@@ -12,6 +13,9 @@ const notFound = require('./middleware/not-found.js')
 
 
 const app = express()
+
+// Connect to database
+connectDB()
 
 //app.use(cors()) ?? where does this go
 
