@@ -8,7 +8,7 @@ async function getAllProjects(req, res) {
         return res.status(200).json(projects)
 
     } catch(err) {
-        res.status(500).json({ message: err.message })
+        return res.status(500).json({ message: err.message })
     }
 }
 
@@ -25,7 +25,7 @@ async function getProjectById(req, res) {
         return res.status(200).json(project)
 
     } catch(err) {
-        res.status(500).json({ message: err.message })
+        return res.status(500).json({ message: err.message })
     }
 }
 
@@ -102,7 +102,7 @@ async function createProject(req, res) {
             })
         }
 
-        res.status(500).json({ message: err.message })
+        return res.status(500).json({ message: err.message })
     }
 }
 
@@ -181,7 +181,7 @@ async function deleteProject(req, res) {
 
          return res.status(200).json({ message: 'Project deleted successfully'})
     } catch(err) {
-        res.status(500).json({ message: err.message })
+        return res.status(500).json({ message: err.message })
     }
 }
 
