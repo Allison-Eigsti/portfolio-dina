@@ -4,7 +4,9 @@
   "description": "A fully responsive graphic design portfolio website with a content management system to keep the portfolio up-to-date.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@ const express = require('express')
 
 
 // import API routes // Make sure paths after restructuring are working
-const projectRouter = require('./src/routes/projectRouter.js')
+const projectRouter = require('./routes/projectRouter.js')
 
 // import Middlewares
 const logger = require('./middleware/logger.js')
