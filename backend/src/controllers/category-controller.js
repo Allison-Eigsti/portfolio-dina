@@ -79,50 +79,6 @@ async function createCategory(req, res) {
 
 async function updateCategory(req, res) {
     try {
-        const category = await Category.findById(req.params.id)
-
-        if (!category) {
-            return res.status(404).json({
-                message: 'Category not found'
-            })
-        }
-
-        const newOrder = req.body.displayOrder
-        const oldOrder = req.body.displayOrder
-
-        if (newOrder !== undefined && newOrder !== oldOrder) {
-
-            if (newOrder < oldOrder) {
-                await Category.updateMany(
-                    {
-                        _id: { $ne: req.params.id },
-                        displayOrder: {
-                            $gte: newOrder,
-                            $lt: oldOrder
-                        }
-                    },
-                    {
-                        $inc: { displayOrder: 1 }
-                    }
-                )
-            }
-
-            if (newOrder > oldOrder) {
-                await Category.updateMany(
-                    {
-                        _id: { $ne: req.params.id },
-                        displayOrder: {
-                            $gt: oldOrder,
-                            $lte: newOrder
-                        }
-                    },
-                    {
-                        $inc: { displayOrder: -1 }
-                    }
-                )
-            }
-        }
-
         const allowedFields = [
             "name",
             "description",
@@ -138,7 +94,7 @@ async function updateCategory(req, res) {
             }
         })
 
-        const updatedCategory = await Category.findByIdAndUpdate(
+        const category = await Category.findByIdAndUpdate(
             req.params.id,
             updates,
             {
@@ -153,7 +109,7 @@ async function updateCategory(req, res) {
             })
         }
 
-        return res.status(200).json(updatedCategory)
+        return res.status(200).json(category)
 
     } catch(err) {
 
