@@ -1,7 +1,7 @@
 const Project = require('../models/Project')
 const Category = require('../models/Category')
 const slugify = require("slugify")
-const { uploadImage } = require("../services/cloudinaryService")
+const { uploadImage, deleteImage } = require("../services/cloudinaryService")
 
 async function getAllProjects(req, res) {
     try {
@@ -169,6 +169,14 @@ async function createProject(req, res) {
 
 async function updateProject(req, res) {
     try {
+        const project = await Project.findById(req.params.id);
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found"
+            });
+        }
+
         const allowedFields = [
             "title",
             "category",
@@ -176,41 +184,90 @@ async function updateProject(req, res) {
             "agency",
             "year",
             "projectBriefing",
-            "software",
-            "tags",
-            "thumbnail",
-            "images",
-            "layout",
-            "displayOrder",
             "published"
         ]
 
-        const updates = {}
 
         allowedFields.forEach(field => {
             if (req.body[field] !== undefined) {
-                updates[field] = req.body[field]
+                project[field] = req.body[field]
             }
         })
 
-        const project = await Project.findByIdAndUpdate(
-            req.params.id,
-            updates,
-            {
-                new: true,
-                runValidators: true
-            }
-        )
-
-        if (!project) {
-            return res.status(404).json({
-                message: "Project not found"
-            })
+        if (req.body.software !== undefined) {
+            project.software = JSON.parse(req.body.software);
         }
+
+        if (req.body.tags !== undefined) {
+            project.tags = JSON.parse(req.body.tags);
+        }
+
+        if (req.body.layout !== undefined) {
+            project.layout = JSON.parse(req.body.layout);
+        }
+
+        if (req.files?.thumbnail?.[0]) {
+
+            const newThumbnailResult = await uploadImage(
+                req.files.thumbnail[0],
+                `portfolio/projects/${project.slug}/thumbnail`
+            );
+
+            const newThumbnail = {
+                url: newThumbnailResult.secure_url,
+                publicId: newThumbnailResult.public_id,
+                alt: ""
+            };
+
+            // Delete old thumbnail
+            if (project.thumbnail?.publicId) {
+                await deleteImage(project.thumbnail.publicId);
+            }
+
+            project.thumbnail = newThumbnail;
+        }
+
+        // Replace project images if new images were uploaded
+        if (req.files?.images?.length) {
+
+            const newImageResults = await Promise.all(
+                req.files.images.map(file =>
+                    uploadImage(
+                        file,
+                        `portfolio/projects/${project.slug}`
+                    )
+                )
+            );
+
+            const newImages = newImageResults.map(image => ({
+                url: image.secure_url,
+                publicId: image.public_id,
+                alt: ""
+            }));
+
+            // Delete old project images
+            if (project.images?.length) {
+                await Promise.all(
+                    project.images
+                        .filter(image => image.publicId)
+                        .map(image => deleteImage(image.publicId))
+                );
+            }
+
+            project.images = newImages;
+        }
+
+
+        await project.save()
 
         return res.status(200).json(project)
 
     } catch(err) {
+        if (err.name === "SyntaxError") {
+            return res.status(400).json({
+                message: "Software, tags, or layout contains invalid JSON"
+            });
+        }
 
         if (err.code === 11000) {
             return res.status(400).json({
@@ -229,6 +286,69 @@ async function updateProject(req, res) {
         })
     }
 }
+
+
+async function reorderProject(req, res) {
+    try {
+        const { newOrder } = req.body
+
+        if (newOrder === undefined) {
+            return res.status(400).json({
+                message: "New order is required"
+            })
+        }
+
+        const project = await Project.findById(req.params.id);
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found"
+            })
+        }
+
+        const projects = await Project.find({
+            category: project.category
+        }).sort({ displayOrder: 1 })
+
+        const newIndex = Number(newOrder) - 1
+
+        if (
+            newIndex < 0 ||
+            newIndex >= projects.length
+        ) {
+            return res.status(400).json({
+                message: "Invalid display order"
+            })
+        }
+
+        const currentIndex = projects.findIndex(
+            item => item._id.toString() === project._id.toString()
+        );
+
+        const [movedProject] = projects.splice(currentIndex, 1)
+
+        projects.splice(newIndex, 0, movedProject)
+
+        projects.forEach((project, index) => {
+            project.displayOrder = index + 1;
+        })
+
+        await Promise.all(
+            projects.map(project => project.save())
+        )
+
+        return res.status(200).json(projects)
+
+    } catch (err) {
+        console.error(err)
+
+        return res.status(500).json({
+            message: err.message
+        })
+    }
+} 
+
+
 
 async function deleteProject(req, res) {
     try {
@@ -251,5 +371,6 @@ module.exports = {
     getProjectById,
     createProject,
     updateProject,
+    reorderProject,
     deleteProject
 }

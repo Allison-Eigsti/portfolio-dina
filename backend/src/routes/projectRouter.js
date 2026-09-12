@@ -5,6 +5,7 @@ const {
   getProjectById,
   createProject,
   updateProject,
+  reorderProject,
   deleteProject,
 } = require("../controllers/project-controller")
 const authorization = require("../middleware/authorization")
@@ -24,6 +25,7 @@ router.post(
   createProject,
 )
 
+
 router.put("/:id",
       upload.fields([
     { name: "thumbnail", maxCount: 1 },
@@ -31,6 +33,7 @@ router.put("/:id",
   ]), 
   updateProject)
 
+router.patch("/:id", reorderProject)
 router.delete("/:id", deleteProject)
 
 module.exports = router

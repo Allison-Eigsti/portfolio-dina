@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllCategories, getCategoryById, createCategory, updateCategory, deleteCategory } = require('../controllers/category-controller')
+const { getAllCategories, getCategoryById, createCategory, updateCategory, reorderCategory, deleteCategory } = require('../controllers/category-controller')
 const authorization = require('../middleware/authorization')
 const upload = require('../middleware/upload')
 
@@ -22,6 +22,7 @@ router.put('/:id',
     ]),
     updateCategory)
 
+router.patch('/:id', reorderCategory)
 router.delete('/:id', deleteCategory)
 
 module.exports = router

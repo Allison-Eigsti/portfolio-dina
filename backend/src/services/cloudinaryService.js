@@ -20,4 +20,8 @@ const uploadImage = (file, folder) => {
   });
 };
 
-module.exports = { uploadImage };
+const deleteImage = (publicId) => {
+    return cloudinary.uploader.destroy(publicId);
+};
+
+module.exports = { uploadImage, deleteImage };

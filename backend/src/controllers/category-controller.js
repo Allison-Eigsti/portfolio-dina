@@ -1,6 +1,6 @@
 const Category = require('../models/Category')
 const slugify = require("slugify")
-const { uploadImage } = require("../services/cloudinaryService")
+const { uploadImage, deleteImage } = require("../services/cloudinaryService")
 
 
 
@@ -106,35 +106,44 @@ async function createCategory(req, res) {
 
 async function updateCategory(req, res) {
     try {
-        const allowedFields = [
-            "name",
-            "description",
-            "thumbnail",
-            "displayOrder"
-        ]
-
-        const updates = {}
-
-        allowedFields.forEach(field => {
-            if (req.body[field] !== undefined) {
-                updates[field] = req.body[field]
-            }
-        })
-
-        const category = await Category.findByIdAndUpdate(
-            req.params.id,
-            updates,
-            {
-                new: true,
-                runValidators: true
-            }
-        )
+        const category = await Category.findById(req.params.id);
 
         if (!category) {
             return res.status(404).json({
                 message: "Category not found"
-            })
+            });
         }
+
+        if (req.body.name !== undefined) {
+            category.name = req.body.name;
+        }
+
+        if (req.body.description !== undefined) {
+            category.description = req.body.description;
+        }
+
+        if (req.files?.thumbnail?.[0]) {
+
+            const newImageResult = await uploadImage(
+                req.files.thumbnail[0],
+                `portfolio/categories/${category.slug}`
+            );
+
+            const newCoverImage = {
+                url: newImageResult.secure_url,
+                publicId: newImageResult.public_id,
+                alt: ""
+            };
+
+            // Delete old image from Cloudinary
+            if (category.thumbnail?.publicId) {
+                await deleteImage(category.thumbnail.publicId);
+            }
+
+            category.thumbnail = newCoverImage;
+        }
+        
+        await category.save()
 
         return res.status(200).json(category)
 
@@ -158,6 +167,69 @@ async function updateCategory(req, res) {
     }
 }
 
+
+
+async function reorderCategory(req, res) {
+    try {
+        const { newOrder } = req.body
+
+        if (newOrder === undefined) {
+            return res.status(400).json({
+                message: "New order is required"
+            })
+        }
+
+        const category = await Category.findById(req.params.id)
+
+        if (!category) {
+            return res.status(404).json({
+                message: "Category not found"
+            })
+        }
+
+        const categories = await Category.find()
+            .sort({ displayOrder: 1 })
+
+        const newIndex = Number(newOrder) - 1
+
+        if (
+            newIndex < 0 ||
+            newIndex >= categories.length
+        ) {
+            return res.status(400).json({
+                message: "Invalid display order"
+            })
+        }
+
+        const currentIndex = categories.findIndex(
+            item => item._id.toString() === category._id.toString()
+        )
+
+        const [movedCategory] = categories.splice(currentIndex, 1);
+
+        categories.splice(newIndex, 0, movedCategory);
+
+        categories.forEach((category, index) => {
+            category.displayOrder = index + 1;
+        })
+
+        await Promise.all(
+            categories.map(category => category.save())
+        )
+
+        return res.status(200).json(categories);
+
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+
+
 async function deleteCategory(req, res) {
     try {
         const deleteCategory = await Category.findByIdAndDelete(req.params.id)
@@ -179,5 +251,6 @@ module.exports = {
     getCategoryById,
     createCategory,
     updateCategory,
+    reorderCategory,
     deleteCategory
 }
