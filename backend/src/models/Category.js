@@ -1,4 +1,4 @@
-import imageSchema from "./schemas/imageSchema.js"
+const imageSchema = require('./schemas/imageSchema.js')
 const mongoose = require("mongoose");
 
 

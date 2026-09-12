@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
-const { default: imageSchema } = require('./schema/Image')
+const imageSchema = require('./schemas/imageSchema.js')
+
+
 
 const siteSettingsSchema = new mongoose.Schema({
     siteTitle: {
