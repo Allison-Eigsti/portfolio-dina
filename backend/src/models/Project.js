@@ -1,5 +1,5 @@
+import imageSchema from "./schemas/imageSchema.js"
 const mongoose = require("mongoose");
-const slugify = require("slugify");
 
 const projectSchema = new mongoose.Schema(
   {
@@ -13,9 +13,7 @@ const projectSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
+      unique: true
     },
 
     category: {
@@ -61,32 +59,9 @@ const projectSchema = new mongoose.Schema(
       required: false,
     },
 
-    thumbnail: {
-      url: {
-        type: String,
-        required: true,
-      },
-      alt: {
-        type: String,
-        default: "",
-      },
-    },
+    thumbnail: imageSchema,
 
-    images: {
-      type: [
-        {
-          url: {
-            type: String,
-            required: true,
-          },
-          alt: {
-            type: String,
-            default: "",
-          },
-        },
-      ],
-      default: [],
-    },
+    images: [imageSchema],
 
     layout: {
       type: {
@@ -136,13 +111,6 @@ const projectSchema = new mongoose.Schema(
   },
 );
 
-// Generate a human-readable slug
-projectSchema.pre("validate", function () {
-  this.slug = slugify(this.title, {
-    lower: true,
-    strict: true,
-  });
-});
 
 const Project = mongoose.model("Project", projectSchema);
 

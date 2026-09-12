@@ -1,6 +1,7 @@
 const Project = require('../models/Project')
 const Category = require('../models/Category')
-
+const slugify = require("slugify")
+const { uploadImage } = require("../services/cloudinaryService")
 
 async function getAllProjects(req, res) {
     try {
@@ -39,27 +40,29 @@ async function createProject(req, res) {
             client, 
             agency, 
             year, 
-            projectBriefing, 
-            software, 
-            tags, 
-            thumbnail, 
-            images, 
-            layout, 
+            projectBriefing,
             displayOrder 
         } = req.body
 
-        if (!title || !category || !thumbnail?.url || displayOrder === undefined ) {
+        if (!title || !category || displayOrder === undefined ) {
             return res.status(400).json({
-                message: "Title, category, thumbnail and display order are required"
+                message: "Title, category, and display order are required"
             })
         }
 
+        if (!req.files?.thumbnail?.[0]) {
+            return res.status(400).json({
+                message: "A thumbnail is required"
+            });
+        }
+
+        if (!req.files?.images?.length) {
+            return res.status(400).json({
+                message: "At least one project image is required"
+            });
+        }
+
         const categoryExists = await Category.findById(category)
-
-        const categories = await Category.find();
-
-        console.log(categories);
-        console.log("Incoming category:", category);
 
         if (!categoryExists) {
             return res.status(400).json({
@@ -67,8 +70,58 @@ async function createProject(req, res) {
             })
         }
 
+        // Parse arrays/objects from multipart/form-data
+        const software = req.body.software
+            ? JSON.parse(req.body.software)
+            : []
+
+        const tags = req.body.tags
+            ? JSON.parse(req.body.tags)
+            : []
+
+        const layout = req.body.layout
+            ? JSON.parse(req.body.layout)
+            : {}
+
+        //Generate slug
+        const slug = slugify(title, {
+            lower: true,
+            strict: true
+        })
+
+        //Upload thumbnail to Cloudinary
+        const thumbnailResult = await uploadImage(
+            req.files.thumbnail[0],
+            `portfolio/projects/${slug}/thumbnail`
+        )
+
+        // Upload project images to Cloudinary
+        const imageResults = await Promise.all(
+            req.files.images.map((file) =>
+                uploadImage(
+                    file,
+                    `portfolio/projects/${slug}`
+                )
+            )
+        )
+
+        // Build thumbnail object for MongoDB
+        const thumbnail = {
+            url: thumbnailResult.secure_url,
+            publicId: thumbnailResult.public_id,
+            alt: ""
+        }
+
+        // Build images array for MongoDB
+        const images = imageResults.map((image) => ({
+            url: image.secure_url,
+            publicId: image.public_id,
+            alt: ""
+        }))
+
         const project = new Project({
             title,
+            slug,
             category,
             client,
             agency,
@@ -88,7 +141,13 @@ async function createProject(req, res) {
         return res.status(201).json(project)
 
     } catch(err) {
-        console.error(err);
+        console.error(err)
+
+        if (err instanceof SyntaxError) {
+            return res.status(400).json({
+                message: "Software, tags, or layout contains invalid JSON"
+            });
+        }
 
         if (err.code === 11000) {
             return res.status(400).json({

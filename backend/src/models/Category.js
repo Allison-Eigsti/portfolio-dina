@@ -1,5 +1,6 @@
+import imageSchema from "./schemas/imageSchema.js"
 const mongoose = require("mongoose");
-const slugify = require("slugify");
+
 
 const categorySchema = new mongoose.Schema(
   {
@@ -13,9 +14,7 @@ const categorySchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
+      unique: true
     },
 
     description: {
@@ -24,16 +23,7 @@ const categorySchema = new mongoose.Schema(
       trim: true,
     },
 
-    thumbnail: {
-      url: {
-        type: String,
-        required: true,
-      },
-      alt: {
-        type: String,
-        default: "",
-      },
-    },
+    thumbnail: imageSchema,
 
     displayOrder: {
       type: Number,
@@ -46,13 +36,6 @@ const categorySchema = new mongoose.Schema(
   },
 );
 
-// Generate a human-readable slug
-categorySchema.pre("validate", function () {
-  this.slug = slugify(this.name, {
-    lower: true,
-    strict: true,
-  });
-});
 
 const Category = mongoose.model("Category", categorySchema);
 

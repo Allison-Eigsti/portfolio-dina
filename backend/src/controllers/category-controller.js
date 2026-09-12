@@ -1,4 +1,7 @@
 const Category = require('../models/Category')
+const slugify = require("slugify")
+const { uploadImage } = require("../services/cloudinaryService")
+
 
 
 async function getAllCategories(req, res) {
@@ -35,18 +38,42 @@ async function createCategory(req, res) {
         const { 
             name,
             description,
-            thumbnail,
             displayOrder
         } = req.body
 
-        if (!name || !thumbnail?.url || displayOrder === undefined ) {
+        if (!name || displayOrder === undefined ) {
             return res.status(400).json({
                 message: "Name, thumbnail and display order are required"
             })
         }
 
+        if (!req.files?.thumbnail?.[0]) {
+            return res.status(400).json({
+                message: "A thumbnail is required"
+            });
+        }
+
+        const slug = slugify(name, {
+            lower: true,
+            strict: true
+        })
+
+        //Upload thumbnail to Cloudinary
+        const thumbnailResult = await uploadImage(
+            req.files.thumbnail[0],
+            `portfolio/categories/${slug}/thumbnail`
+        )
+
+        // Build thumbnail object for MongoDB
+        const thumbnail = {
+            url: thumbnailResult.secure_url,
+            publicId: thumbnailResult.public_id,
+            alt: ""
+        }
+
         const category = new Category({
             name,
+            slug,
             description,
             thumbnail,
             displayOrder

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { default: imageSchema } = require('./schema/Image')
 
 const siteSettingsSchema = new mongoose.Schema({
     siteTitle: {
@@ -13,19 +14,7 @@ const siteSettingsSchema = new mongoose.Schema({
             trim: true
         },
 
-        profileImage: {
-            type: {
-                url: {
-                    type: String,
-                    required: true
-                },
-
-                alt: {
-                    type: String,
-                    default: ''
-                }
-            }
-        },
+        profileImage: imageSchema,
 
         software: {
             type: [String],
