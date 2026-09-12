@@ -13,8 +13,6 @@ const imageSchema = new mongoose.Schema({
     type: String,
     default: ""
   }
-}, {
-  _id: false
 })
 
 module.exports = imageSchema

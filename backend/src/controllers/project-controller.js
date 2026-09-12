@@ -349,6 +349,69 @@ async function reorderProject(req, res) {
 } 
 
 
+async function reorderProjectImages(req, res) {
+    try {
+        const { imageIds } = req.body
+
+        if (!Array.isArray(imageIds)) {
+            return res.status(400).json({
+                message: "imageIds must be an array"
+            });
+        }
+
+        const project = await Project.findById(req.params.id)
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found"
+            });
+        }
+
+        // Make sure the number of IDs matches the number of images
+        if (imageIds.length !== project.images.length) {
+            return res.status(400).json({
+                message: "All project images must be included in the new order"
+            })
+        }
+
+        // Make sure every ID belongs to an image in this project
+        const projectImageIds = project.images.map(image =>
+            image._id.toString()
+        )
+
+        const allImagesBelongToProject = imageIds.every(id =>
+            projectImageIds.includes(id)
+        )
+
+        if (!allImagesBelongToProject) {
+            return res.status(400).json({
+                message: "One or more image IDs do not belong to this project"
+            })
+        }
+
+        // Rearrange the images according to the order sent by the frontend
+        const reorderedImages = imageIds.map(id =>
+            project.images.find(
+                image => image._id.toString() === id
+            )
+        )
+
+        project.images = reorderedImages
+
+        await project.save()
+
+        return res.status(200).json(project)
+
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+
 
 async function deleteProject(req, res) {
     try {
@@ -372,5 +435,6 @@ module.exports = {
     createProject,
     updateProject,
     reorderProject,
+    reorderProjectImages,
     deleteProject
 }

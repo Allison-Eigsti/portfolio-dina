@@ -6,6 +6,7 @@ const {
   createProject,
   updateProject,
   reorderProject,
+  reorderProjectImages,
   deleteProject,
 } = require("../controllers/project-controller")
 const authorization = require("../middleware/authorization")
@@ -34,6 +35,7 @@ router.put("/:id",
   updateProject)
 
 router.patch("/:id", reorderProject)
+router.patch("/:id", reorderProjectImages)
 router.delete("/:id", deleteProject)
 
 module.exports = router
