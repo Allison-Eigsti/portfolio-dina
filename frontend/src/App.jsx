@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { Suspense } from "react";
+import { Outlet } from "react-router-dom";
+
+import Loader from "./components/Loader";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <p>hello world</p>
-    </>
-  )
+    <Suspense fallback={<Loader />}>
+      <Outlet />
+    </Suspense>
+  );
 }
 
-export default App
+export default App;
