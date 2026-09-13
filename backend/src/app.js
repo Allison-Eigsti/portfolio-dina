@@ -30,16 +30,16 @@ connectDB()
 
 
 // Middleware
-app.use(express.json())
-app.use(logger)
-app.use(helmet())
-
 app.use(
   cors({
     origin: 'http://localhost:5173',
     credentials: true
   })
 )
+app.use(express.json())
+app.use(logger)
+app.use(helmet())
+
 
 // Unprotected Routes
 app.use('/auth', authRouter)
