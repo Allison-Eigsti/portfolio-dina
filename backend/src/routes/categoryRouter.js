@@ -8,13 +8,13 @@ const upload = require('../middleware/upload')
 router.get('/', getAllCategories)
 router.get('/:id', getCategoryById)
 
-router.use(authorization)
-
 router.post('/', 
     upload.fields([
         { name: "thumbnail", maxCount: 1 }
     ]),
   createCategory)
+
+router.use(authorization)
 
 router.put('/:id',
         upload.fields([

@@ -38,5 +38,5 @@ const [error, setError] = useState(null);
     >
       {children}
     </PortfolioContext.Provider>
-  );
+  )
 }

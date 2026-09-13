@@ -18,12 +18,6 @@ const notFound = require('./middleware/not-found.js')
 
 
 const app = express()
-app.get('/cors-test', (req, res) => {
-  res.json({
-    message: 'CORS test',
-    origin: req.headers.origin
-  })
-})
 
 // Connect to database
 connectDB()

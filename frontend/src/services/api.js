@@ -24,6 +24,23 @@ const getCategories = async () => {
     return response.json()
 }
 
+export const createCategory = async (formData) => {
+    const response = await fetch(`${API_URL}/categories`, {
+        method: "POST",
+        body: formData,
+    });
+
+    const data = await response.json();
+
+    console.log("Backend response:", data);
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Failed to create category");
+    }
+
+    return data;
+};
+
 
 // SiteSettings
 

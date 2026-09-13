@@ -18,8 +18,8 @@ const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const Projects = lazy(() => import("./pages/admin/Projects"));
 const NewProject = lazy(() => import("./pages/admin/NewProject"));
 const EditProject = lazy(() => import("./pages/admin/EditProject"));
-const Categories = lazy(() => import("./pages/admin/Categories"));
-const NewCategory = lazy(() => import("./pages/admin/NewCategory"));
+const Categories = lazy(() => import("./pages/admin/Category.jsx"));
+const CreateCategory = lazy(() => import("./pages/admin/CreateCategory.jsx"));
 const EditCategory = lazy(() => import("./pages/admin/EditCategory"));
 
 // 404
@@ -89,8 +89,8 @@ const router = createBrowserRouter([
                 element: <Categories />
               },
               {
-                path: "new",
-                element: <NewCategory />
+                path: "create",
+                element: <CreateCategory />
               },
               {
                 path: ":id/edit",
