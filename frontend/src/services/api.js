@@ -4,14 +4,18 @@ console.log("API_URL FROM VERCEL:", API_URL);
 
 // Projects
 const getProjects = async () => {
-    const response = await fetch(`${API_URL}/projects`)
+    const url = `${API_URL}/projects`;
+
+    console.log("FETCHING PROJECTS FROM:", url);
+
+    const response = await fetch(url);
 
     if (!response.ok) {
-        throw new Error("Failed to fetch projects")
+        throw new Error("Failed to fetch projects");
     }
 
-    return response.json()
-}
+    return response.json();
+};
 
 // Categories
 
