@@ -12,10 +12,9 @@ const authRouter = require('./routes/authRouter.js')
 const logger = require('./middleware/logger.js')
 const helmet = require('helmet')
 const debug = require('debug')('app')
-//import cors
+const cors = require('cors')
 const serverError = require('./middleware/server-error.js')
 const notFound = require('./middleware/not-found.js')
-
 
 
 const app = express()
@@ -23,13 +22,19 @@ const app = express()
 // Connect to database
 connectDB()
 
-//app.use(cors()) ?? where does this go
 
 // Middleware
 app.use(express.json())
 app.use(logger)
 app.use(helmet())
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173"
+    ]
+  })
+)
 
 // Unprotected Routes
 app.use('/auth', authRouter)
