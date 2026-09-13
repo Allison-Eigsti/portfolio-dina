@@ -36,7 +36,7 @@ function Category() {
                     </h1>
 
                     <Link
-                        to="/categories/create"
+                        to="/admin/categories/create"
                         className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-gray-700 hover:shadow-md"
                     >
                         + Create Category
