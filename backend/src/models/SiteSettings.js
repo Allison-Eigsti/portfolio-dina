@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const imageSchema = require('./schemas/imageSchema.js')
-
 
 
 const siteSettingsSchema = new mongoose.Schema({
@@ -15,8 +13,6 @@ const siteSettingsSchema = new mongoose.Schema({
             required: true,
             trim: true
         },
-
-        profileImage: imageSchema,
 
         software: {
             type: [String],
@@ -66,6 +62,6 @@ const siteSettingsSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const SiteSettings = mongoose.model('siteSettingsSchema')
+const SiteSettings = mongoose.model('siteSettings', siteSettingsSchema)
 
 module.exports = SiteSettings

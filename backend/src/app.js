@@ -5,6 +5,7 @@ const connectDB = require('./config/db.js')
 // import API routes // Make sure paths after restructuring are working
 const projectRouter = require('./routes/projectRouter.js')
 const catRouter = require('./routes/categoryRouter.js')
+const settingsRouter = require('./routes/siteSettingsRouter.js')
 const authRouter = require('./routes/authRouter.js')
 
 
@@ -35,7 +36,8 @@ app.use('/auth', authRouter)
 
 //Application routing
 app.use('/projects', projectRouter)
-app.use('/categories/', catRouter)
+app.use('/categories', catRouter)
+app.use('/settings', settingsRouter)
 
 
 // Error Handling

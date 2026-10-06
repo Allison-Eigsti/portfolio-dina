@@ -58,13 +58,11 @@ async function createCategory(req, res) {
             strict: true
         })
 
-        //Upload thumbnail to Cloudinary
         const thumbnailResult = await uploadImage(
             req.files.thumbnail[0],
             `portfolio/categories/${slug}`
         )
 
-        // Build thumbnail object for MongoDB
         const thumbnail = {
             url: thumbnailResult.secure_url,
             publicId: thumbnailResult.public_id,

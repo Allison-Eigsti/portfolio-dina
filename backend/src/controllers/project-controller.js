@@ -70,7 +70,6 @@ async function createProject(req, res) {
             })
         }
 
-        // Parse arrays/objects from multipart/form-data
         const software = req.body.software
             ? JSON.parse(req.body.software)
             : []
@@ -83,19 +82,16 @@ async function createProject(req, res) {
             ? JSON.parse(req.body.layout)
             : {}
 
-        //Generate slug
         const slug = slugify(title, {
             lower: true,
             strict: true
         })
 
-        //Upload thumbnail to Cloudinary
         const thumbnailResult = await uploadImage(
             req.files.thumbnail[0],
             `portfolio/projects/${slug}/thumbnail`
         )
 
-        // Upload project images to Cloudinary
         const imageResults = await Promise.all(
             req.files.images.map((file) =>
                 uploadImage(
@@ -105,14 +101,12 @@ async function createProject(req, res) {
             )
         )
 
-        // Build thumbnail object for MongoDB
         const thumbnail = {
             url: thumbnailResult.secure_url,
             publicId: thumbnailResult.public_id,
             alt: ""
         }
 
-        // Build images array for MongoDB
         const images = imageResults.map((image) => ({
             url: image.secure_url,
             publicId: image.public_id,
@@ -219,7 +213,6 @@ async function updateProject(req, res) {
                 alt: ""
             };
 
-            // Delete old thumbnail
             if (project.thumbnail?.publicId) {
                 await deleteImage(project.thumbnail.publicId);
             }
@@ -227,7 +220,6 @@ async function updateProject(req, res) {
             project.thumbnail = newThumbnail;
         }
 
-        // Replace project images if new images were uploaded
         if (req.files?.images?.length) {
 
             const newImageResults = await Promise.all(
@@ -245,7 +237,6 @@ async function updateProject(req, res) {
                 alt: ""
             }));
 
-            // Delete old project images
             if (project.images?.length) {
                 await Promise.all(
                     project.images
