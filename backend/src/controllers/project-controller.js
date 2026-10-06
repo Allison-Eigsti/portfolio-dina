@@ -39,14 +39,12 @@ async function createProject(req, res) {
             category, 
             client, 
             agency, 
-            year, 
-            projectBriefing,
-            displayOrder 
+            year
         } = req.body
 
-        if (!title || !category || displayOrder === undefined ) {
+        if (!title || !category === undefined ) {
             return res.status(400).json({
-                message: "Title, category, and display order are required"
+                message: "Title and category are required"
             })
         }
 
@@ -101,6 +99,7 @@ async function createProject(req, res) {
             )
         )
 
+
         const thumbnail = {
             url: thumbnailResult.secure_url,
             publicId: thumbnailResult.public_id,
@@ -112,6 +111,13 @@ async function createProject(req, res) {
             publicId: image.public_id,
             alt: ""
         }))
+
+        const lastProject = await Project.findOne({
+            category
+        }).sort({ displayOrder: -1 })
+
+        const displayOrder = lastProject ? lastProject.displayOrder + 1 : 1
+
 
         const project = new Project({
             title,
@@ -129,6 +135,7 @@ async function createProject(req, res) {
             displayOrder,
             createdBy: req.user.id
         })
+
 
         await project.save()
 
@@ -173,7 +180,6 @@ async function updateProject(req, res) {
 
         const allowedFields = [
             "title",
-            "category",
             "client",
             "agency",
             "year",
@@ -289,6 +295,12 @@ async function reorderProject(req, res) {
             })
         }
 
+        if (!Number.isInteger(newOrder) || newOrder < 1 || newOrder > projects.length) {
+            return res.status(400).json({
+                message: "Invalid display order"
+            })
+        }
+
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -301,7 +313,7 @@ async function reorderProject(req, res) {
             category: project.category
         }).sort({ displayOrder: 1 })
 
-        const newIndex = Number(newOrder) - 1
+        const newIndex = newOrder - 1
 
         if (
             newIndex < 0 ||
