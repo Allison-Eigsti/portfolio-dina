@@ -31,7 +31,7 @@ export const getCategories = async () => {
     return response.json()
 }
 
-// make this!!!
+
 export const getCategory = async (id) => {
     const response = await fetch(`${API_URL}/categories/${id}`)
 
@@ -41,6 +41,7 @@ export const getCategory = async (id) => {
 
     return response.json()
 }
+
 
 export const createCategory = async (formData) => {
     const response = await fetch(`${API_URL}/categories`, {
@@ -63,3 +64,18 @@ export const createCategory = async (formData) => {
 // SiteSettings
 
 
+export const getSiteSettings = async () => {
+    const url = `${API_URL}/settings`;
+
+    console.log("FETCHING SETTINGS FROM:", url);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch site settings");
+    }
+
+    const data = await response.json()
+    console.log(data)
+    return data
+}

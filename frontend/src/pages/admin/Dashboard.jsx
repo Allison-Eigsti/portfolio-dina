@@ -1,11 +1,17 @@
 import CategoryCard from "../../components/admin/CategoryCard";
 import { useCategories } from "../../hooks/useCategories";
+import { useSettings } from '../../hooks/UseSettings'
 import { Link } from "react-router-dom";
+
+
 
 function Dashboard() {
     const { categories, loading, error } = useCategories();
+    const { settings, settingsLoading, settingsError } = useSettings();
 
-    if (loading) {
+
+    if (loading || settingsLoading
+    ) {
         return (
             <main className="flex min-h-screen items-center justify-center">
                 <p className="text-lg text-gray-600">
@@ -25,11 +31,39 @@ function Dashboard() {
         );
     }
 
+    if (settingsError) {
+        return (
+            <main className="flex min-h-screen items-center justify-center">
+                <p className="text-lg text-red-600">
+                    Error: {settingsError}
+                </p>
+            </main>
+        );
+    }
+
     return (
         <main className="min-h-screen bg-gray-100 px-6 py-12">
             <div className="mx-auto max-w-5xl">
 
                 <div className="mb-10 flex items-center justify-between">
+
+                    <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
+                        Site Settings
+                    </h1>
+
+                    <p>{settings.siteTitle}</p>
+                    <p>Description: {settings.about.bio}</p>
+                    {/* <ul>{settings.software.map(item => (<li>{item}</li>))}</ul> */}
+                    <p>{settings.contact.email}</p>
+                    <p>{settings.contact.phone}</p>
+                    <p>{settings.contact.location}</p>
+                    <p>{settings.socialLinks.linkedin}</p>
+                    <p>{settings.socialLinks.behance}</p>
+                    {/* <p>Last updated: {settings.updatedAt}</p> */}
+
+
+
+
 
                     <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
                         Categories
