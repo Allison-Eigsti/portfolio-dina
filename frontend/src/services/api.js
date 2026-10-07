@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 console.log("API_URL FROM VERCEL:", API_URL);
 
 // Projects
-const getProjects = async () => {
+export const getProjects = async () => {
     const url = `${API_URL}/projects`;
 
     console.log("FETCHING PROJECTS FROM:", url);
@@ -14,16 +14,29 @@ const getProjects = async () => {
         throw new Error("Failed to fetch projects");
     }
 
-    return response.json();
+    const data = await response.json()
+    console.log(data)
+    return data
 };
 
 // Categories
 
-const getCategories = async () => {
+export const getCategories = async () => {
     const response = await fetch(`${API_URL}/categories`)
 
     if (!response.ok) {
         throw new Error("Failed to fetch categories")
+    }
+
+    return response.json()
+}
+
+// make this!!!
+export const getCategory = async (id) => {
+    const response = await fetch(`${API_URL}/categories/${id}`)
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch category")
     }
 
     return response.json()
@@ -50,7 +63,3 @@ export const createCategory = async (formData) => {
 // SiteSettings
 
 
-export {
-    getProjects,
-    getCategories
-}

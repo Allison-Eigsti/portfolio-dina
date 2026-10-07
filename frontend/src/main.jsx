@@ -4,12 +4,9 @@ import { RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import router from "./router";
-import { PortfolioProvider } from "./context/PortfolioContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <PortfolioProvider>
       <RouterProvider router={router} />
-    </PortfolioProvider>
   </React.StrictMode>
 );

@@ -2,7 +2,7 @@ function CategoryCard({ name, description, thumbnail }) {
     return (
         <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
 
-            {/* Image */}
+
             {thumbnail?.url && (
                 <div className="h-36 overflow-hidden">
                     <img
@@ -13,7 +13,7 @@ function CategoryCard({ name, description, thumbnail }) {
                 </div>
             )}
 
-            {/* Text */}
+
             <div className="flex min-h-36 flex-col justify-between p-5">
 
                 <div>
