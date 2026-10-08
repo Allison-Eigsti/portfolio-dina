@@ -5,11 +5,11 @@ const {
   updateSiteSettings
 } = require("../controllers/siteSettings-controller")
 const authorization = require("../middleware/authorization")
+const requireAdmin = require('../middleware/requireAdmin')
+
 
 router.get("/", getSettings)
 
-router.use(authorization)
-
-router.patch("/", updateSiteSettings)
+router.patch("/", authorization, requireAdmin, updateSiteSettings)
 
 module.exports = router

@@ -27,44 +27,82 @@ function CategoryView() {
     console.log("PROJECTS:", projects);
 
 
-    return(
-        <>
-        <main>
+    return (
+    <main className="min-h-screen bg-gray-100 px-6 py-12">
+        <div className="mx-auto max-w-5xl">
+
             {editing ? (
-                <EditCategory category={category} 
-                onCancel={() => setEditing(false)}
+                <EditCategory
+                    category={category}
+                    onCancel={() => setEditing(false)}
                     onSave={(updatedCategory) => {
-                        setCategory(updatedCategory)
-                        setEditing(false)
+                        setCategory(updatedCategory);
+                        setEditing(false);
                     }}
                 />
             ) : (
-        <>
-            <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
-                {category.name}
-            </h1>
+                <>
+                    {/* Category Information */}
+                    <section className="mb-12">
+                        <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
 
-            <p className="mt-2 max-w-2xl text-base leading-7 text-gray-500">
-                {category.description}
-            </p>
+                            <div className="flex items-start justify-between gap-6">
+                                <div className="max-w-2xl">
+                                    <p className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-400">
+                                        Category
+                                    </p>
 
-                                <button onClick={() => setEditing(true)}>
-                        Edit Category
-                    </button>
-        </>
-        )}
+                                    <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
+                                        {category.name}
+                                    </h1>
 
-            <h2>Projects</h2>
+                                    <p className="mt-3 text-base leading-7 text-gray-500">
+                                        {category.description}
+                                    </p>
+                                </div>
 
-            <ul>
-               {projects.filter((project) => (project.category === category._id))
-                    .map((project) => (
-                <li><ProjectCard key={project._id} project = {project}/></li>
-               ))} 
-            </ul>
-        </main>
-        </>
-    )
+                                <button
+                                    onClick={() => setEditing(true)}
+                                    className="shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
+                                >
+                                    Edit Category
+                                </button>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {/* Projects */}
+                    <section>
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-semibold tracking-tight text-gray-900">
+                                Projects
+                            </h2>
+
+                            <p className="mt-1 text-sm text-gray-500">
+                                Projects assigned to this category.
+                            </p>
+                        </div>
+
+                        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                            {projects
+                                .filter(
+                                    (project) =>
+                                        project.category === category._id
+                                )
+                                .map((project) => (
+                                    <li key={project._id}>
+                                        <ProjectCard project={project} />
+                                    </li>
+                                ))}
+                        </ul>
+                    </section>
+                </>
+            )}
+
+        </div>
+    </main>
+);
 }
 
 export default CategoryView

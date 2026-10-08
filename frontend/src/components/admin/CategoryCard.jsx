@@ -1,36 +1,34 @@
 function CategoryCard({ name, description, thumbnail }) {
-    return (
-        <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+ return (
+        <article className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-200 hover:border-gray-300 hover:shadow-md">
 
-
+            {/* Image */}
             {thumbnail?.url && (
-                <div className="h-36 overflow-hidden">
+                <div className="overflow-hidden">
                     <img
                         src={thumbnail.url}
                         alt={thumbnail.alt || name}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-44 w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                     />
                 </div>
             )}
 
+            {/* Category Information */}
+            <div className="p-5">
 
-            <div className="flex min-h-36 flex-col justify-between p-5">
+                <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+                    Category
+                </p>
 
-                <div>
-                    <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-gray-400">
-                        Category
+                <h2 className="mt-1 text-base font-semibold tracking-tight text-gray-900">
+                    {name}
+                </h2>
+
+                {description && (
+                    <p className="mt-2 line-clamp-2 text-sm leading-5 text-gray-500">
+                        {description}
                     </p>
-
-                    <h2 className="text-xl font-semibold tracking-tight text-gray-900">
-                        {name}
-                    </h2>
-
-                    {description && (
-                        <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-500">
-                            {description}
-                        </p>
-                    )}
-                </div>
+                )}
 
             </div>
 

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 import App from "./App.jsx";
 
@@ -59,45 +60,51 @@ const router = createBrowserRouter([
             path: "login",
             element: <Login />,
           },
+          // PROTECTED ADMIN ROUTES
           {
-            path: "dashboard",
-            element: <Dashboard />,
-          },
-          {
-            path: "site-settings/edit",
-            element: <EditSiteSettings />,
-          },
-          {
-            path: "projects",
+            element: <ProtectedRoute />,
             children: [
               {
-                path: ":id",
-                element: <ProjectView />,
+                path: "dashboard",
+                element: <Dashboard />,
               },
               {
-                path: "new",
-                element: <NewProject />,
+                path: "site-settings/edit",
+                element: <EditSiteSettings />,
               },
               {
-                path: ":id/edit",
-                element: <EditProject />,
+                path: "projects",
+                children: [
+                  {
+                    path: ":id",
+                    element: <ProjectView />,
+                  },
+                  {
+                    path: "new",
+                    element: <NewProject />,
+                  },
+                  {
+                    path: ":id/edit",
+                    element: <EditProject />,
+                  },
+                ],
               },
-            ],
-          },
-          {
-            path: "categories",
-            children: [
               {
-                path: ":id",
-                element: <CategoryView />,
-              },
-              {
-                path: "create",
-                element: <CreateCategory />,
-              },
-              {
-                path: ":id/edit",
-                element: <EditCategory />,
+                path: "categories",
+                children: [
+                  {
+                    path: ":id",
+                    element: <CategoryView />,
+                  },
+                  {
+                    path: "create",
+                    element: <CreateCategory />,
+                  },
+                  {
+                    path: ":id/edit",
+                    element: <EditCategory />,
+                  },
+                ],
               },
             ],
           },

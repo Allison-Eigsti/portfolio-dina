@@ -10,12 +10,13 @@ const {
   deleteProject,
 } = require("../controllers/project-controller")
 const authorization = require("../middleware/authorization")
+const requireAdmin = require('../middleware/requireAdmin')
 const upload = require('../middleware/upload')
 
 router.get("/", getAllProjects)
 router.get("/:id", getProjectById)
 
-router.use(authorization)
+router.use(authorization, requireAdmin)
 
 router.post(
   "/",
