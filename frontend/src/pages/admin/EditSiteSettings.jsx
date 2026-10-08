@@ -11,6 +11,12 @@ function EditSiteSettings() {
     const { token } = useAuth()
 
     const siteTitleRef = useRef(null)
+    const bio = useRef(null)
+    const email = useRef(null)
+    const phone = useRef(null)
+    const location = useRef(null)
+    const linkedin = useRef(null)
+    const behance = useRef(null)
     const navigate = useNavigate()
 
     const handleSave = async (e) => {
@@ -18,7 +24,21 @@ function EditSiteSettings() {
 
         try {
             const updatedSettings = {
-            siteTitle: siteTitleRef.current.value
+            siteTitle: siteTitleRef.current.value,
+            about: {
+                bio: bio.current.value,
+            },
+
+            contact: {
+                email: email.current.value,
+                phone: phone.current.value,
+                location: location.current.value,
+            },
+
+            socialLinks: {
+                linkedin: linkedin.current.value,
+                behance: behance.current.value,
+            }
             }
 
             const savedSettings = await updateSiteSettings(updatedSettings, token)
@@ -77,18 +97,20 @@ function EditSiteSettings() {
                                     defaultValue={settings.siteTitle}
                                     className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
-                                {/* <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900">
-                                    {settings.siteTitle}
-                                </p> */}
                             </div>
 
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                                    Description
+                                    Bio
                                 </label>
-                                <p className="min-h-[100px] rounded-md border border-gray-200 bg-gray-50 px-4 py-3 leading-relaxed text-gray-700">
-                                    {settings.about.bio}
-                                </p>
+
+                                <input
+                                    type="text"
+                                    ref={bio}
+                                    defaultValue={settings.about.bio}
+                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    rows="5"
+                                />
                             </div>
                         </div>
                     </div>
@@ -103,27 +125,39 @@ function EditSiteSettings() {
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                                     Email
                                 </label>
-                                <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
-                                    {settings.contact.email}
-                                </p>
+
+                                <input
+                                    type="email"
+                                    ref={email}
+                                    defaultValue={settings.contact.email}
+                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                />
                             </div>
 
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                                     Phone
                                 </label>
-                                <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
-                                    {settings.contact.phone}
-                                </p>
+                                
+                                <input
+                                    type="phone"
+                                    ref={phone}
+                                    defaultValue={settings.contact.phone}
+                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                />
                             </div>
 
                             <div className="sm:col-span-2">
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                                     Location
                                 </label>
-                                <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
-                                    {settings.contact.location}
-                                </p>
+
+                                <input
+                                    type="text"
+                                    ref={location}
+                                    defaultValue={settings.contact.location}
+                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                />
                             </div>
                         </div>
                     </div>
@@ -138,18 +172,26 @@ function EditSiteSettings() {
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                                     LinkedIn
                                 </label>
-                                <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
-                                    {settings.socialLinks.linkedin}
-                                </p>
+
+                                <input
+                                    type="text"
+                                    ref={linkedin}
+                                    defaultValue={settings.socialLinks.linkedin}
+                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                />
                             </div>
 
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                                     Behance
                                 </label>
-                                <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
-                                    {settings.socialLinks.behance}
-                                </p>
+
+                                <input
+                                    type="text"
+                                    ref={behance}
+                                    defaultValue={settings.socialLinks.behance}
+                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                />
                             </div>
                         </div>
                     </div> 
