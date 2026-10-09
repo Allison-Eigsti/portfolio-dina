@@ -336,7 +336,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                 </div>
             </section>
 
-            <div className="border-t border-gray-100 pt-6">
+            <div className="border-t border-gray-100 pt-6">             
                 <Button
                     type="submit"
                     className="w-full rounded-full bg-gray-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-gray-700 sm:w-auto"

@@ -1,15 +1,11 @@
 import { Outlet } from "react-router-dom";
+import Navbar from '@/components/admin/AdminNavbar'
 
 function AdminLayout() {
   return (
     <>
-      <nav>
-        {/* Admin navigation */}
-      </nav>
-
-      <main>
+        <Navbar />
         <Outlet />
-      </main>
     </>
   );
 }

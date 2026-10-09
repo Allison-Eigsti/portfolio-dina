@@ -104,7 +104,7 @@ function CategoryView() {
 
                             <button
                                     onClick={() => navigate('/admin/projects/new')}
-                                    className="shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
+                                    className="mt-4 shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
                                 >
                                     New Project
                             </button>
@@ -125,7 +125,12 @@ function CategoryView() {
                         </div>
                     </section>
 
+                            <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
+            Return to Dashboard
+        </Button>
+
         </div>
+
 
         {showConfirm && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">

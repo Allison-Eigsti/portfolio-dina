@@ -170,6 +170,11 @@ function ProjectView() {
                                 >
                                     Delete
                                 </Button>
+
+                                    <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
+                                        Back to Category
+                                    </Button>
+
                                     </div>
                                 </div>
                             </div>
