@@ -9,6 +9,7 @@ function CreateCategory() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
+
     const { token } = useAuth()
     const navigate = useNavigate()
 
@@ -54,7 +55,11 @@ function CreateCategory() {
                     </p>
                 )}
 
-                <CategoryForm onCreate={handleCreate} />
+                <CategoryForm
+                    onSubmit={handleCreate}
+                    submitLabel="Create Category"
+                    initialValues=""
+                />
 
             </div>
         </main>

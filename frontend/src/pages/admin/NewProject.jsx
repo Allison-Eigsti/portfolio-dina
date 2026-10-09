@@ -63,7 +63,10 @@ function NewProject() {
                     </p>
                 )}
 
-                <ProjectForm onSubmit={handleCreate} />
+                <ProjectForm 
+                onSubmit={handleCreate}
+                submitLabel="Create Project"
+                    />
 
             </div>
         </main>

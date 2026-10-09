@@ -62,12 +62,12 @@ function CategoryView() {
                                     </p>
                                 </div>
 
-                                <button
-                                    onClick={() => setEditing(true)}
+                                <Link
+                                    to={`/admin/categories/${category._id}/edit`}
                                     className="shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
                                 >
                                     Edit Category
-                                </button>
+                                </Link>
                             </div>
 
                         </div>

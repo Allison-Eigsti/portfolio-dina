@@ -144,6 +144,31 @@ export const createCategory = async (formData, token) => {
 };
 
 
+export const updateCategory = async (id, formData, token) => {
+    const url = `${API_URL}/categories/${id}`;
+
+    console.log("UPDATING CATEGORY AT:", url);
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+        Authorization: `Bearer ${token}`
+        },
+        body: formData
+    })
+
+    const data = await response.json()
+
+    console.log(data)
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Failed to update category.");
+    }
+
+    return data
+}
+
+
 // SiteSettings
 
 

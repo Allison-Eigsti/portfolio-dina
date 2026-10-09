@@ -3,7 +3,7 @@ import { Button } from '@/components/admin/Button'
 import { useCategories } from '@/hooks/useCategories'
 
 
-function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {}}) {
+function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
     const {
         categories,
         loading: categoriesLoading,
@@ -90,7 +90,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                         Basic Information
                     </h2>
                     <p className="mt-1 text-sm text-gray-500">
-                        Add the main details about your project.
+                        Add/edit the main details about your project.
                     </p>
                 </div>
 
@@ -106,6 +106,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                         id="title"
                         name="title"
                         type="text"
+                        defaultValue={initialValues.title || ''}
                         ref={titleRef}
                         required
                         className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
@@ -134,8 +135,8 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                             id="category"
                             name="category"
                             ref={categoryRef}
-                            required
-                            defaultValue=""
+                            required    
+                            defaultValue={initialValues.category || ''}
                             className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5"
                         >
                             <option value="" disabled>
@@ -164,6 +165,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                             id="client"
                             name="client"
                             type="text"
+                            defaultValue={initialValues.client || ''}
                             ref={clientRef}
                             className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
                             placeholder="Client name"
@@ -183,6 +185,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                             name="agency"
                             type="text"
                             ref={agencyRef}
+                            defaultValue={initialValues.agency || ''}
                             className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
                             placeholder="Agency name"
                         />
@@ -204,6 +207,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                         ref={yearRef}
                         min="1900"
                         max={new Date().getFullYear() + 1}
+                        defaultValue={initialValues.year || ''}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
                         placeholder="e.g. 2026"
                     />
@@ -222,6 +226,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                         name="projectBriefing"
                         ref={briefingRef}
                         rows={5}
+                        defaultValue={initialValues.projectBriefing || ''}
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
                         placeholder="Describe the project, its goals, and the work involved..."
                     />
@@ -251,6 +256,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                         name="software"
                         type="text"
                         ref={softwareRef}
+                        defaultValue={initialValues.software || ''}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
                         placeholder="Photoshop, Illustrator, Figma"
                     />
@@ -269,6 +275,7 @@ function ProjectForm({ onSubmit, submitLabel="Create Project", initialValues = {
                         name="tags"
                         type="text"
                         ref={tagsRef}
+                        defaultValue={initialValues.tags || ''}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
                         placeholder="branding, editorial, packaging"
                     />
