@@ -25,6 +25,7 @@ export const loginUser = async (email, password) => {
     return data;
 }
 
+
 // Projects
 export const getProjects = async () => {
     const url = `${API_URL}/projects`;
@@ -99,6 +100,33 @@ export const updateProject = async (id, updatedFields, token) => {
     return data
 }
 
+export const deleteProject = async (id, token) => {
+    const url = `${API_URL}/projects/${id}`;
+
+    console.log("DELETING PROJECT AT:", url);
+
+    const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+        Authorization: `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Failed to delete project.");
+    }
+
+    if (response.status === 204) {
+        return null;
+    }
+
+    return data
+}
+
+
+
 // Categories
 
 export const getCategories = async () => {
@@ -167,6 +195,32 @@ export const updateCategory = async (id, formData, token) => {
 
     return data
 }
+
+export const deleteCategory = async (id, token) => {
+    const url = `${API_URL}/categories/${id}`;
+
+    console.log("DELETING CATEGORY AT:", url);
+
+    const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+        Authorization: `Bearer ${token}`
+        }
+    })
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Failed to delete category.");
+    }
+
+    if (response.status === 204) {
+        return null;
+    }
+
+    return data
+}
+
 
 
 // SiteSettings
