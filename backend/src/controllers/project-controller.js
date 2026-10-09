@@ -39,10 +39,11 @@ async function createProject(req, res) {
             category, 
             client, 
             agency, 
-            year
+            year,
+            projectBriefing
         } = req.body
 
-        if (!title || !category === undefined ) {
+        if (!title || !category) {
             return res.status(400).json({
                 message: "Title and category are required"
             })

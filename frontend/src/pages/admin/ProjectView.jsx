@@ -1,7 +1,8 @@
 import { useProject } from '../../hooks/useProject'
 
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+
 
 function ProjectView() {
     const { id } = useParams()
@@ -74,12 +75,12 @@ function ProjectView() {
                                         Updated At: {project.updatedAt}
                                     </p>
 
-                                    <button
-                                    // onClick={() => setEditing(true)}
+                                    <Link
+                                        to={`/admin/projects/${project._id}/edit`}
                                         className="shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
                                     >
                                         Edit Project
-                                    </button>
+                                    </Link>
                                     </div>
                             </div>
 

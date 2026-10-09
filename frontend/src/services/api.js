@@ -53,6 +53,52 @@ export const getProject = async (id) => {
     return response.json()
 }
 
+
+export const createProject = async (formData, token) => {
+    const response = await fetch(`${API_URL}/projects`, {
+        method: "POST",
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+    });
+
+    const data = await response.json();
+
+    console.log("Backend response:", data);
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Failed to create project");
+    }
+
+    return data;
+};
+
+
+export const updateProject = async (id, updatedFields, token) => {
+    const url = `${API_URL}/projects/${id}`;
+
+    console.log("UPDATING PROJECT AT:", url);
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+        Authorization: `Bearer ${token}`
+        },
+        body: updatedFields
+    })
+
+    const data = await response.json()
+
+    console.log(data)
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Failed to update project.");
+    }
+
+    return data
+}
+
 // Categories
 
 export const getCategories = async () => {

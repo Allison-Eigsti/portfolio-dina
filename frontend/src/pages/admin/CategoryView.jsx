@@ -3,12 +3,13 @@ import { useCategory } from '../../hooks/useCategory'
 import ProjectCard from '@/components/admin/ProjectCard'
 
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import EditCategory from './EditCategory'
 
 
 
 function CategoryView() {
+    const navigate = useNavigate()
     const [ editing, setEditing ] = useState(false)
     // Get params to load correct cateogory settings
     const { id } = useParams()
@@ -82,6 +83,13 @@ function CategoryView() {
                             <p className="mt-1 text-sm text-gray-500">
                                 Projects assigned to this category.
                             </p>
+
+                            <button
+                                    onClick={() => navigate('/admin/projects/new')}
+                                    className="shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
+                                >
+                                    New Project
+                            </button>
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
