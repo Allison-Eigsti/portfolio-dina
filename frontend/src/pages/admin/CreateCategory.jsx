@@ -1,11 +1,16 @@
 import { useState } from "react";
 import CategoryForm from "../../components/admin/CategoryForm";
 import { createCategory } from "../../services/api";
+import { useAuth } from '@/context/AuthContext'
+import { useNavigate } from "react-router-dom";
 
 function CreateCategory() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+
+    const { token } = useAuth()
+    const navigate = useNavigate()
 
     const handleCreate = async (category) => {
         setLoading(true);
@@ -13,8 +18,9 @@ function CreateCategory() {
         setSuccess(false);
 
         try {
-            await createCategory(category);
+            await createCategory(category, token);
             setSuccess(true);
+            navigate('/admin/dashboard')
         } catch (error) {
             setError(error.message);
         } finally {

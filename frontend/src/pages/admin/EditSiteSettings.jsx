@@ -95,7 +95,7 @@ function EditSiteSettings() {
                                     type="text"
                                     ref={siteTitleRef}
                                     defaultValue={settings.siteTitle}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
                             </div>
 
@@ -108,7 +108,7 @@ function EditSiteSettings() {
                                     type="text"
                                     ref={bio}
                                     defaultValue={settings.about.bio}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                     rows="5"
                                 />
                             </div>
@@ -130,7 +130,7 @@ function EditSiteSettings() {
                                     type="email"
                                     ref={email}
                                     defaultValue={settings.contact.email}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
                             </div>
 
@@ -143,7 +143,7 @@ function EditSiteSettings() {
                                     type="phone"
                                     ref={phone}
                                     defaultValue={settings.contact.phone}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
                             </div>
 
@@ -156,7 +156,7 @@ function EditSiteSettings() {
                                     type="text"
                                     ref={location}
                                     defaultValue={settings.contact.location}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
                             </div>
                         </div>
@@ -177,7 +177,7 @@ function EditSiteSettings() {
                                     type="text"
                                     ref={linkedin}
                                     defaultValue={settings.socialLinks.linkedin}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
                             </div>
 
@@ -190,7 +190,7 @@ function EditSiteSettings() {
                                     type="text"
                                     ref={behance}
                                     defaultValue={settings.socialLinks.behance}
-                                    className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
+                                    className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900"
                                 />
                             </div>
                         </div>
