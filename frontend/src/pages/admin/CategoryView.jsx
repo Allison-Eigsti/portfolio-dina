@@ -3,7 +3,7 @@ import { useCategory } from '../../hooks/useCategory'
 import ProjectCard from '@/components/admin/ProjectCard'
 
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import EditCategory from './EditCategory'
 
 
@@ -84,18 +84,19 @@ function CategoryView() {
                             </p>
                         </div>
 
-                        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                             {projects
                                 .filter(
                                     (project) =>
                                         project.category === category._id
                                 )
                                 .map((project) => (
-                                    <li key={project._id}>
+                                    <Link key={project._id}
+                                            to={`/admin/projects/${project._id}`}>
                                         <ProjectCard project={project} />
-                                    </li>
+                                    </Link>
                                 ))}
-                        </ul>
+                        </div>
                     </section>
                 </>
             )}

@@ -42,6 +42,17 @@ export const getProjects = async () => {
     return data
 };
 
+
+export const getProject = async (id) => {
+    const response = await fetch(`${API_URL}/projects/${id}`)
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch project")
+    }
+
+    return response.json()
+}
+
 // Categories
 
 export const getCategories = async () => {
