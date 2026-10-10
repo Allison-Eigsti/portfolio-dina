@@ -43,11 +43,11 @@ const router = createBrowserRouter([
             element: <Home />,
           },
           {
-            path: "category/:slug",
+            path: "category/:id",
             element: <Category />,
           },
           {
-            path: "project/:slug",
+            path: "project/:id",
             element: <Project />,
           },
           {

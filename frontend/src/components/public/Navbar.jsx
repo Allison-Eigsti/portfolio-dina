@@ -16,7 +16,7 @@ function NavBar() {
         <header className="sticky top-0 z-40 bg-white/90 backdrop-blur">
             <nav
                 aria-label="Main"
-                className="mx-auto flex h-16 max-w-5xl items-center justify-end px-6"
+                className="mx-auto flex h-16 items-center justify-end px-6"
             >
                 <ul className="hidden items-center gap-4 sm:flex">
                     {links.map(({ to, label }) => (
