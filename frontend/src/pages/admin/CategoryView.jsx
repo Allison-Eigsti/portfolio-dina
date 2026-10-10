@@ -134,7 +134,8 @@ function CategoryView() {
             </h3>
 
             <p className="mt-2 text-sm text-gray-500">
-              Estás a punto de borrar <strong>{category.name}</strong>. Esta acción no se puede deshacer.
+              Estás a punto de borrar <strong>{category.name}</strong>. Esta
+              acción no se puede deshacer.
             </p>
 
             {deleteError && (

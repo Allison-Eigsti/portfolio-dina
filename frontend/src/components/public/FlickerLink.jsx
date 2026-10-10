@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const randomDelays = (length, step = 60) =>
   [...Array(length).keys()]
     .sort(() => Math.random() - 0.5)
-    .map((i) => i * step)
+    .map((i) => i * step);
 
 export default function FlickerLink({ to, children }) {
-  const text = String(children)
-  const [delays, setDelays] = useState(() => randomDelays(text.length))
+  const text = String(children);
+  const [delays, setDelays] = useState(() => randomDelays(text.length));
 
   return (
     <NavLink
@@ -17,11 +17,11 @@ export default function FlickerLink({ to, children }) {
       onMouseEnter={() => setDelays(randomDelays(text.length))}
       className={({ isActive }) =>
         `group px-3 py-2 text-sm font-black tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 ${
-          isActive ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'
+          isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-900"
         }`
       }
     >
-      {text.split('').map((char, i) => (
+      {text.split("").map((char, i) => (
         <span
           key={i}
           aria-hidden="true"
@@ -32,5 +32,5 @@ export default function FlickerLink({ to, children }) {
         </span>
       ))}
     </NavLink>
-  )
+  );
 }

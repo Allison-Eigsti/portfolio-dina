@@ -191,15 +191,15 @@ function EditSiteSettings() {
             </div>
 
             <div className="flex gap-4">
-            <Button type="submit">Guardar cambios</Button>
+              <Button type="submit">Guardar cambios</Button>
 
-            <Button
-              variant="danger"
-              type="button"
-              onClick={() => navigate(-1)}
-            >
-              Cancelar
-            </Button>
+              <Button
+                variant="danger"
+                type="button"
+                onClick={() => navigate(-1)}
+              >
+                Cancelar
+              </Button>
             </div>
           </form>
         </div>

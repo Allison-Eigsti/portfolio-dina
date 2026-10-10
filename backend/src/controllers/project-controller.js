@@ -1,451 +1,404 @@
-const Project = require('../models/Project')
-const Category = require('../models/Category')
-const slugify = require("slugify")
-const { uploadImage, deleteImage } = require("../services/cloudinaryService")
-
-
+const Project = require("../models/Project");
+const Category = require("../models/Category");
+const slugify = require("slugify");
+const { uploadImage, deleteImage } = require("../services/cloudinaryService");
 
 // controllador de las funciones de proyectos
 
 // agarrar todos los proyectos
 async function getAllProjects(req, res) {
-    try {
-        const projects = await Project.find()
-        return res.status(200).json(projects)
-
-    } catch(err) {
-        return res.status(500).json({ message: err.message })
-    }
+  try {
+    const projects = await Project.find();
+    return res.status(200).json(projects);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 }
-
 
 // agarrar un proyecto por su id
 async function getProjectById(req, res) {
-    try {
-        const project = await Project.findById(req.params.id)
+  try {
+    const project = await Project.findById(req.params.id);
 
-        if (!project) {
-            return res.status(404).json({ message: "Project does not exist" })
-        }
-
-        return res.status(200).json(project)
-
-    } catch(err) {
-        return res.status(500).json({ message: err.message })
+    if (!project) {
+      return res.status(404).json({ message: "Project does not exist" });
     }
-}
 
+    return res.status(200).json(project);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
 
 // crear nuevo proyecto
 async function createProject(req, res) {
-    try {
-        const { 
-            title, 
-            category, 
-            client, 
-            agency, 
-            year,
-            projectBriefing
-        } = req.body
+  try {
+    const { title, category, client, agency, year, projectBriefing } = req.body;
 
-        if (!title || !category) {
-            return res.status(400).json({
-                message: "Title and category are required"
-            })
-        }
-
-        if (!req.files?.thumbnail?.[0]) {
-            return res.status(400).json({
-                message: "A thumbnail is required"
-            });
-        }
-
-        if (!req.files?.images?.length) {
-            return res.status(400).json({
-                message: "At least one project image is required"
-            });
-        }
-
-        const categoryExists = await Category.findById(category)
-
-        if (!categoryExists) {
-            return res.status(400).json({
-                message: "Category does not exist"
-            })
-        }
-
-        const software = req.body.software
-            ? JSON.parse(req.body.software)
-            : []
-
-        const tags = req.body.tags
-            ? JSON.parse(req.body.tags)
-            : []
-
-        const layout = req.body.layout
-            ? JSON.parse(req.body.layout)
-            : {}
-
-        const slug = slugify(title, {
-            lower: true,
-            strict: true
-        })
-
-        const thumbnailResult = await uploadImage(
-            req.files.thumbnail[0],
-            `portfolio/projects/${slug}/thumbnail`
-        )
-
-        const imageResults = await Promise.all(
-            req.files.images.map((file) =>
-                uploadImage(
-                    file,
-                    `portfolio/projects/${slug}`
-                )
-            )
-        )
-
-
-        const thumbnail = {
-            url: thumbnailResult.secure_url,
-            publicId: thumbnailResult.public_id,
-            alt: ""
-        }
-
-        const images = imageResults.map((image) => ({
-            url: image.secure_url,
-            publicId: image.public_id,
-            alt: ""
-        }))
-
-        const lastProject = await Project.findOne({
-            category
-        }).sort({ displayOrder: -1 })
-
-        const displayOrder = lastProject ? lastProject.displayOrder + 1 : 1
-
-
-        const project = new Project({
-            title,
-            slug,
-            category,
-            client,
-            agency,
-            year,
-            projectBriefing,
-            software,
-            tags,
-            thumbnail,
-            images,
-            layout,
-            displayOrder,
-            createdBy: req.user.id
-        })
-
-
-        await project.save()
-
-        return res.status(201).json(project)
-
-    } catch(err) {
-        console.error(err)
-
-        if (err instanceof SyntaxError) {
-            return res.status(400).json({
-                message: "Software, tags, or layout contains invalid JSON"
-            });
-        }
-
-        if (err.code === 11000) {
-            return res.status(400).json({
-                message: "A project with this title already exists"
-            })
-        }
-
-        if (err.name === "ValidationError") {
-            return res.status(400).json({
-                message: err.message
-            })
-        }
-
-        return res.status(500).json({ message: err.message })
+    if (!title || !category) {
+      return res.status(400).json({
+        message: "Title and category are required",
+      });
     }
-}
 
+    if (!req.files?.thumbnail?.[0]) {
+      return res.status(400).json({
+        message: "A thumbnail is required",
+      });
+    }
+
+    if (!req.files?.images?.length) {
+      return res.status(400).json({
+        message: "At least one project image is required",
+      });
+    }
+
+    const categoryExists = await Category.findById(category);
+
+    if (!categoryExists) {
+      return res.status(400).json({
+        message: "Category does not exist",
+      });
+    }
+
+    const software = req.body.software ? JSON.parse(req.body.software) : [];
+
+    const tags = req.body.tags ? JSON.parse(req.body.tags) : [];
+
+    const layout = req.body.layout ? JSON.parse(req.body.layout) : {};
+
+    const slug = slugify(title, {
+      lower: true,
+      strict: true,
+    });
+
+    const thumbnailResult = await uploadImage(
+      req.files.thumbnail[0],
+      `portfolio/projects/${slug}/thumbnail`,
+    );
+
+    const imageResults = await Promise.all(
+      req.files.images.map((file) =>
+        uploadImage(file, `portfolio/projects/${slug}`),
+      ),
+    );
+
+    const thumbnail = {
+      url: thumbnailResult.secure_url,
+      publicId: thumbnailResult.public_id,
+      alt: "",
+    };
+
+    const images = imageResults.map((image) => ({
+      url: image.secure_url,
+      publicId: image.public_id,
+      alt: "",
+    }));
+
+    const lastProject = await Project.findOne({
+      category,
+    }).sort({ displayOrder: -1 });
+
+    const displayOrder = lastProject ? lastProject.displayOrder + 1 : 1;
+
+    const project = new Project({
+      title,
+      slug,
+      category,
+      client,
+      agency,
+      year,
+      projectBriefing,
+      software,
+      tags,
+      thumbnail,
+      images,
+      layout,
+      displayOrder,
+      createdBy: req.user.id,
+    });
+
+    await project.save();
+
+    return res.status(201).json(project);
+  } catch (err) {
+    console.error(err);
+
+    if (err instanceof SyntaxError) {
+      return res.status(400).json({
+        message: "Software, tags, or layout contains invalid JSON",
+      });
+    }
+
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "A project with this title already exists",
+      });
+    }
+
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: err.message,
+      });
+    }
+
+    return res.status(500).json({ message: err.message });
+  }
+}
 
 // editar proyecto
 async function updateProject(req, res) {
-    try {
-        const project = await Project.findById(req.params.id);
+  try {
+    const project = await Project.findById(req.params.id);
 
-        if (!project) {
-            return res.status(404).json({
-                message: "Project not found"
-            });
-        }
-
-        const allowedFields = [
-            "title",
-            "client",
-            "agency",
-            "year",
-            "projectBriefing",
-            "published"
-        ]
-
-
-        allowedFields.forEach(field => {
-            if (req.body[field] !== undefined) {
-                project[field] = req.body[field]
-            }
-        })
-
-        if (req.body.software !== undefined) {
-            project.software = JSON.parse(req.body.software);
-        }
-
-        if (req.body.tags !== undefined) {
-            project.tags = JSON.parse(req.body.tags);
-        }
-
-        if (req.body.layout !== undefined) {
-            project.layout = JSON.parse(req.body.layout);
-        }
-
-        if (req.files?.thumbnail?.[0]) {
-
-            const newThumbnailResult = await uploadImage(
-                req.files.thumbnail[0],
-                `portfolio/projects/${project.slug}/thumbnail`
-            );
-
-            const newThumbnail = {
-                url: newThumbnailResult.secure_url,
-                publicId: newThumbnailResult.public_id,
-                alt: ""
-            };
-
-            if (project.thumbnail?.publicId) {
-                await deleteImage(project.thumbnail.publicId);
-            }
-
-            project.thumbnail = newThumbnail;
-        }
-
-        if (req.files?.images?.length) {
-
-            const newImageResults = await Promise.all(
-                req.files.images.map(file =>
-                    uploadImage(
-                        file,
-                        `portfolio/projects/${project.slug}`
-                    )
-                )
-            );
-
-            const newImages = newImageResults.map(image => ({
-                url: image.secure_url,
-                publicId: image.public_id,
-                alt: ""
-            }));
-
-            if (project.images?.length) {
-                await Promise.all(
-                    project.images
-                        .filter(image => image.publicId)
-                        .map(image => deleteImage(image.publicId))
-                );
-            }
-
-            project.images = newImages;
-        }
-
-
-        await project.save()
-
-        return res.status(200).json(project)
-
-    } catch(err) {
-        if (err.name === "SyntaxError") {
-            return res.status(400).json({
-                message: "Software, tags, or layout contains invalid JSON"
-            });
-        }
-
-        if (err.code === 11000) {
-            return res.status(400).json({
-                message: "A project with this title already exists"
-            })
-        }
-
-        if (err.name === "ValidationError") {
-            return res.status(400).json({
-                message: err.message
-            })
-        }
-
-        return res.status(500).json({
-            message: err.message
-        })
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found",
+      });
     }
-}
 
+    const allowedFields = [
+      "title",
+      "client",
+      "agency",
+      "year",
+      "projectBriefing",
+      "published",
+    ];
+
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        project[field] = req.body[field];
+      }
+    });
+
+    if (req.body.software !== undefined) {
+      project.software = JSON.parse(req.body.software);
+    }
+
+    if (req.body.tags !== undefined) {
+      project.tags = JSON.parse(req.body.tags);
+    }
+
+    if (req.body.layout !== undefined) {
+      project.layout = JSON.parse(req.body.layout);
+    }
+
+    if (req.files?.thumbnail?.[0]) {
+      const newThumbnailResult = await uploadImage(
+        req.files.thumbnail[0],
+        `portfolio/projects/${project.slug}/thumbnail`,
+      );
+
+      const newThumbnail = {
+        url: newThumbnailResult.secure_url,
+        publicId: newThumbnailResult.public_id,
+        alt: "",
+      };
+
+      if (project.thumbnail?.publicId) {
+        await deleteImage(project.thumbnail.publicId);
+      }
+
+      project.thumbnail = newThumbnail;
+    }
+
+    if (req.files?.images?.length) {
+      const newImageResults = await Promise.all(
+        req.files.images.map((file) =>
+          uploadImage(file, `portfolio/projects/${project.slug}`),
+        ),
+      );
+
+      const newImages = newImageResults.map((image) => ({
+        url: image.secure_url,
+        publicId: image.public_id,
+        alt: "",
+      }));
+
+      if (project.images?.length) {
+        await Promise.all(
+          project.images
+            .filter((image) => image.publicId)
+            .map((image) => deleteImage(image.publicId)),
+        );
+      }
+
+      project.images = newImages;
+    }
+
+    await project.save();
+
+    return res.status(200).json(project);
+  } catch (err) {
+    if (err.name === "SyntaxError") {
+      return res.status(400).json({
+        message: "Software, tags, or layout contains invalid JSON",
+      });
+    }
+
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "A project with this title already exists",
+      });
+    }
+
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: err.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
 
 // cambiar el orden de los proyectos (no he utilizado estas funciones para reordenar todavía, pero planifico hacerlo en el futuro)
 async function reorderProject(req, res) {
-    try {
-        const { newOrder } = req.body
+  try {
+    const { newOrder } = req.body;
 
-        if (newOrder === undefined) {
-            return res.status(400).json({
-                message: "New order is required"
-            })
-        }
-
-        if (!Number.isInteger(newOrder) || newOrder < 1 || newOrder > projects.length) {
-            return res.status(400).json({
-                message: "Invalid display order"
-            })
-        }
-
-        const project = await Project.findById(req.params.id);
-
-        if (!project) {
-            return res.status(404).json({
-                message: "Project not found"
-            })
-        }
-
-        const projects = await Project.find({
-            category: project.category
-        }).sort({ displayOrder: 1 })
-
-        const newIndex = newOrder - 1
-
-        if (
-            newIndex < 0 ||
-            newIndex >= projects.length
-        ) {
-            return res.status(400).json({
-                message: "Invalid display order"
-            })
-        }
-
-        const currentIndex = projects.findIndex(
-            item => item._id.toString() === project._id.toString()
-        );
-
-        const [movedProject] = projects.splice(currentIndex, 1)
-
-        projects.splice(newIndex, 0, movedProject)
-
-        projects.forEach((project, index) => {
-            project.displayOrder = index + 1;
-        })
-
-        await Promise.all(
-            projects.map(project => project.save())
-        )
-
-        return res.status(200).json(projects)
-
-    } catch (err) {
-        console.error(err)
-
-        return res.status(500).json({
-            message: err.message
-        })
+    if (newOrder === undefined) {
+      return res.status(400).json({
+        message: "New order is required",
+      });
     }
-} 
 
+    if (
+      !Number.isInteger(newOrder) ||
+      newOrder < 1 ||
+      newOrder > projects.length
+    ) {
+      return res.status(400).json({
+        message: "Invalid display order",
+      });
+    }
+
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found",
+      });
+    }
+
+    const projects = await Project.find({
+      category: project.category,
+    }).sort({ displayOrder: 1 });
+
+    const newIndex = newOrder - 1;
+
+    if (newIndex < 0 || newIndex >= projects.length) {
+      return res.status(400).json({
+        message: "Invalid display order",
+      });
+    }
+
+    const currentIndex = projects.findIndex(
+      (item) => item._id.toString() === project._id.toString(),
+    );
+
+    const [movedProject] = projects.splice(currentIndex, 1);
+
+    projects.splice(newIndex, 0, movedProject);
+
+    projects.forEach((project, index) => {
+      project.displayOrder = index + 1;
+    });
+
+    await Promise.all(projects.map((project) => project.save()));
+
+    return res.status(200).json(projects);
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
 
 // cambiar el orden de las imagenes de los proyectos
 async function reorderProjectImages(req, res) {
-    try {
-        const { imageIds } = req.body
+  try {
+    const { imageIds } = req.body;
 
-        if (!Array.isArray(imageIds)) {
-            return res.status(400).json({
-                message: "imageIds must be an array"
-            });
-        }
-
-        const project = await Project.findById(req.params.id)
-
-        if (!project) {
-            return res.status(404).json({
-                message: "Project not found"
-            });
-        }
-
-        // Make sure the number of IDs matches the number of images
-        if (imageIds.length !== project.images.length) {
-            return res.status(400).json({
-                message: "All project images must be included in the new order"
-            })
-        }
-
-        // Make sure every ID belongs to an image in this project
-        const projectImageIds = project.images.map(image =>
-            image._id.toString()
-        )
-
-        const allImagesBelongToProject = imageIds.every(id =>
-            projectImageIds.includes(id)
-        )
-
-        if (!allImagesBelongToProject) {
-            return res.status(400).json({
-                message: "One or more image IDs do not belong to this project"
-            })
-        }
-
-        // Reordenar las fotos según la información enviado por el frontend
-        const reorderedImages = imageIds.map(id =>
-            project.images.find(
-                image => image._id.toString() === id
-            )
-        )
-
-        project.images = reorderedImages
-
-        await project.save()
-
-        return res.status(200).json(project)
-
-    } catch (err) {
-        console.error(err);
-
-        return res.status(500).json({
-            message: err.message
-        })
+    if (!Array.isArray(imageIds)) {
+      return res.status(400).json({
+        message: "imageIds must be an array",
+      });
     }
-}
 
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found",
+      });
+    }
+
+    // Make sure the number of IDs matches the number of images
+    if (imageIds.length !== project.images.length) {
+      return res.status(400).json({
+        message: "All project images must be included in the new order",
+      });
+    }
+
+    // Make sure every ID belongs to an image in this project
+    const projectImageIds = project.images.map((image) => image._id.toString());
+
+    const allImagesBelongToProject = imageIds.every((id) =>
+      projectImageIds.includes(id),
+    );
+
+    if (!allImagesBelongToProject) {
+      return res.status(400).json({
+        message: "One or more image IDs do not belong to this project",
+      });
+    }
+
+    // Reordenar las fotos según la información enviado por el frontend
+    const reorderedImages = imageIds.map((id) =>
+      project.images.find((image) => image._id.toString() === id),
+    );
+
+    project.images = reorderedImages;
+
+    await project.save();
+
+    return res.status(200).json(project);
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
 
 // borrar proyecto
 async function deleteProject(req, res) {
-    try {
-        const deleteProject = await Project.findByIdAndDelete(req.params.id)
-       
-        if(!deleteProject) {
-            return res.status(404).json({ message: 'Project not found. '})
-        }
+  try {
+    const deleteProject = await Project.findByIdAndDelete(req.params.id);
 
-         return res.status(200).json({ message: 'Project deleted successfully'})
-    } catch(err) {
-        return res.status(500).json({ message: err.message })
+    if (!deleteProject) {
+      return res.status(404).json({ message: "Project not found. " });
     }
+
+    return res.status(200).json({ message: "Project deleted successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 }
-
-
 
 module.exports = {
-    getAllProjects,
-    getProjectById,
-    createProject,
-    updateProject,
-    reorderProject,
-    reorderProjectImages,
-    deleteProject
-}
+  getAllProjects,
+  getProjectById,
+  createProject,
+  updateProject,
+  reorderProject,
+  reorderProjectImages,
+  deleteProject,
+};

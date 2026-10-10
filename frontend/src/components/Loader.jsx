@@ -1,7 +1,5 @@
 function Loader() {
-    return (
-        <p>Loader</p>
-    )
+  return <p>Loader</p>;
 }
 
-export default Loader
+export default Loader;

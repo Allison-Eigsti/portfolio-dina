@@ -1,38 +1,41 @@
 import { useCategory } from "../../hooks/useCategory";
 import ProjectCard from "@/components/public/ProjectCard";
 import { useProjects } from "../../hooks/useProjects";
-import { useParams } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 function Category() {
-    const { id } = useParams()
-    const { category, loading: categoryLoading } = useCategory(id)
-    const { projects, loading, error } = useProjects()
+  const { id } = useParams();
+  const { category, loading: categoryLoading } = useCategory(id);
+  const { projects, loading, error } = useProjects();
 
-    const filteredProjects = (projects ?? []).filter((project) => {
-        const projectCategoryId = project.category?._id ?? project.category
-        return projectCategoryId === id
-    })
-        
-    if (loading || categoryLoading) return <p>Loading...</p>
-    if (error) return <p>Something went wrong.</p>;
+  const filteredProjects = (projects ?? []).filter((project) => {
+    const projectCategoryId = project.category?._id ?? project.category;
+    return projectCategoryId === id;
+  });
 
-    return(
-        <>
-        <div className="mx-auto max-w-4xl px-6 py-16">
+  if (loading || categoryLoading) return <p>Loading...</p>;
+  if (error) return <p>Something went wrong.</p>;
 
-            <header className="mb-16">
-            <h1 className="mb-2 text-5xl font-black tracking-tight sm:text-7xl">{category?.name}</h1>
-            <h2 className="mb-8 text-lg font-light tracking-wide text-gray-400">{category?.description}</h2>
-            </header>
+  return (
+    <>
+      <div className="mx-auto max-w-4xl px-6 py-16">
+        <header className="mb-16">
+          <h1 className="mb-2 text-5xl font-black tracking-tight sm:text-7xl">
+            {category?.name}
+          </h1>
+          <h2 className="mb-8 text-lg font-light tracking-wide text-gray-400">
+            {category?.description}
+          </h2>
+        </header>
 
-            <div className="flex flex-col gap-20">
-                {filteredProjects.map((project) => (
-                    <ProjectCard key={project._id} project={project} />
-                ))}
-            </div>
+        <div className="flex flex-col gap-20">
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project._id} project={project} />
+          ))}
         </div>
-        </>
-    )
+      </div>
+    </>
+  );
 }
 
-export default Category
+export default Category;

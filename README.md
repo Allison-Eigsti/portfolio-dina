@@ -188,16 +188,16 @@ JWT_SECRET=tu_jwt_secret
 
 ### Variables de entorno del backend
 
-| Variable | Descripción |
-|---|---|
-| `PORT` | Puerto utilizado por el servidor. |
-| `MONGO_URI` | Cadena de conexión a MongoDB Atlas. |
-| `CLOUDINARY_CLOUD_NAME` | Nombre de la cuenta de Cloudinary. |
-| `CLOUDINARY_API_KEY` | Clave API de Cloudinary. |
-| `CLOUDINARY_API_SECRET` | Clave secreta de Cloudinary. |
-| `GOOGLE_CLIENT_ID` | Identificador de cliente de Google OAuth. |
-| `GOOGLE_CLIENT_SECRET` | Clave secreta de Google OAuth. |
-| `JWT_SECRET` | Clave utilizada para firmar los tokens JWT. |
+| Variable                | Descripción                                 |
+| ----------------------- | ------------------------------------------- |
+| `PORT`                  | Puerto utilizado por el servidor.           |
+| `MONGO_URI`             | Cadena de conexión a MongoDB Atlas.         |
+| `CLOUDINARY_CLOUD_NAME` | Nombre de la cuenta de Cloudinary.          |
+| `CLOUDINARY_API_KEY`    | Clave API de Cloudinary.                    |
+| `CLOUDINARY_API_SECRET` | Clave secreta de Cloudinary.                |
+| `GOOGLE_CLIENT_ID`      | Identificador de cliente de Google OAuth.   |
+| `GOOGLE_CLIENT_SECRET`  | Clave secreta de Google OAuth.              |
+| `JWT_SECRET`            | Clave utilizada para firmar los tokens JWT. |
 
 ---
 
@@ -462,23 +462,23 @@ Edición de una categoría.
 
 ### Proyectos
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/projects` | Obtiene todos los proyectos. |
-| GET | `/projects/:id` | Obtiene un proyecto específico. |
-| POST | `/projects` | Crea un nuevo proyecto. |
-| PUT | `/projects/:id` | Actualiza un proyecto. |
-| DELETE | `/projects/:id` | Elimina un proyecto. |
+| Método | Ruta            | Descripción                     |
+| ------ | --------------- | ------------------------------- |
+| GET    | `/projects`     | Obtiene todos los proyectos.    |
+| GET    | `/projects/:id` | Obtiene un proyecto específico. |
+| POST   | `/projects`     | Crea un nuevo proyecto.         |
+| PUT    | `/projects/:id` | Actualiza un proyecto.          |
+| DELETE | `/projects/:id` | Elimina un proyecto.            |
 
 ### Categorías
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/categories` | Obtiene todas las categorías. |
-| GET | `/categories/:id` | Obtiene una categoría específica. |
-| POST | `/categories` | Crea una nueva categoría. |
-| PUT | `/categories/:id` | Actualiza una categoría. |
-| DELETE | `/categories/:id` | Elimina una categoría. |
+| Método | Ruta              | Descripción                       |
+| ------ | ----------------- | --------------------------------- |
+| GET    | `/categories`     | Obtiene todas las categorías.     |
+| GET    | `/categories/:id` | Obtiene una categoría específica. |
+| POST   | `/categories`     | Crea una nueva categoría.         |
+| PUT    | `/categories/:id` | Actualiza una categoría.          |
+| DELETE | `/categories/:id` | Elimina una categoría.            |
 
 Las peticiones de creación y actualización que incluyen imágenes utilizan:
 
@@ -494,16 +494,16 @@ thumbnail
 
 ### Configuración del sitio
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/site-settings` | Obtiene la configuración del sitio. |
-| PUT | `/site-settings/:id` | Actualiza la configuración del sitio. |
+| Método | Ruta                 | Descripción                           |
+| ------ | -------------------- | ------------------------------------- |
+| GET    | `/site-settings`     | Obtiene la configuración del sitio.   |
+| PUT    | `/site-settings/:id` | Actualiza la configuración del sitio. |
 
 ### Autenticación
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| POST | `/auth/login` | Inicia sesión como administrador. |
+| Método | Ruta          | Descripción                       |
+| ------ | ------------- | --------------------------------- |
+| POST   | `/auth/login` | Inicia sesión como administrador. |
 
 ---
 
@@ -586,12 +586,12 @@ multipart/form-data
 
 Para crear una categoría con una imagen:
 
-| Campo | Tipo |
-|---|---|
-| `name` | Text |
-| `description` | Text |
+| Campo          | Tipo |
+| -------------- | ---- |
+| `name`         | Text |
+| `description`  | Text |
 | `displayOrder` | Text |
-| `thumbnail` | File |
+| `thumbnail`    | File |
 
 ---
 

@@ -1,4 +1,4 @@
-const imageSchema = require('./schemas/imageSchema.js')
+const imageSchema = require("./schemas/imageSchema.js");
 const mongoose = require("mongoose");
 
 // schema de proyecto
@@ -15,7 +15,7 @@ const projectSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
 
     category: {
@@ -112,7 +112,6 @@ const projectSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
 
 const Project = mongoose.model("Project", projectSchema);
 

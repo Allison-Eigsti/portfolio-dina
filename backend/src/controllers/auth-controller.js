@@ -1,26 +1,25 @@
-require("dotenv").config()
+require("dotenv").config();
 
-const User = require("../models/User")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-
+const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // función para iniciar sesión de usuario
 async function loginUser(req, res) {
-  const { email, password } = req.body
+  const { email, password } = req.body;
 
   try {
     // intentar encontrar usuario en base de datos
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ message: "Email or password incorrect." })
+      return res.status(401).json({ message: "Email or password incorrect." });
     }
 
     // si hay un usuario con este correo, autenticar usuario
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Email or password incorrect." })
+      return res.status(401).json({ message: "Email or password incorrect." });
     }
 
     // autorizar y zerializar con JWT (Generar un JWT para la sesión)
@@ -34,8 +33,8 @@ async function loginUser(req, res) {
       {
         expiresIn: "7d",
       },
-    )
-    console.log("user successfully logged in:", user.name)
+    );
+    console.log("user successfully logged in:", user.name);
     res.json({
       accessToken: token,
       user: {
@@ -44,34 +43,34 @@ async function loginUser(req, res) {
         email: user.email,
         role: user.role,
       },
-    })
+    });
   } catch (err) {
     res.status(500).json({
       message: err.message,
-    })
+    });
   }
 }
 
 // función para recibir datos del usuario actual
 async function getUser(req, res) {
   try {
-    const user = await User.findById(req.user.id).select("-password")
+    const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
       return res.status(404).json({
         message: "User not found",
-      })
+      });
     }
 
-    res.json({ user })
+    res.json({ user });
   } catch (err) {
     res.status(500).json({
       message: err.message,
-    })
+    });
   }
 }
 
 module.exports = {
   loginUser,
-  getUser
-}
+  getUser,
+};

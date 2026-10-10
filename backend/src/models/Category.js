@@ -1,4 +1,4 @@
-const imageSchema = require('./schemas/imageSchema.js')
+const imageSchema = require("./schemas/imageSchema.js");
 const mongoose = require("mongoose");
 
 // schema para la categoría
@@ -14,7 +14,7 @@ const categorySchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
 
     description: {
@@ -36,7 +36,6 @@ const categorySchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
 
 const Category = mongoose.model("Category", categorySchema);
 

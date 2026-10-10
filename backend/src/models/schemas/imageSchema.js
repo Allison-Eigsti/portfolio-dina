@@ -1,19 +1,19 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-// Schema de imagen con el publicId y url de cloudinary 
+// Schema de imagen con el publicId y url de cloudinary
 const imageSchema = new mongoose.Schema({
   url: {
     type: String,
-    required: true
+    required: true,
   },
   publicId: {
     type: String,
-    required: true
+    required: true,
   },
   alt: {
     type: String,
-    default: ""
-  }
-})
+    default: "",
+  },
+});
 
-module.exports = imageSchema
+module.exports = imageSchema;

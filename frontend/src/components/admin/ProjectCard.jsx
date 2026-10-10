@@ -1,11 +1,5 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/admin/Button";
-
+// Tarjeta para un proyecto
 function ProjectCard({ project }) {
-  function handleDelete(id) {
-    console.log("delete");
-  }
-
   return (
     <>
       <article className="group h-[300px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-200 hover:border-gray-300 hover:shadow-md">

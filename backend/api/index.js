@@ -1,4 +1,4 @@
-const app = require('../src/app.js')
+const app = require("../src/app.js");
 
 // exportar app
-module.exports = app
+module.exports = app;

@@ -1,72 +1,64 @@
-const siteSettings = require('../models/SiteSettings')
+const siteSettings = require("../models/SiteSettings");
 
 // controllador de las funciones para la configuración del sitio web
 
 // agarrar los ajustes
 async function getSettings(req, res) {
-    try {
-        const settings = await siteSettings.findOne()
-        
-        if (!settings) {
-            return res.status(404).json({
-                message: 'Site Settings not found'
-            })
-        }
+  try {
+    const settings = await siteSettings.findOne();
 
-        return res.status(200).json(settings)
-    } catch(err) {
-        return res.status(500).json({ message: err.message })
+    if (!settings) {
+      return res.status(404).json({
+        message: "Site Settings not found",
+      });
     }
+
+    return res.status(200).json(settings);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 }
 
 // editar la config
 async function updateSiteSettings(req, res) {
-    try {
-        const settings = await siteSettings.findOne()
+  try {
+    const settings = await siteSettings.findOne();
 
-        if (!settings) {
-            return res.status(404).json({
-                message: 'Site Settings not found'
-            })
-        }
-
-        if (req.body.siteTitle !== undefined) {
-            settings.siteTitle = req.body.siteTitle
-        }
-
-        const nestedFields = [
-            "about",
-            "contact",
-            "socialLinks"
-        ]
-
-        nestedFields.forEach(field => {
-            if (req.body[field] !== undefined) {
-                settings[field] = {...settings[field], ...req.body[field]}
-            }
-        })
-
-
-        await settings.save()
-
-        return res.status(200).json(settings)
-    } catch (err) {
-
-        if (err.name === "ValidationError") {
-            return res.status(400).json({
-                message: err.message
-            })
-        }
-
-        return res.status(500).json({
-            message: err.message
-        })
+    if (!settings) {
+      return res.status(404).json({
+        message: "Site Settings not found",
+      });
     }
+
+    if (req.body.siteTitle !== undefined) {
+      settings.siteTitle = req.body.siteTitle;
+    }
+
+    const nestedFields = ["about", "contact", "socialLinks"];
+
+    nestedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        settings[field] = { ...settings[field], ...req.body[field] };
+      }
+    });
+
+    await settings.save();
+
+    return res.status(200).json(settings);
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: err.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
 }
 
 module.exports = {
-    getSettings,
-    updateSiteSettings
-}
-
-
+  getSettings,
+  updateSiteSettings,
+};

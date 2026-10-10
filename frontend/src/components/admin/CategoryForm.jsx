@@ -1,132 +1,148 @@
 import { useState, useEffect } from "react";
-import { Button } from '@/components/admin/Button'
+import { Button } from "@/components/admin/Button";
 
+// Formulario para crear/editar categorías
 function CategoryForm({ onSubmit, submitLabel, initialValues }) {
-    const [name, setName] = useState(initialValues.name || "");
-    const [description, setDescription] = useState(initialValues.description || "");
-    const [thumbnail, setThumbnail] = useState(null);
-    const [displayOrder, setDisplayOrder] = useState(initialValues.displayOrder ?? "");
+  const [name, setName] = useState(initialValues.name || "");
+  const [description, setDescription] = useState(
+    initialValues.description || "",
+  );
+  const [thumbnail, setThumbnail] = useState(null);
+  const [displayOrder, setDisplayOrder] = useState(
+    initialValues.displayOrder ?? "",
+  );
 
+  // cuando los valores iniciales cambian, cambia el formulario
+  useEffect(() => {
+    setName(initialValues.name || "");
+    setDescription(initialValues.description || "");
+    setDisplayOrder(initialValues.displayOrder ?? "");
+    setThumbnail(null);
+  }, [initialValues]);
 
-    useEffect(() => {
-        setName(initialValues.name || "");
-        setDescription(initialValues.description || "");
-        setDisplayOrder(initialValues.displayOrder ?? "");
-        setThumbnail(null);
-    }, [initialValues])
+  // gestionar envio de formulatio
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    // permite entrar datos de multiples tipos (como imagenes)
+    const formData = new FormData();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    formData.append("name", name.trim());
+    formData.append("description", description);
+    formData.append("displayOrder", displayOrder);
 
-        const formData = new FormData();
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail);
+    }
 
-        formData.append("name", name.trim());
-        formData.append("description", description);
-        formData.append("displayOrder", displayOrder);
+    // hace la petición al api con los datos entrados según el tipo de acción (post o put)
+    onSubmit(formData);
+  };
 
-        if (thumbnail) {
-            formData.append("thumbnail", thumbnail);
-        }
-
-        onSubmit(formData);
-    };
-
-    return (
-        <form
-            onSubmit={handleSubmit}
-            className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+    >
+      <div>
+        <label
+          htmlFor="category-name"
+          className="mb-2 block text-sm font-medium text-gray-700"
         >
-            <div>
-                <label  htmlFor="category-name" className="mb-2 block text-sm font-medium text-gray-700">
-                    Nombre de categoía
-                </label>
+          Nombre de categoía
+        </label>
 
-                <input
-                    id="category-name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className="w-full rounded-lg border border-gray-300 px-4 py-2.5"
-                />
-            </div>
+        {/* Entra nombre de la categoría */}
+        <input
+          id="category-name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="w-full rounded-lg border border-gray-300 px-4 py-2.5"
+        />
+      </div>
 
-            <div>
-                <label htmlFor="category-description"
-                        className="mb-2 block text-sm font-medium text-gray-700">
-                    Descripción
-                </label>
+      <div>
+        {/* Entra descripción de la categoría */}
+        <label
+          htmlFor="category-description"
+          className="mb-2 block text-sm font-medium text-gray-700"
+        >
+          Descripción
+        </label>
 
-                <textarea
-                    id="category-description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows="4"
-                    className="w-full rounded-lg border border-gray-300 px-4 py-2.5"
-                />
-            </div>
+        <textarea
+          id="category-description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows="4"
+          className="w-full rounded-lg border border-gray-300 px-4 py-2.5"
+        />
+      </div>
 
+      <div>
+        <label
+          htmlFor="category-order"
+          className="mb-2 block text-sm font-medium text-gray-700"
+        >
+          Orden de visualización
+        </label>
 
-            <div>
-                <label htmlFor="category-order" className="mb-2 block text-sm font-medium text-gray-700">
-                    Orden de visualización
-                </label>
+        <input
+          id="category-order"
+          type="number"
+          value={displayOrder}
+          onChange={(e) => setDisplayOrder(e.target.value)}
+          required
+          min="1"
+          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-900"
+          placeholder="1"
+        />
+      </div>
 
-                <input
-                    id="category-order"
-                    type="number"
-                    value={displayOrder}
-                    onChange={(e) => setDisplayOrder(e.target.value)}
-                    required
-                    min="1"
-                    className="w-full rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-gray-900"
-                    placeholder="1"
-                />
-            </div>
+      {/* Si ya hay miniatura, entra una nueva */}
+      {initialValues.thumbnail?.url && (
+        <div>
+          <p className="mb-2 text-sm font-medium text-gray-700">
+            Miniatura actual
+          </p>
 
-            {initialValues.thumbnail?.url && (
-                <div>
-                    <p className="mb-2 text-sm font-medium text-gray-700">
-                        Miniatura actual
-                    </p>
+          <img
+            src={initialValues.thumbnail.url}
+            alt={initialValues.name || "Current category thumbnail"}
+            className="h-40 w-auto rounded-lg object-cover"
+          />
+        </div>
+      )}
 
-                    <img
-                        src={initialValues.thumbnail.url}
-                        alt={initialValues.name || "Current category thumbnail"}
-                        className="h-40 w-auto rounded-lg object-cover"
-                    />
-                </div>
-            )}
+      <div>
+        <label
+          htmlFor="category-thumbnail"
+          className="mb-2 block text-sm font-medium text-gray-700"
+        >
+          Miniatura {initialValues._id ? "(Optional)" : "*"}
+        </label>
 
-            <div>
-                <label
-                    htmlFor="category-thumbnail"
-                    className="mb-2 block text-sm font-medium text-gray-700"
-                >
-                    Miniatura {initialValues._id ? "(Optional)" : "*"}
-                </label>
+        {/* Entra una miniatura */}
+        <input
+          id="category-thumbnail"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
+          required={!initialValues._id}
+          className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-600 file:mr-4 file:border-0 file:bg-gray-900 file:px-4 file:py-2.5 file:text-sm file:font-medium file:text-white hover:file:bg-gray-700"
+        />
+      </div>
 
-                <input
-                    id="category-thumbnail"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) =>
-                        setThumbnail(e.target.files?.[0] || null)
-                    }
-                    required={!initialValues._id}
-                    className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-600 file:mr-4 file:border-0 file:bg-gray-900 file:px-4 file:py-2.5 file:text-sm file:font-medium file:text-white hover:file:bg-gray-700"
-                />
-            </div>
-
-            <Button
-                type="submit"
-                className="rounded-full bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700"
-            >
-                {submitLabel}
-            </Button>
-        </form>
-    );
+      <Button
+        type="submit"
+        className="rounded-full bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700"
+      >
+        {submitLabel}
+      </Button>
+    </form>
+  );
 }
 
 export default CategoryForm;
