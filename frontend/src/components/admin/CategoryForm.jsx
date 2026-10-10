@@ -39,7 +39,7 @@ function CategoryForm({ onSubmit, submitLabel, initialValues }) {
         >
             <div>
                 <label  htmlFor="category-name" className="mb-2 block text-sm font-medium text-gray-700">
-                    Category Name
+                    Nombre de categoía
                 </label>
 
                 <input
@@ -55,7 +55,7 @@ function CategoryForm({ onSubmit, submitLabel, initialValues }) {
             <div>
                 <label htmlFor="category-description"
                         className="mb-2 block text-sm font-medium text-gray-700">
-                    Description
+                    Descripción
                 </label>
 
                 <textarea
@@ -70,7 +70,7 @@ function CategoryForm({ onSubmit, submitLabel, initialValues }) {
 
             <div>
                 <label htmlFor="category-order" className="mb-2 block text-sm font-medium text-gray-700">
-                    Display Order
+                    Orden de visualización
                 </label>
 
                 <input
@@ -88,7 +88,7 @@ function CategoryForm({ onSubmit, submitLabel, initialValues }) {
             {initialValues.thumbnail?.url && (
                 <div>
                     <p className="mb-2 text-sm font-medium text-gray-700">
-                        Current Thumbnail
+                        Miniatura actual
                     </p>
 
                     <img
@@ -104,7 +104,7 @@ function CategoryForm({ onSubmit, submitLabel, initialValues }) {
                     htmlFor="category-thumbnail"
                     className="mb-2 block text-sm font-medium text-gray-700"
                 >
-                    Thumbnail {initialValues._id ? "(Optional)" : "*"}
+                    Miniatura {initialValues._id ? "(Optional)" : "*"}
                 </label>
 
                 <input

@@ -17,7 +17,7 @@ function CategoryCard({ name, description, thumbnail }) {
             <div className="p-5">
 
                 <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
-                    Category
+                    Categoría
                 </p>
 
                 <h2 className="mt-1 text-base font-semibold tracking-tight text-gray-900">
