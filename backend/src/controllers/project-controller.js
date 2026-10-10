@@ -3,6 +3,11 @@ const Category = require('../models/Category')
 const slugify = require("slugify")
 const { uploadImage, deleteImage } = require("../services/cloudinaryService")
 
+
+
+// controllador de las funciones de proyectos
+
+// agarrar todos los proyectos
 async function getAllProjects(req, res) {
     try {
         const projects = await Project.find()
@@ -14,7 +19,7 @@ async function getAllProjects(req, res) {
 }
 
 
-
+// agarrar un proyecto por su id
 async function getProjectById(req, res) {
     try {
         const project = await Project.findById(req.params.id)
@@ -31,7 +36,7 @@ async function getProjectById(req, res) {
 }
 
 
-
+// crear nuevo proyecto
 async function createProject(req, res) {
     try {
         const { 
@@ -168,7 +173,7 @@ async function createProject(req, res) {
 }
 
 
-
+// editar proyecto
 async function updateProject(req, res) {
     try {
         const project = await Project.findById(req.params.id);
@@ -286,6 +291,7 @@ async function updateProject(req, res) {
 }
 
 
+// cambiar el orden de los proyectos (no he utilizado estas funciones para reordenar todavía, pero planifico hacerlo en el futuro)
 async function reorderProject(req, res) {
     try {
         const { newOrder } = req.body
@@ -353,6 +359,7 @@ async function reorderProject(req, res) {
 } 
 
 
+// cambiar el orden de las imagenes de los proyectos
 async function reorderProjectImages(req, res) {
     try {
         const { imageIds } = req.body
@@ -393,7 +400,7 @@ async function reorderProjectImages(req, res) {
             })
         }
 
-        // Rearrange the images according to the order sent by the frontend
+        // Reordenar las fotos según la información enviado por el frontend
         const reorderedImages = imageIds.map(id =>
             project.images.find(
                 image => image._id.toString() === id
@@ -416,7 +423,7 @@ async function reorderProjectImages(req, res) {
 }
 
 
-
+// borrar proyecto
 async function deleteProject(req, res) {
     try {
         const deleteProject = await Project.findByIdAndDelete(req.params.id)

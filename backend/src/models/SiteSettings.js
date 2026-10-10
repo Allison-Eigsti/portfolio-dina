@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-
+// schema para la configuración y información del sitio web
 const siteSettingsSchema = new mongoose.Schema({
     siteTitle: {
         type: String,

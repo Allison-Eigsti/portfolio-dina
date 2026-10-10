@@ -3,7 +3,8 @@ const slugify = require("slugify")
 const { uploadImage, deleteImage } = require("../services/cloudinaryService")
 
 
-
+// controllador de funciones para las categorías
+// agarrar todas las categorías
 async function getAllCategories(req, res) {
     try {
         const categories = await Category.find()
@@ -15,7 +16,7 @@ async function getAllCategories(req, res) {
 }
 
 
-
+// agarrar una categoría por su id
 async function getCategoryById(req, res) {
     try {
         const category = await Category.findById(req.params.id)
@@ -32,7 +33,7 @@ async function getCategoryById(req, res) {
 }
 
 
-
+// create nueva categoría
 async function createCategory(req, res) {
     try {
         const { 
@@ -101,7 +102,7 @@ async function createCategory(req, res) {
 }
 
 
-
+// editar categoría
 async function updateCategory(req, res) {
     try {
         const category = await Category.findById(req.params.id);
@@ -133,7 +134,7 @@ async function updateCategory(req, res) {
                 alt: ""
             };
 
-            // Delete old image from Cloudinary
+            // Borrar miniatura vieja de cloudinary
             if (category.thumbnail?.publicId) {
                 await deleteImage(category.thumbnail.publicId);
             }
@@ -165,8 +166,23 @@ async function updateCategory(req, res) {
     }
 }
 
+// borrar categoría
+async function deleteCategory(req, res) {
+    try {
+        const deleteCategory = await Category.findByIdAndDelete(req.params.id)
+       
+        if(!deleteCategory) {
+            return res.status(404).json({ message: 'Category not found. '})
+        }
+
+         return res.status(200).json({ message: 'Category'})
+    } catch(err) {
+        return res.status(500).json({ message: err.message })
+    }
+}
 
 
+// cambiar el orden del categoría
 async function reorderCategory(req, res) {
     try {
         const { newOrder } = req.body
@@ -228,19 +244,6 @@ async function reorderCategory(req, res) {
 
 
 
-async function deleteCategory(req, res) {
-    try {
-        const deleteCategory = await Category.findByIdAndDelete(req.params.id)
-       
-        if(!deleteCategory) {
-            return res.status(404).json({ message: 'Category not found. '})
-        }
-
-         return res.status(200).json({ message: 'Category'})
-    } catch(err) {
-        return res.status(500).json({ message: err.message })
-    }
-}
 
 
 

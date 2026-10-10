@@ -1,7 +1,7 @@
 const imageSchema = require('./schemas/imageSchema.js')
 const mongoose = require("mongoose");
 
-
+// schema para la categoría
 const categorySchema = new mongoose.Schema(
   {
     name: {
@@ -23,6 +23,7 @@ const categorySchema = new mongoose.Schema(
       trim: true,
     },
 
+    // miniatura de la categoría
     thumbnail: imageSchema,
 
     displayOrder: {

@@ -1,6 +1,7 @@
 const imageSchema = require('./schemas/imageSchema.js')
 const mongoose = require("mongoose");
 
+// schema de proyecto
 const projectSchema = new mongoose.Schema(
   {
     title: {
@@ -10,6 +11,7 @@ const projectSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // al final no he utilizado los slugs, pero planifico usarlos en el futuro en los urls
     slug: {
       type: String,
       required: true,

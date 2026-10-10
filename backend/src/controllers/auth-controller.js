@@ -4,24 +4,27 @@ const User = require("../models/User")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
+
+// función para iniciar sesión de usuario
 async function loginUser(req, res) {
   const { email, password } = req.body
 
   try {
+    // intentar encontrar usuario en base de datos
     const user = await User.findOne({ email })
 
     if (!user) {
       return res.status(401).json({ message: "Email or password incorrect." })
     }
 
-    // authenticate user
+    // si hay un usuario con este correo, autenticar usuario
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
       return res.status(401).json({ message: "Email or password incorrect." })
     }
 
-    // authorize and serialize w jwt (Create jwt for session)
-    // send jwt back to client browser
+    // autorizar y zerializar con JWT (Generar un JWT para la sesión)
+    // enviar jwt al navegador del cliente
     const token = jwt.sign(
       {
         id: user._id,
@@ -49,6 +52,7 @@ async function loginUser(req, res) {
   }
 }
 
+// función para recibir datos del usuario actual
 async function getUser(req, res) {
   try {
     const user = await User.findById(req.user.id).select("-password")

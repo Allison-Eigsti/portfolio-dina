@@ -1,5 +1,6 @@
 const cloudinary = require('../config/cloudinary')
 
+// subir una imagen a Cloudinary
 const uploadImage = (file, folder) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
@@ -20,6 +21,7 @@ const uploadImage = (file, folder) => {
   });
 };
 
+// Eliminar una imagen de Cloudinary mediante su identificador público
 const deleteImage = (publicId) => {
     return cloudinary.uploader.destroy(publicId);
 };

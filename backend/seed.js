@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const connectDB = require('./src/config/db.js')
 const User = require('./src/models/User.js')
 
+// Crear un usuario administativo
 const seedAdmin = async () => {
     try {
         await connectDB()

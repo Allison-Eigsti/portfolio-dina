@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// Schema de imagen con el publicId y url de cloudinary 
 const imageSchema = new mongoose.Schema({
   url: {
     type: String,

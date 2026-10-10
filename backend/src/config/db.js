@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 let connectionPromise = null
 
+// configurar conexción con base de datos
 const connectDB = async () => {
     if (mongoose.connection.readyState === 1) return mongoose.connection
 
@@ -13,7 +14,7 @@ const connectDB = async () => {
                 return m.connection
             })
             .catch((error) => {
-                connectionPromise = null // allow a retry on the next request
+                connectionPromise = null // permitir un nuevo intento en la siguiente solicitud
                 throw error
             })
     }

@@ -1,6 +1,8 @@
 const siteSettings = require('../models/SiteSettings')
 
+// controllador de las funciones para la configuración del sitio web
 
+// agarrar los ajustes
 async function getSettings(req, res) {
     try {
         const settings = await siteSettings.findOne()
@@ -17,7 +19,7 @@ async function getSettings(req, res) {
     }
 }
 
-
+// editar la config
 async function updateSiteSettings(req, res) {
     try {
         const settings = await siteSettings.findOne()
