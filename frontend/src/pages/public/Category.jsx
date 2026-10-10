@@ -13,18 +13,19 @@ function Category() {
         return projectCategoryId === id
     })
         
-    console.log('Filtered', filteredProjects)
-
     if (loading || categoryLoading) return <p>Loading...</p>
     if (error) return <p>Something went wrong.</p>;
 
     return(
         <>
         <div className="mx-auto max-w-4xl px-6 py-16">
-            <h1 className="mb-2 text-4xl font-black">{category?.name}</h1>
-            <h2 className="mb-8 text-lg font-light text-gray-400">{category?.description}</h2>
 
-            <div className="flex flex-col gap-16">
+            <header className="mb-16">
+            <h1 className="mb-2 text-4xl font-black">{category?.name}</h1>
+            <h2 className="mb-8 text-lg font-light tracking-wide text-gray-400">{category?.description}</h2>
+            </header>
+
+            <div className="flex flex-col gap-20">
                 {filteredProjects.map((project) => (
                     <ProjectCard key={project._id} project={project} />
                 ))}

@@ -10,13 +10,18 @@ function ProjectCard({ project }) {
                 <img
                     src={project.thumbnail?.url}
                     alt={project.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-103"
                 />
             </div>
 
-            <p className="mt-3 text-s font-semibold uppercase tracking-widest text-gray-500 transition-colors duration-300 group-hover:text-gray-900">
-                {project.title}
+            <div className='flex justify-between'>
+            <p className="mt-3 text-s font-light uppercase tracking-wide text-gray-400 transition-colors duration-300 group-hover:text-gray-900">
+                {project.client}
             </p>
+            <p className="mt-3 text-s font-light uppercase tracking-wide text-gray-400 transition-colors duration-300 group-hover:text-gray-900">
+                {project.year}
+            </p>
+            </div>
         </Link>
     )
 }

@@ -23,7 +23,7 @@ function Home() {
       <section className="flex min-h-[calc(100svh-4rem)] flex-col">
         {/* Thumbnail area: takes all the space above the title and centers the row in it */}
         <div className="flex flex-1 items-center">
-          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-6 px-6 py-16 sm:flex-nowrap">
+          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-8 px-6 py-16 sm:flex-nowrap">
             {tiles.map(({ category, offsetY }) => (
               <div
                 key={category._id}
