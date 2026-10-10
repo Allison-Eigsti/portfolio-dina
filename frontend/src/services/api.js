@@ -1,6 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-console.log("API_URL FROM VERCEL:", API_URL);
 
 // Auth
 export const loginUser = async (email, password) => {
@@ -24,7 +23,7 @@ export const loginUser = async (email, password) => {
   return data;
 };
 
-// Projects
+// Proyectos
 export const getProjects = async () => {
   const url = `${API_URL}/projects`;
 
@@ -120,7 +119,7 @@ export const deleteProject = async (id, token) => {
   return data;
 };
 
-// Categories
+// Categorías
 
 export const getCategories = async () => {
   const response = await fetch(`${API_URL}/categories`);
@@ -211,7 +210,7 @@ export const deleteCategory = async (id, token) => {
   return data;
 };
 
-// SiteSettings
+// Configuración
 
 export const getSiteSettings = async () => {
   const url = `${API_URL}/settings`;

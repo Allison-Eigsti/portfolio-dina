@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProject } from "../services/api";
 
+// Custom hook para agarrar todas los proyectos
 export function useProject(id) {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FlickerLink from "./FlickerLink";
 
+// Enlaces para la navigación
 const links = [
   { to: "/", label: "TRABAJOS" },
   { to: "/about", label: "SOBRE MÍ" },
@@ -8,6 +9,7 @@ const links = [
 ];
 
 function NavBar() {
+  // Estado de apertura para el menú hamburguesa
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,6 +18,7 @@ function NavBar() {
         aria-label="Main"
         className="mx-auto flex h-16 items-center justify-end px-6"
       >
+        {/* Map enlaces de navigación con animación */}
         <ul className="hidden items-center gap-4 sm:flex">
           {links.map(({ to, label }) => (
             <li key={to}>
@@ -24,6 +27,7 @@ function NavBar() {
           ))}
         </ul>
 
+      {/* Butón para abrir el menú hamburguesa  */}
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
@@ -48,6 +52,7 @@ function NavBar() {
         </button>
       </nav>
 
+      {/* Butón para cerrar el menú hamburguesa  */}
       {open && (
         <ul className="border-t border-gray-100 px-4 py-3 sm:hidden">
           {links.map(({ to, label }) => (

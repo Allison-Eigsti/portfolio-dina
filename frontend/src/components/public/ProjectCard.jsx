@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 
+// Tarjeta para un proyecto desde la página de la categoría específica
 function ProjectCard({ project }) {
   return (
+    // Enlace al view del proyecto completo
     <Link
       to={`/project/${project._id}`}
       className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900"
     >
+      {/* Miniatura y título, información basica del proyecto */}
       <div className="aspect-[4/3] overflow-hidden sm:aspect-[3/2]">
         <img
           src={project.thumbnail?.url}

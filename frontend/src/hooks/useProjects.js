@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProjects } from "../services/api";
 
+// Custom hook para agarrar un proyecto
 export function useProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);

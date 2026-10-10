@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
+// Animación para los enlaces de la navigación
+// Crea intervales de tiempo al azar
 const randomDelays = (length, step = 60) =>
   [...Array(length).keys()]
     .sort(() => Math.random() - 0.5)
@@ -11,6 +13,7 @@ export default function FlickerLink({ to, children }) {
   const [delays, setDelays] = useState(() => randomDelays(text.length));
 
   return (
+    // Para cada navlink, cuando el cursor está en hover, cambia el color de cada letra de forma random
     <NavLink
       to={to}
       aria-label={text}
