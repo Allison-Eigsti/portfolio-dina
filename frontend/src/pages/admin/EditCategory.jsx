@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import CategoryForm from '@/components/admin/CategoryForm'
 import { updateCategory } from '@/services/api'
+import { Button } from '@/components/admin/Button'
 
 function EditCategory() {
     const { id } = useParams()
@@ -57,6 +58,11 @@ function EditCategory() {
                         submitLabel="Edit Category"
                         initialValues={category}
                     />
+
+
+                              <Button variant="danger" type="button" onClick={() => navigate(-1)}>
+                                Cancel
+                              </Button>
                 </div>
             </main>
         </>
