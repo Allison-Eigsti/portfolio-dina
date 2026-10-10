@@ -12,6 +12,8 @@ import ErrorPage from "./pages/ErrorPage";
 const Home = lazy(() => import("./pages/public/Home"));
 const Category = lazy(() => import("./pages/public/Category"));
 const Project = lazy(() => import("./pages/public/Project"));
+const About = lazy(() => import("./pages/public/About"));
+const Contact = lazy(() => import("./pages/public/Contact"));
 
 // Admin pages
 const Login = lazy(() => import("./pages/admin/Login"));
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
             path: "project/:slug",
             element: <Project />,
           },
+          {
+            path: "about",
+            element: <About />,
+          },
+          {
+            path: "contact",
+            element: <Contact />,
+          }
         ],
       },
 

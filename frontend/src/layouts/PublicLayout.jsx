@@ -1,13 +1,11 @@
 import { Outlet } from "react-router-dom";
+import Navbar from '@/components/public/Navbar'
 
 function PublicLayout() {
   return (
     <>
-      <nav>
-        {/* Public portfolio navigation */}
-      </nav>
-
       <main>
+        <Navbar />
         <Outlet />
       </main>
 
