@@ -10,8 +10,8 @@ const authRouter = require('./routes/authRouter.js')
 
 
 // import Middlewares
-const logger = require('./middleware/logger.js')
 const helmet = require('helmet')
+const logger = require('./middleware/logger.js')
 const debug = require('debug')('app')
 const cors = require('cors')
 const serverError = require('./middleware/server-error.js')
@@ -21,14 +21,20 @@ const notFound = require('./middleware/not-found.js')
 const app = express()
 
 // Connect to database
-connectDB()
-
+app.use(async (req, res, next) => {
+    try {
+        await connectDB()
+        next()
+    } catch (error) {
+        next(error)
+    }
+})
 
 // Middleware
-app.use(cors())
+app.use(helmet())
+app.use(cors({ origin: process.env.FRONTEND_URL }))
 app.use(express.json())
 app.use(logger)
-app.use(helmet())
 
 
 // Unprotected Routes
@@ -41,8 +47,8 @@ app.use('/settings', settingsRouter)
 
 
 // Error Handling
-app.use(serverError)
-app.use(notFound)
+  app.use(notFound)
+  app.use(serverError)
 
 module.exports = app
 
