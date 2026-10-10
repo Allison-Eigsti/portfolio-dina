@@ -87,10 +87,10 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
             <section className="space-y-5">
                 <div>
                     <h2 className="text-lg font-semibold text-gray-900">
-                        Basic Information
+                        Información básica
                     </h2>
                     <p className="mt-1 text-sm text-gray-500">
-                        Add/edit the main details about your project.
+                        Añadir/editar las detalles importantes de tu proyecto.
                     </p>
                 </div>
 
@@ -99,7 +99,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="title"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Project Title *
+                        Título del proyecto *
                     </label>
 
                     <input
@@ -119,12 +119,12 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="category"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Category *
+                        Categoría *
                     </label>
 
                     {categoriesLoading ? (
                         <p className="text-sm text-gray-500">
-                            Loading categories...
+                            Cargando categorías...
                         </p>
                     ) : categoriesError ? (
                         <p className="text-sm text-red-600">
@@ -158,7 +158,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                             htmlFor="client"
                             className="mb-2 block text-sm font-medium text-gray-700"
                         >
-                            Client
+                            Cliente
                         </label>
 
                         <input
@@ -177,7 +177,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                             htmlFor="agency"
                             className="mb-2 block text-sm font-medium text-gray-700"
                         >
-                            Agency
+                            Agencia
                         </label>
 
                         <input
@@ -197,7 +197,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="year"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Publication Year
+                        Año de publicación
                     </label>
 
                     <input
@@ -218,7 +218,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="projectBriefing"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Project Briefing
+                        Briefing del proyecto
                     </label>
 
                     <textarea
@@ -236,10 +236,10 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
             <section className="space-y-5 border-t border-gray-100 pt-6">
                 <div>
                     <h2 className="text-lg font-semibold text-gray-900">
-                        Software and Tags
+                        Software y etiquetas
                     </h2>
                     <p className="mt-1 text-sm text-gray-500">
-                        Separate each item with a comma.
+                        Separa cada elemento con una coma.
                     </p>
                 </div>
 
@@ -267,7 +267,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="tags"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Tags
+                        Etiquetas
                     </label>
 
                     <input
@@ -285,10 +285,10 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
             <section className="space-y-5 border-t border-gray-100 pt-6">
                 <div>
                     <h2 className="text-lg font-semibold text-gray-900">
-                        Project Images
+                        Imagenes del proyecto
                     </h2>
                     <p className="mt-1 text-sm text-gray-500">
-                        Upload a thumbnail and at least one project image.
+                        Sube una miniatura y al menos una imagen del proyecto.
                     </p>
                 </div>
 
@@ -297,7 +297,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="thumbnail"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Project Thumbnail *
+                        Miniatura del proyecto *
                     </label>
 
                     <input
@@ -316,7 +316,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                         htmlFor="images"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Gallery Images *
+                        Galería de imagenes *
                     </label>
 
                     <input
@@ -331,7 +331,7 @@ function ProjectForm({ onSubmit, submitLabel, initialValues = {}}) {
                     />
 
                     <p className="mt-2 text-xs text-gray-500">
-                        You can select multiple images at once.
+                        Se puede seleccionar multiples imagenes a la vez.
                     </p>
                 </div>
             </section>

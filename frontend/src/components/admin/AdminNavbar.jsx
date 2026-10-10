@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 const links = [
-    { to: '/admin/dashboard', label: 'Dashboard' },
-    { to: '/admin/projects/new', label: 'New Project' },
-    { to: '/admin/categories/create', label: 'New Category' }
+    { to: '/admin/dashboard', label: 'Panel de control' },
+    { to: '/admin/projects/new', label: 'Proyecto nuevo' },
+    { to: '/admin/categories/create', label: 'Categoría nueva' }
 ]
 
 const linkClasses = ({ isActive }) =>
