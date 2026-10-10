@@ -15,10 +15,10 @@ function ProjectCard({ project }) {
             </div>
 
             <div className='flex justify-between'>
-            <p className="mt-3 text-s font-light uppercase tracking-wide text-gray-400 transition-colors duration-300 group-hover:text-gray-900">
+            <p className="mt-3 text-s font-medium uppercase tracking-wide text-gray-400 transition-colors duration-300 group-hover:text-gray-900">
                 {project.client}
             </p>
-            <p className="mt-3 text-s font-light uppercase tracking-wide text-gray-400 transition-colors duration-300 group-hover:text-gray-900">
+            <p className="mt-3 text-s font-medium uppercase tracking-wide text-gray-400 transition-colors duration-300 group-hover:text-gray-900">
                 {project.year}
             </p>
             </div>

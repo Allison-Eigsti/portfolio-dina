@@ -21,7 +21,7 @@ function Category() {
         <div className="mx-auto max-w-4xl px-6 py-16">
 
             <header className="mb-16">
-            <h1 className="mb-2 text-4xl font-black">{category?.name}</h1>
+            <h1 className="mb-2 text-5xl font-black tracking-tight sm:text-7xl">{category?.name}</h1>
             <h2 className="mb-8 text-lg font-light tracking-wide text-gray-400">{category?.description}</h2>
             </header>
 

@@ -5,6 +5,7 @@ function ProjectView() {
     const { id } = useParams()
     const { project, loading, error } = useProject(id)
 
+
     if (loading) return <p>Loading...</p>
     if (error) return <p>Something went wrong.</p>;
 
@@ -23,7 +24,7 @@ function ProjectView() {
                 ['Year', project.year],
             ].map(([label, value]) => (
                 <div key={label}>
-                    <dt className="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-400">
+                    <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
                         {label}
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900">{value}</dd>
@@ -31,19 +32,19 @@ function ProjectView() {
             ))}
         </dl>
 
-        <p className="mt-12 max-w-2xl text-lg font-light leading-relaxed text-gray-600">
+        <p className="mt-12 max-w-6xl text-lg font-light leading-relaxed text-gray-600">
             {project.projectBriefing}
         </p>
     </header>
 
-    <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+    <div className='mt-20 flex flex-col items-center'>
         {project.images.map((img, i) => (
             <img
                 key={img._id ?? img.url ?? i}
                 src={img.url}
                 alt={img.alt ?? ''}
                 loading="lazy"
-                className="mb-4 block h-auto w-full break-inside-avoid"
+                className='mb-4 block h-auto max-w-4xl break-inside-avoid'
             />
         ))}
     </div>

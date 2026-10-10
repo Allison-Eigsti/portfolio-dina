@@ -1,7 +1,22 @@
 @import "tailwindcss";
 @theme {
   --font-sans: "Inter", sans-serif;
+
   --animate-flicker: flicker 0.5s ease-in-out both;
+
+  --color-white: rgb(251, 250, 245);
+
+    --color-gray-50:  #f8f8f4;
+    --color-gray-100: #f0efea;
+    --color-gray-200: #e3e2db;
+    --color-gray-300: #d0cfc7;
+    --color-gray-400: #a9a79f;
+    --color-gray-500: #8a8880;
+    --color-gray-600: #6b6a62;
+    --color-gray-700: #4f4e48;
+    --color-gray-800: #36352f;
+    --color-gray-900: #1f1e1b;
+    --color-gray-950: #12110f;
 
   @keyframes flicker {
     0%,
@@ -12,4 +27,8 @@
       opacity: 0.1;
     }
   }
+}
+
+body {
+  background-color: var(--color-white);
 }
