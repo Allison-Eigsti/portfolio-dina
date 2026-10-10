@@ -3,9 +3,9 @@ import FlickerLink from './FlickerLink'
 
 
 const links = [
-    { to: '/', label: 'WORKS' },
-    { to: '/about', label: 'ABOUT' },
-    { to: '/contact', label: 'CONTACT' }
+    { to: '/', label: 'TRABAJOS' },
+    { to: '/about', label: 'SOBRE MÍ' },
+    { to: '/contact', label: 'CONTACTO' }
 ]
 
 

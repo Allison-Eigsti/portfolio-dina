@@ -37,7 +37,7 @@ function Home() {
 
     {/* Title: same left edge as the thumbnails */}
     <h1 className="text-[6vw] font-black text-gray-300 tracking-wide leading-[1.05]">
-      HELLO, I AM
+      HOLA, SOY
       <br />
        <span className="font-black text-gray-900">DINA ABOUELELLA</span>
     </h1>
