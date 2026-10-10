@@ -17,7 +17,7 @@ function EditCategory() {
 
     const handleSave = async (formData) => {
         if (!token) {
-            setSaveError("You must be logged in to edit a category.");
+            setSaveError("Debes iniciar sesión para editar una categoría.");
             return;
         }
 
@@ -28,22 +28,22 @@ function EditCategory() {
 
             navigate(`/admin/categories/${savedCategory._id}`)
         } catch (error) {
-            setSaveError(error.message || 'Failed to update ca')
+            setSaveError(error.message || 'Categoría no actualizada con éxito.')
         } finally {
             setSaveError(false)
         }
     }
 
-    if (loading) return <p>Loading category...</p>
+    if (loading) return <p>Cargando categoría...</p>
     if (error) return <p>{error}</p>
-    if (!category) return <p>Category not found.</p>
+    if (!category) return <p>Categoría no disponible.</p>
 
     return(
         <>
               <main className="min-h-screen bg-gray-100 px-6 py-12">
                 <div className="mx-auto max-w-5xl">
                     <h1 className="mb-6 text-2xl font-semibold text-gray-900">
-                        Edit Category
+                        Editar categoría
                     </h1>
 
                     {saveError && (
@@ -55,13 +55,13 @@ function EditCategory() {
 
                     <CategoryForm
                         onSubmit={handleSave}
-                        submitLabel="Edit Category"
+                        submitLabel="Editar categoría"
                         initialValues={category}
                     />
 
 
                               <Button variant="danger" type="button" onClick={() => navigate(-1)}>
-                                Cancel
+                                Cancelar
                               </Button>
                 </div>
             </main>

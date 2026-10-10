@@ -18,7 +18,7 @@ function EditProject() {
 
   const handleSave = async (formData) => {
     if (!token) {
-      setSaveError("You must be logged in to edit a project.");
+      setSaveError("Debes iniciar sesión para editar un proyecto.");
       return;
     }
 
@@ -29,22 +29,22 @@ function EditProject() {
 
       navigate(`/admin/projects/${savedProject._id}`);
     } catch (error) {
-      setSaveError(error.message || "Failed to update project");
+      setSaveError(error.message || "Proyecto no actualizado con éxito");
     } finally {
       setSaveError(false);
     }
   };
 
-  if (loading) return <p>Loading project...</p>;
+  if (loading) return <p>Cargando proyecto...</p>;
   if (error) return <p>{error}</p>;
-  if (!project) return <p>Project not found.</p>;
+  if (!project) return <p>Proyecto no disponible.</p>;
 
   return (
     <>
       <main className="min-h-screen bg-gray-100 px-6 py-12">
         <div className="mx-auto max-w-5xl">
           <h1 className="mb-6 text-2xl font-semibold text-gray-900">
-            Edit Project
+            Editar proyecto
           </h1>
 
           {saveError && (
@@ -59,12 +59,12 @@ function EditProject() {
 
           <ProjectForm
             onSubmit={handleSave}
-            submitLabel="Edit Project"
+            submitLabel="Editar proyecto"
             initialValues={project}
           />
 
           <Button variant="danger" type="button" onClick={() => navigate(-1)}>
-            Cancel
+            Cancelar
           </Button>
         </div>
       </main>

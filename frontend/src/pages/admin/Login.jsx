@@ -29,7 +29,7 @@ function Login() {
     
     return(
         <>
-            <h1>Admin Login</h1>
+            <h1>Inicio de sesión de administrador</h1>
 
             <form onSubmit={handleLogin}>
                 <label> Email </label>
@@ -39,7 +39,7 @@ function Login() {
                 autoComplete="email"
                 required />
 
-                <label> Password </label>
+                <label> Contraseña </label>
                 <input type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -52,7 +52,7 @@ function Login() {
                         </p>
                     )}
 
-                <Button type="submit">Log In</Button>
+                <Button type="submit">Iniciar sesión</Button>
 
             </form>
         </>

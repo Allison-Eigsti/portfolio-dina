@@ -6,13 +6,13 @@ import ProjectCard from '@/components/admin/ProjectCard'
 function Projects() {
     const { projects, loading, error } = useProjects()
 
-    if (loading) return <p>Loading projects...</p>
+    if (loading) return <p>Cargando proyectos...</p>
     if (error) return <p>{error}</p>
 
     return(
         <>
         <main>
-            <h1>Projects</h1>
+            <h1>Proyectos</h1>
 
             <ul>
                {projects.map((project) => (

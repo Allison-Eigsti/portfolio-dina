@@ -19,9 +19,9 @@ function ProjectView() {
     const { project, loading, error } = useProject(id)
 
 
-    if (loading) return <p>Loading project...</p>
+    if (loading) return <p>Cargando proyecto...</p>
     if (error) return <p>{error}</p>
-    if (!project) return <p>Project not found.</p>
+    if (!project) return <p>Proyecto no disponible.</p>
 
     const handleDelete = async () => {
         setDeleting(true)
@@ -32,7 +32,7 @@ function ProjectView() {
             navigate(`/admin/categories/${project.category}`)
         } catch (err) {
             console.error(err.message)
-            setDeleteError(err.message || 'Failed to delete project.')
+            setDeleteError(err.message || 'Proyecto no creado con éxito.')
             setDeleting(false)
         }
     }
@@ -41,10 +41,10 @@ function ProjectView() {
     const refLabel = (ref) => ref?.name ?? ref?.username ?? ref?.email ?? ref?._id ?? ref
 
     const details = [
-        { label: 'Client', value: project.client },
-        { label: 'Agency', value: project.agency },
-        { label: 'Year', value: project.year },
-        { label: 'Display order', value: project.displayOrder }
+        { label: 'Cliente', value: project.client },
+        { label: 'Agencia', value: project.agency },
+        { label: 'Año', value: project.year },
+        { label: 'Orden de visualización', value: project.displayOrder }
         ]
 
 
@@ -58,7 +58,7 @@ function ProjectView() {
                             <div className="flex flex-col items-center gap-6 text-center">
                                 <div className="w-full max-w-4xl">
                                     <p className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-400">
-                                        Project View
+                                        Proyecto
                                     </p>
 
                                     <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
@@ -66,7 +66,7 @@ function ProjectView() {
                                     </h1>
 
                                     <p className="mt-3 text-base leading-7 text-gray-500">
-                                        Images
+                                        Imagenes
                                     </p>
 
                                     <section className="overflow-hidden rounded-xl">
@@ -159,7 +159,7 @@ function ProjectView() {
                                         to={`/admin/projects/${project._id}/edit`}
                                         className="bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-900 mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50adow-sm transition hover:bg-gray-700 hover:shadow"
                                     >
-                                        Edit Project
+                                        Editar proyecto
                                     </Link>
 
 
@@ -168,11 +168,11 @@ function ProjectView() {
                                     type="button"
                                     onClick={() => setShowConfirm(true)}
                                 >
-                                    Delete
+                                    Borrar
                                 </Button>
 
                                     <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
-                                        Back to Category
+                                        Volver a categoría
                                     </Button>
 
                                     </div>
@@ -186,12 +186,12 @@ function ProjectView() {
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
                             <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
                                 <h3 className="text-lg font-semibold text-gray-900">
-                                    Delete project?
+                                    Borrar proyecto?
                                 </h3>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    You are about to delete <strong>{project.title}</strong>.
-                                    This action cannot be undone.
+                                    Estás a punto de borrar <strong>{project.title}</strong>.
+                                    Esta acción no se puede deshacer.
                                 </p>
 
                                 {deleteError && (
@@ -208,7 +208,7 @@ function ProjectView() {
                                         }}
                                         disabled={deleting}
                                     >
-                                        Cancel
+                                        Cancelar
                                     </Button>
 
                                     <Button
@@ -217,7 +217,7 @@ function ProjectView() {
                                         onClick={handleDelete}
                                         disabled={deleting}
                                     >
-                                        {deleting ? 'Deleting...' : 'Delete'}
+                                        {deleting ? 'Borrando...' : 'Borrar'}
                                     </Button>
                                 </div>
                             </div>

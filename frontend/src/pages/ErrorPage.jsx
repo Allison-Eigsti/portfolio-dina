@@ -1,8 +1,8 @@
 function ErrorPage() {
   return (
     <main>
-      <h1>Something went wrong.</h1>
-      <p>We're sorry, but there was a problem loading this page.</p>
+      <h1>Algo ha pasado.</h1>
+      <p>Lo siento, hubo un problema con cargar esta página.</p>
     </main>
   );
 }

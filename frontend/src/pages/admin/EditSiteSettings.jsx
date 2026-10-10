@@ -53,7 +53,7 @@ function EditSiteSettings() {
   if (settingsLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="text-lg text-gray-600">Loading settings...</p>
+        <p className="text-lg text-gray-600">Cargando configuración...</p>
       </main>
     );
   }
@@ -76,13 +76,13 @@ function EditSiteSettings() {
           >
             <div className="mb-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
-                Site Information
+                Información del sitio
               </h2>
 
               <div className="space-y-5">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                    Site Title
+                    Título del sitio
                   </label>
 
                   <input
@@ -111,7 +111,7 @@ function EditSiteSettings() {
 
             <div className="mb-8 border-t border-gray-100 pt-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
-                Contact Information
+                Información de contacto
               </h2>
 
               <div className="grid gap-5 sm:grid-cols-2">
@@ -130,7 +130,7 @@ function EditSiteSettings() {
 
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                    Phone
+                    Teléfono
                   </label>
 
                   <input
@@ -143,7 +143,7 @@ function EditSiteSettings() {
 
                 <div className="sm:col-span-2">
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                    Location
+                    Ubicación
                   </label>
 
                   <input
@@ -158,7 +158,7 @@ function EditSiteSettings() {
 
             <div className="border-t border-gray-100 pt-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
-                Social Links
+                Redes sociales
               </h2>
 
               <div className="grid gap-5 sm:grid-cols-2">
@@ -191,14 +191,14 @@ function EditSiteSettings() {
             </div>
 
             <div className="flex gap-4">
-            <Button type="submit">Save Changes</Button>
+            <Button type="submit">Guardar cambios</Button>
 
             <Button
               variant="danger"
               type="button"
               onClick={() => navigate(-1)}
             >
-              Cancel
+              Cancelar
             </Button>
             </div>
           </form>

@@ -14,7 +14,7 @@ function NewProject() {
 
   const handleCreate = async (formData) => {
     if (!token) {
-      setError("You must be logged in to create a project.");
+      setError("Debes iniciar sesión para crear un proyecto.");
       return;
     }
 
@@ -38,24 +38,24 @@ function NewProject() {
       <main className="min-h-screen bg-gray-100 px-6 py-12">
         <div className="mx-auto max-w-2xl">
           <h1 className="mb-8 text-4xl font-bold text-gray-900">
-            Create Project
+            Crear proyecto
           </h1>
 
-          {loading && <p className="mb-4 text-gray-600">Creating project...</p>}
+          {loading && <p className="mb-4 text-gray-600">Creando proyecto...</p>}
 
           {error && <p className="mb-4 text-red-600">Error: {error}</p>}
 
           {success && (
-            <p className="mb-4 text-green-600">Project created successfully!</p>
+            <p className="mb-4 text-green-600">Proyecto creado con éxito!</p>
           )}
 
-          <ProjectForm onSubmit={handleCreate} submitLabel="Create Project" />
+          <ProjectForm onSubmit={handleCreate} submitLabel="Crear proyecto" />
 
           <Link
             to="/admin/dashboard"
             className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Cancel
+            Cancelar
           </Link>
         </div>
       </main>

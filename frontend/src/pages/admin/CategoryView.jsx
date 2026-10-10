@@ -34,7 +34,7 @@ function CategoryView() {
   if (categoryLoading || projectsLoading) return <p>Loading projects...</p>;
   if (categoryError) return <p>{categoryError}</p>;
   if (projectsError) return <p>{projectsError}</p>;
-  if (!category) return <p>Category not found.</p>;
+  if (!category) return <p>Categoría no disponible.</p>;
 
   const handleDelete = async () => {
     setDeleting(true);
@@ -45,7 +45,7 @@ function CategoryView() {
       navigate("/admin/dashboard");
     } catch (error) {
       console.error(error.message);
-      setDeleteError(error.message || "Failed to delete category.");
+      setDeleteError(error.message || "No se logró borrar esta categoría.");
       setDeleting(false);
     }
   };
@@ -59,7 +59,7 @@ function CategoryView() {
             <div className="flex items-start justify-between gap-6">
               <div className="max-w-2xl">
                 <p className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-400">
-                  Category
+                  Categoría
                 </p>
 
                 <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
@@ -76,7 +76,7 @@ function CategoryView() {
                   to={`/admin/categories/${category._id}/edit`}
                   className="bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-900 mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50adow-sm transition hover:bg-gray-700 hover:shadow"
                 >
-                  Edit Category
+                  Editar Categoría
                 </Link>
 
                 <Button
@@ -84,7 +84,7 @@ function CategoryView() {
                   type="button"
                   onClick={() => setShowConfirm(true)}
                 >
-                  Delete
+                  Borrar
                 </Button>
               </div>
             </div>
@@ -95,18 +95,18 @@ function CategoryView() {
         <section>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold tracking-tight text-gray-900">
-              Projects
+              Proyectos
             </h2>
 
             <p className="mt-1 text-sm text-gray-500">
-              Projects assigned to this category.
+              Proyectos que pertenecen a esta categoría.
             </p>
 
             <button
               onClick={() => navigate("/admin/projects/new")}
               className="mt-4 shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
             >
-              New Project
+              Nuevo Proyecto
             </button>
           </div>
 
@@ -122,7 +122,7 @@ function CategoryView() {
         </section>
 
         <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
-          Return to Dashboard
+          Volver al inicio
         </Button>
       </div>
 
@@ -130,12 +130,11 @@ function CategoryView() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
             <h3 className="text-lg font-semibold text-gray-900">
-              Delete category?
+              Borrar categoría?
             </h3>
 
             <p className="mt-2 text-sm text-gray-500">
-              You are about to delete <strong>{category.name}</strong>. This
-              action cannot be undone.
+              Estás a punto de borrar <strong>{category.name}</strong>. Esta acción no se puede deshacer.
             </p>
 
             {deleteError && (
@@ -152,7 +151,7 @@ function CategoryView() {
                 }}
                 disabled={deleting}
               >
-                Cancel
+                Cancelar
               </Button>
 
               <Button

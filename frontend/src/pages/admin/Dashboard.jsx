@@ -15,7 +15,7 @@ function Dashboard() {
         return (
             <main className="flex min-h-screen items-center justify-center">
                 <p className="text-lg text-gray-600">
-                    Loading categories...
+                    Cargando categorías...
                 </p>
             </main>
         );
@@ -51,7 +51,7 @@ function Dashboard() {
                     <div className="mb-8">
                     <div className="mb-8 flex items-center justify-between">
                         <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
-                            Site Information
+                            Información del sitio web
                         </h2>
                        
 
@@ -59,7 +59,7 @@ function Dashboard() {
                         to="/admin/site-settings/edit"
                         className="rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
                     >
-                        Edit
+                        Editar
                     </Link>
                      </div>
 
@@ -67,7 +67,7 @@ function Dashboard() {
                         <div className="space-y-5">
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                                    Site Title
+                                    Título del sitio
                                 </label>
                                 <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900">
                                     {settings.siteTitle}
@@ -76,7 +76,7 @@ function Dashboard() {
 
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                                    Description
+                                    Descripción
                                 </label>
                                 <p className="min-h-[100px] rounded-md border border-gray-200 bg-gray-50 px-4 py-3 leading-relaxed text-gray-700">
                                     {settings.about.bio}
@@ -87,7 +87,7 @@ function Dashboard() {
 
                     <div className="mb-8 border-t border-gray-100 pt-8">
                         <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
-                            Contact Information
+                            Información de contacto
                         </h2>
 
                         <div className="grid gap-5 sm:grid-cols-2">
@@ -102,7 +102,7 @@ function Dashboard() {
 
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                                    Phone
+                                    Teléfono
                                 </label>
                                 <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
                                     {settings.contact.phone}
@@ -111,7 +111,7 @@ function Dashboard() {
 
                             <div className="sm:col-span-2">
                                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                                    Location
+                                    Ubicación
                                 </label>
                                 <p className="rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700">
                                     {settings.contact.location}
@@ -122,7 +122,7 @@ function Dashboard() {
 
                     <div className="border-t border-gray-100 pt-8">
                         <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
-                            Social Links
+                            Redes sociales 
                         </h2>
 
                         <div className="grid gap-5 sm:grid-cols-2">
@@ -153,10 +153,10 @@ function Dashboard() {
                 <div className="mb-6 flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
-                            Categories
+                            Categorías
                         </h1>
                         <p className="mt-1 text-sm text-gray-500">
-                            Manage your portfolio categories.
+                            Gestiona las categorías de tu portfolio.
                         </p>
                     </div>
 
@@ -164,7 +164,7 @@ function Dashboard() {
                         to="/admin/categories/create"
                         className="rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
                     >
-                        + Create Category
+                        + Crear categoría
                     </Link>
                 </div>
 

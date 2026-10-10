@@ -6,8 +6,8 @@ function ProjectView() {
     const { project, loading, error } = useProject(id)
 
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Something went wrong.</p>;
+    if (loading) return <p>Cargando...</p>
+    if (error) return <p>Algo no ha funcionado.</p>;
 
     return(
         <>

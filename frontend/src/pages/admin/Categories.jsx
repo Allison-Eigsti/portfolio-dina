@@ -9,7 +9,7 @@ function Category() {
         return (
             <main className="flex min-h-screen items-center justify-center">
                 <p className="text-lg text-gray-600">
-                    Loading categories...
+                    Cargando categorías...
                 </p>
             </main>
         );
@@ -32,14 +32,14 @@ function Category() {
                 <div className="mb-10 flex items-center justify-between">
 
                     <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
-                        Categories
+                        Categorías
                     </h1>
 
                     <Link
                         to="/admin/categories/create"
                         className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-gray-700 hover:shadow-md"
                     >
-                        + Create Category
+                        + Crear categoría
                     </Link>
 
                 </div>
