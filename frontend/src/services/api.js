@@ -24,24 +24,18 @@ export const loginUser = async (email, password) => {
 };
 
 // Proyectos
-export const getProjects = async () => {
-  const url = `${API_URL}/projects`;
-
-  console.log("FETCHING PROJECTS FROM:", url);
-
-  const response = await fetch(url);
+export const getProjects = async (signal) => {
+  const response = await fetch(`${API_URL}/projects`, { signal });
 
   if (!response.ok) {
     throw new Error("Failed to fetch projects");
   }
 
-  const data = await response.json();
-  console.log(data);
-  return data;
+  return response.json();
 };
 
-export const getProject = async (id) => {
-  const response = await fetch(`${API_URL}/projects/${id}`);
+export const getProject = async (id, signal) => {
+  const response = await fetch(`${API_URL}/projects/${id}`, { signal });
 
   if (!response.ok) {
     throw new Error("Failed to fetch project");
@@ -61,8 +55,6 @@ export const createProject = async (formData, token) => {
 
   const data = await response.json();
 
-  console.log("Backend response:", data);
-
   if (!response.ok) {
     throw new Error(data.message || data.error || "Failed to create project");
   }
@@ -72,8 +64,6 @@ export const createProject = async (formData, token) => {
 
 export const updateProject = async (id, updatedFields, token) => {
   const url = `${API_URL}/projects/${id}`;
-
-  console.log("UPDATING PROJECT AT:", url);
 
   const response = await fetch(url, {
     method: "PUT",
@@ -85,8 +75,6 @@ export const updateProject = async (id, updatedFields, token) => {
 
   const data = await response.json();
 
-  console.log(data);
-
   if (!response.ok) {
     throw new Error(data.message || data.error || "Failed to update project.");
   }
@@ -96,8 +84,6 @@ export const updateProject = async (id, updatedFields, token) => {
 
 export const deleteProject = async (id, token) => {
   const url = `${API_URL}/projects/${id}`;
-
-  console.log("DELETING PROJECT AT:", url);
 
   const response = await fetch(url, {
     method: "DELETE",
@@ -121,8 +107,8 @@ export const deleteProject = async (id, token) => {
 
 // Categorías
 
-export const getCategories = async () => {
-  const response = await fetch(`${API_URL}/categories`);
+export const getCategories = async (signal) => {
+  const response = await fetch(`${API_URL}/categories`, { signal });
 
   if (!response.ok) {
     throw new Error("Failed to fetch categories");
@@ -131,8 +117,8 @@ export const getCategories = async () => {
   return response.json();
 };
 
-export const getCategory = async (id) => {
-  const response = await fetch(`${API_URL}/categories/${id}`);
+export const getCategory = async (id, signal) => {
+  const response = await fetch(`${API_URL}/categories/${id}`, { signal });
 
   if (!response.ok) {
     throw new Error("Failed to fetch category");
@@ -152,8 +138,6 @@ export const createCategory = async (formData, token) => {
 
   const data = await response.json();
 
-  console.log("Backend response:", data);
-
   if (!response.ok) {
     throw new Error(data.message || data.error || "Failed to create category");
   }
@@ -163,8 +147,6 @@ export const createCategory = async (formData, token) => {
 
 export const updateCategory = async (id, formData, token) => {
   const url = `${API_URL}/categories/${id}`;
-
-  console.log("UPDATING CATEGORY AT:", url);
 
   const response = await fetch(url, {
     method: "PUT",
@@ -188,8 +170,6 @@ export const updateCategory = async (id, formData, token) => {
 export const deleteCategory = async (id, token) => {
   const url = `${API_URL}/categories/${id}`;
 
-  console.log("DELETING CATEGORY AT:", url);
-
   const response = await fetch(url, {
     method: "DELETE",
     headers: {
@@ -212,26 +192,19 @@ export const deleteCategory = async (id, token) => {
 
 // Configuración
 
-export const getSiteSettings = async () => {
-  const url = `${API_URL}/settings`;
-
-  console.log("FETCHING SETTINGS FROM:", url);
-
-  const response = await fetch(url);
+export const getSiteSettings = async (signal) => {
+  const response = await fetch(`${API_URL}/settings`, { signal });
 
   if (!response.ok) {
     throw new Error("Failed to fetch site settings");
   }
 
-  const data = await response.json();
-  console.log(data);
-  return data;
+  return response.json();
 };
+
 
 export const updateSiteSettings = async (updatedSettings, token) => {
   const url = `${API_URL}/settings`;
-
-  console.log("FETCHING SETTINGS FROM:", url);
 
   const response = await fetch(url, {
     method: "PATCH",
@@ -247,6 +220,5 @@ export const updateSiteSettings = async (updatedSettings, token) => {
   }
 
   const data = await response.json();
-  console.log(data);
   return data;
 };
