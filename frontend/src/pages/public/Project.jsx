@@ -1,10 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useProject } from "@/hooks/useProject";
 
+// Página de la vista de un proyecto
 function ProjectView() {
+  // Obtiene id del proyecto de los parametros
   const { id } = useParams();
+  // Carga datos del proyecto
   const { project, loading, error } = useProject(id);
 
+  // Manega estados de carga, error
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Algo no ha funcionado.</p>;
 
@@ -16,6 +20,7 @@ function ProjectView() {
             {project.title}
           </h1>
 
+          {/* Detalles del proyecto */}
           <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-gray-200 pt-6 sm:grid-cols-3">
             {[
               ["Client", project.client],
@@ -31,11 +36,13 @@ function ProjectView() {
             ))}
           </dl>
 
+            {/* Briefing del proyecto */}
           <p className="mt-12 max-w-6xl text-lg font-light leading-relaxed text-gray-600">
             {project.projectBriefing}
           </p>
         </header>
 
+          {/* Imágenes del proyecto en una columna */}
         <div className="mt-20 flex flex-col items-center">
           {project.images.map((img, i) => (
             <img

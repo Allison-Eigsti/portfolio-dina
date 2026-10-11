@@ -9,33 +9,35 @@ import { useState } from "react";
 
 function CategoryView() {
   const navigate = useNavigate();
-  // Get params to load correct cateogory settings
+  // Agarra el parametro de id de categoría para encontrar la categoría deseada
   const { id } = useParams();
+  // Provee el valor del token para confirmar que el usuario está autorizado para borrar categorías
   const { token } = useAuth();
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
 
-  // Fetch category
+  // Fetch categoría
   const {
     category,
     loading: categoryLoading,
     error: categoryError,
   } = useCategory(id);
 
-  //Load projects and filter by category type
+  //Carga los proyectos
   const {
     projects,
     loading: projectsLoading,
     error: projectsError,
   } = useProjects();
 
-  if (categoryLoading || projectsLoading) return <p>Loading projects...</p>;
+  if (categoryLoading || projectsLoading) return <p>Cargando proyectos...</p>;
   if (categoryError) return <p>{categoryError}</p>;
   if (projectsError) return <p>{projectsError}</p>;
   if (!category) return <p>Categoría no disponible.</p>;
 
+  // Gestiona la acción de borrar una categoría
   const handleDelete = async () => {
     setDeleting(true);
     setDeleteError(null);
@@ -53,7 +55,7 @@ function CategoryView() {
   return (
     <main className="min-h-screen bg-gray-100 px-6 py-12">
       <div className="mx-auto max-w-5xl">
-        {/* Category Information */}
+        {/* Información de categoría */}
         <section className="mb-12">
           <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
             <div className="flex items-start justify-between gap-6">
@@ -71,6 +73,7 @@ function CategoryView() {
                 </p>
               </div>
 
+              {/* Butones para editar/borrar categorías */}
               <div className="flex gap-4">
                 <Link
                   to={`/admin/categories/${category._id}/edit`}
@@ -91,7 +94,7 @@ function CategoryView() {
           </div>
         </section>
 
-        {/* Projects */}
+        {/* Proyectos según la categoría */}
         <section>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold tracking-tight text-gray-900">
@@ -102,6 +105,7 @@ function CategoryView() {
               Proyectos que pertenecen a esta categoría.
             </p>
 
+            {/* Añadir nuevo proyecto a esta categoría */}
             <button
               onClick={() => navigate("/admin/projects/new")}
               className="mt-4 shrink-0 rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
@@ -110,6 +114,7 @@ function CategoryView() {
             </button>
           </div>
 
+          {/* Muestra las tarjetas de los proyectos, los filtra para asegurar q pertenecen a la categoría siendo vista */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {projects
               .filter((project) => project.category === category._id)

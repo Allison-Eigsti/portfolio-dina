@@ -6,17 +6,22 @@ import { useAuth } from "@/context/AuthContext";
 import ProjectForm from "@/components/admin/ProjectForm";
 import { updateProject } from "@/services/api";
 
+// Editar proyecto
 function EditProject() {
+  // Coge parametro de id
   const { id } = useParams();
 
   const { project, loading, error } = useProject(id);
+  // Token para confirmar que el usuario puede editar un proyecto
   const { token } = useAuth();
 
   const navigate = useNavigate();
 
   const [saveError, setSaveError] = useState(null);
 
+  // Gestiona envio del formulario del edición: recibe formData, que permite enviar los datos del proyecto, incluidas las imágenes
   const handleSave = async (formData) => {
+    // Verifica que el usuario esté autorizado
     if (!token) {
       setSaveError("Debes iniciar sesión para editar un proyecto.");
       return;
@@ -35,6 +40,7 @@ function EditProject() {
     }
   };
 
+  // Manejo de errores
   if (loading) return <p>Cargando proyecto...</p>;
   if (error) return <p>{error}</p>;
   if (!project) return <p>Proyecto no disponible.</p>;
@@ -57,12 +63,14 @@ function EditProject() {
             </p>
           )}
 
+          {/* El formulario para editar un proyecto */}
           <ProjectForm
             onSubmit={handleSave}
             submitLabel="Editar proyecto"
             initialValues={project}
           />
 
+          {/* Cancela la edición */}
           <Button variant="danger" type="button" onClick={() => navigate(-1)}>
             Cancelar
           </Button>

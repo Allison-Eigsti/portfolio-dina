@@ -6,15 +6,19 @@ import CategoryForm from "@/components/admin/CategoryForm";
 import { updateCategory } from "@/services/api";
 import { Button } from "@/components/admin/Button";
 
+// Editar categoría
 function EditCategory() {
+  // Coge parametro de id 
   const { id } = useParams();
 
   const { category, loading, error } = useCategory(id);
+  // Se usará para autorizar el usuario a editar una categoría
   const { token } = useAuth();
   const navigate = useNavigate();
 
   const [saveError, setSaveError] = useState(null);
 
+  // Envia los datos de los cambios de una categoría
   const handleSave = async (formData) => {
     if (!token) {
       setSaveError("Debes iniciar sesión para editar una categoría.");
@@ -34,6 +38,7 @@ function EditCategory() {
     }
   };
 
+  // Maneja de estados de carga, errores
   if (loading) return <p>Cargando categoría...</p>;
   if (error) return <p>{error}</p>;
   if (!category) return <p>Categoría no disponible.</p>;
@@ -56,12 +61,14 @@ function EditCategory() {
             </p>
           )}
 
+          {/* Formulario de la categoría, onSubmit usa la función para editar no crear */}
           <CategoryForm
             onSubmit={handleSave}
             submitLabel="Editar categoría"
             initialValues={category}
           />
 
+          {/* Cancelar el formulario */}
           <Button variant="danger" type="button" onClick={() => navigate(-1)}>
             Cancelar
           </Button>

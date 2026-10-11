@@ -3,10 +3,13 @@ import { useCategories } from "../../hooks/useCategories";
 import { useSettings } from "../../hooks/UseSettings";
 import { Link } from "react-router-dom";
 
+// El panel de control 
 function Dashboard() {
+  // Carga las categorías y configuración del sistema
   const { categories, loading, error } = useCategories();
   const { settings, settingsLoading, settingsError } = useSettings();
 
+  // Maneja de errores
   if (loading || settingsLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center">
@@ -42,6 +45,7 @@ function Dashboard() {
                   Información del sitio web
                 </h2>
 
+                {/* Editar la configuración */}
                 <Link
                   to="/admin/site-settings/edit"
                   className="rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
@@ -50,6 +54,7 @@ function Dashboard() {
                 </Link>
               </div>
 
+              {/* Muestra la configuración actual del sitio */}
               <div className="space-y-5">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -60,6 +65,7 @@ function Dashboard() {
                   </p>
                 </div>
 
+              {/* Descripción */}
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
                     Descripción
@@ -71,6 +77,7 @@ function Dashboard() {
               </div>
             </div>
 
+            {/* Contacto */}
             <div className="mb-8 border-t border-gray-100 pt-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
                 Información de contacto
@@ -106,6 +113,7 @@ function Dashboard() {
               </div>
             </div>
 
+            {/* Redes sociales */}
             <div className="border-t border-gray-100 pt-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
                 Redes sociales
@@ -134,6 +142,7 @@ function Dashboard() {
           </div>
         </section>
 
+        {/* Sección de categorías */}
         <section>
           <div className="mb-6 flex items-center justify-between">
             <div>
@@ -145,6 +154,7 @@ function Dashboard() {
               </p>
             </div>
 
+            {/* Crear una categoría nueva */}
             <Link
               to="/admin/categories/create"
               className="rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-gray-700 hover:shadow"
@@ -153,6 +163,7 @@ function Dashboard() {
             </Link>
           </div>
 
+          {/* Muestra las tarjetas de categorías actuales */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
               <Link

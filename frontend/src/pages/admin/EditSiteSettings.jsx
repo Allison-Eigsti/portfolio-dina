@@ -5,10 +5,13 @@ import { Button } from "@/components/admin/Button";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+// Editar la configuración del sitio web
 function EditSiteSettings() {
+  // Carga configuración actual
   const { settings, settingsLoading, settingsError } = useSettings();
   const { token } = useAuth();
 
+  //  Declara las referencias para acceder a los valores de los campos del formulario
   const siteTitleRef = useRef(null);
   const bio = useRef(null);
   const email = useRef(null);
@@ -18,6 +21,7 @@ function EditSiteSettings() {
   const behance = useRef(null);
   const navigate = useNavigate();
 
+  // Gestiona el envío de la petición de editar la config
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -50,6 +54,7 @@ function EditSiteSettings() {
     }
   };
 
+  // Manejo de estados de carga/errores
   if (settingsLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center">
@@ -70,6 +75,7 @@ function EditSiteSettings() {
     <>
       <article className="min-h-screen bg-gray-100 px-6 py-12">
         <div className="mx-auto max-w-5xl">
+          {/* Formulario para entrar cambios a la config */}
           <form
             onSubmit={handleSave}
             className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm mb-12"
@@ -93,6 +99,7 @@ function EditSiteSettings() {
                   />
                 </div>
 
+              {/* Sección "about" */}
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
                     Bio
@@ -109,6 +116,7 @@ function EditSiteSettings() {
               </div>
             </div>
 
+              {/* Sección "contacto" */}
             <div className="mb-8 border-t border-gray-100 pt-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
                 Información de contacto
@@ -156,6 +164,7 @@ function EditSiteSettings() {
               </div>
             </div>
 
+              {/* Sección "redes sociales" */}
             <div className="border-t border-gray-100 pt-8">
               <h2 className="mb-6 text-xl font-semibold tracking-tight text-gray-900">
                 Redes sociales
@@ -193,6 +202,7 @@ function EditSiteSettings() {
             <div className="flex gap-4">
               <Button type="submit">Guardar cambios</Button>
 
+            {/* Cancelar */}
               <Button
                 variant="danger"
                 type="button"

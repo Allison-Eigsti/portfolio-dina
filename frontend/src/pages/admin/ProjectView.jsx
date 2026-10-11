@@ -5,22 +5,28 @@ import { Button } from "@/components/admin/Button";
 import { deleteProject } from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
 
+// Página de un proyecto completo
 function ProjectView() {
   const navigate = useNavigate();
 
+  // Coge el parámetro de id para obtener información del proyecto correcto
   const { id } = useParams();
+  // Token para permitir que el usuario borra un proyecto
   const { token } = useAuth();
 
+  // Estados de procesar y errores
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
 
+  // Obtiene información de un proyecto
   const { project, loading, error } = useProject(id);
 
   if (loading) return <p>Cargando proyecto...</p>;
   if (error) return <p>{error}</p>;
   if (!project) return <p>Proyecto no disponible.</p>;
 
+  // Gestiona envío de borrar proyecto
   const handleDelete = async () => {
     setDeleting(true);
     setDeleteError(null);
@@ -30,14 +36,12 @@ function ProjectView() {
       navigate(`/admin/categories/${project.category}`);
     } catch (err) {
       console.error(err.message);
-      setDeleteError(err.message || "Proyecto no creado con éxito.");
+      setDeleteError(err.message || "No se pudo borrar el proyecto.");
       setDeleting(false);
     }
   };
 
-  const refLabel = (ref) =>
-    ref?.name ?? ref?.username ?? ref?.email ?? ref?._id ?? ref;
-
+  // Lista de detalles del proyecto (etiqueta + valor) que se recorre con map para renderizarlos en la vista
   const details = [
     { label: "Cliente", value: project.client },
     { label: "Agencia", value: project.agency },
@@ -64,6 +68,7 @@ function ProjectView() {
                   Imagenes
                 </p>
 
+                {/* Renderiza el layout de las imagenes del proyecto */}
                 <section className="overflow-hidden rounded-xl">
                   <div className="flex flex-col gap-4 md:flex-row md:items-start">
                     {project.images.map((image) => (
@@ -81,6 +86,7 @@ function ProjectView() {
                   </div>
                 </section>
 
+                {/* Renderiza los detalles del proyecto */}
                 <p className="mx-auto mt-6 max-w-4xl text-base leading-7 text-gray-600">
                   {project.projectBriefing}
                 </p>
@@ -95,6 +101,7 @@ function ProjectView() {
                     </div>
                   ))}
 
+                  {/* Software */}
                   <div className="sm:col-span-2">
                     <dt className="text-sm text-gray-500">Software</dt>
                     <dd className="mt-2 flex flex-wrap gap-2">
@@ -113,6 +120,7 @@ function ProjectView() {
                     </dd>
                   </div>
 
+                  {/* Etiquetas */}
                   <div className="sm:col-span-2">
                     <dt className="text-sm text-gray-500">Tags</dt>
                     <dd className="mt-2 flex flex-wrap gap-2">
@@ -131,6 +139,7 @@ function ProjectView() {
                     </dd>
                   </div>
 
+                  {/* Miniatura */}
                   <div className="sm:col-span-2">
                     <dt className="text-sm text-gray-500">Thumbnail</dt>
                     <dd className="mt-2">
@@ -147,14 +156,16 @@ function ProjectView() {
                   </div>
                 </dl>
 
+                {/* Editar proyecto */}
                 <div className="flex gap-4">
                   <Link
                     to={`/admin/projects/${project._id}/edit`}
-                    className="bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-900 mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50adow-sm transition hover:bg-gray-700 hover:shadow"
+                    className="bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-900 mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 shadow-sm transition hover:bg-gray-700 hover:shadow"
                   >
                     Editar proyecto
                   </Link>
 
+                  {/* Borrar proyecto */}
                   <Button
                     variant="danger"
                     type="button"
@@ -162,6 +173,8 @@ function ProjectView() {
                   >
                     Borrar
                   </Button>
+
+                  {/* Volver atrás */}
 
                   <Button
                     variant="secondary"
@@ -176,6 +189,7 @@ function ProjectView() {
           </div>
         </section>
 
+        {/* Mensaaje de alerta antes de borrar un proyecto */}
         {showConfirm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
             <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">

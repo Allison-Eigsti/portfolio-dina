@@ -4,20 +4,24 @@ import { createProject } from "../../services/api";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
+// Crea un nuevo proyecto
 function NewProject() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  // Recibe token de contexto del autorización
   const { token } = useAuth();
   const navigate = useNavigate();
 
+  // Crear nuevo proyecto, acepta formData porque recibe imagenes
   const handleCreate = async (formData) => {
     if (!token) {
       setError("Debes iniciar sesión para crear un proyecto.");
       return;
     }
 
+    // Maneja estados de carga, de errores
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -49,8 +53,10 @@ function NewProject() {
             <p className="mb-4 text-green-600">Proyecto creado con éxito!</p>
           )}
 
+        {/* Renderiza el formulario para crear un proyecto, onSubmit crear en vez de editar  */}
           <ProjectForm onSubmit={handleCreate} submitLabel="Crear proyecto" />
 
+        {/* Volver atrás */}
           <Link
             to="/admin/dashboard"
             className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"

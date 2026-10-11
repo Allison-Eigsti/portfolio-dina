@@ -2,7 +2,9 @@ import CategoryCard from "../../components/admin/CategoryCard";
 import { useCategories } from "../../hooks/useCategories";
 import { Link } from "react-router-dom";
 
+// Función para mostrar las tarjetas de las categorías (se usa en el panel de control)
 function Category() {
+  // Carga las categorías usando el hook useCategories
   const { categories, loading, error } = useCategories();
 
   if (loading) {
@@ -29,6 +31,7 @@ function Category() {
             Categorías
           </h1>
 
+          {/* // Butón para crear una categoría nueva */}
           <Link
             to="/admin/categories/create"
             className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-gray-700 hover:shadow-md"
@@ -37,6 +40,7 @@ function Category() {
           </Link>
         </div>
 
+        {/* // Muestra las tarjetas de cada categoría en una retícula responsive */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
             <CategoryCard key={category._id} {...category} />

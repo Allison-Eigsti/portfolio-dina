@@ -4,21 +4,27 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/admin/Button";
 import { loginUser } from "@/services/api";
 
+// Página para iniciar una sesión
 function Login() {
+  // Guarda el estado de la información entrada en los campos del formulario
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  // Obtiene la función login del contexto de autenticación
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Gestiona la inicialización de una sesión
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
+      // Petición al API para validar el correo, contraseña
       const data = await loginUser(email, password);
 
+      // Guarda la sesión de forma global
       login(data.accessToken, data.user);
 
       navigate("/admin/dashboard");
@@ -45,6 +51,7 @@ function Login() {
             </p>
           </div>
 
+        {/* Formulario para inicializar una sesión */}
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label
@@ -95,6 +102,7 @@ function Login() {
               </p>
             )}
 
+            {/* Inicializa sesión */}
             <Button type="submit" className="w-full">
               Iniciar sesión
             </Button>
