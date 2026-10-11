@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSiteSettings } from "../services/api";
+import { getSiteSettings } from "@/services/api";
 
 // Custom hook para agarrar la configuración
 export function useSettings() {

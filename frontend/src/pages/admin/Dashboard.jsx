@@ -1,6 +1,6 @@
-import CategoryCard from "../../components/admin/CategoryCard";
-import { useCategories } from "../../hooks/useCategories";
-import { useSettings } from "../../hooks/UseSettings";
+import CategoryCard from "@/components/admin/CategoryCard";
+import { useCategories } from "@/hooks/useCategories";
+import { useSettings } from "@/hooks/UseSettings";
 import { Link } from "react-router-dom";
 
 // El panel de control 

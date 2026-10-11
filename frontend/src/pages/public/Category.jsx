@@ -1,6 +1,6 @@
-import { useCategory } from "../../hooks/useCategory";
+import { useCategory } from "@/hooks/useCategory";
 import ProjectCard from "@/components/public/ProjectCard";
-import { useProjects } from "../../hooks/useProjects";
+import { useProjects } from "@/hooks/useProjects";
 import { useParams } from "react-router-dom";
 
 // Vista de una categoría

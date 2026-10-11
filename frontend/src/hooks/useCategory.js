@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCategory } from "../services/api";
+import { getCategory } from "@/services/api";
 
 // Custom hook para agarrar una categoría
 export function useCategory(id) {

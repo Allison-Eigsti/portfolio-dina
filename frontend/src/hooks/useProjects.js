@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProjects } from "../services/api";
+import { getProjects } from "@/services/api";
 
 // Custom hook para agarrar todos los proyectos
 export function useProjects() {

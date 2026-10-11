@@ -1,4 +1,4 @@
-import { useProject } from "../../hooks/useProject";
+import { useProject } from "@/hooks/useProject";
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/admin/Button";

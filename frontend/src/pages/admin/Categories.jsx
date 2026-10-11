@@ -1,5 +1,5 @@
-import CategoryCard from "../../components/admin/CategoryCard";
-import { useCategories } from "../../hooks/useCategories";
+import CategoryCard from "@/components/admin/CategoryCard";
+import { useCategories } from "@/hooks/useCategories";
 import { Link } from "react-router-dom";
 
 // Función para mostrar las tarjetas de las categorías (se usa en el panel de control)

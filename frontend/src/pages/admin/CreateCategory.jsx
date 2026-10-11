@@ -1,6 +1,6 @@
 import { useState } from "react";
-import CategoryForm from "../../components/admin/CategoryForm";
-import { createCategory } from "../../services/api";
+import CategoryForm from "@/components/admin/CategoryForm";
+import { createCategory } from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 

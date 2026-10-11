@@ -1,5 +1,5 @@
-import { useProjects } from "../../hooks/useProjects";
-import { useCategory } from "../../hooks/useCategory";
+import { useProjects } from "@/hooks/useProjects";
+import { useCategory } from "@/hooks/useCategory";
 import ProjectCard from "@/components/admin/ProjectCard";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/admin/Button";

@@ -1,4 +1,4 @@
-import { useCategories } from "../../hooks/useCategories";
+import { useCategories } from "@/hooks/useCategories";
 import { useMemo } from "react";
 import ProjectThumbnail from "@/components/public/ProjectThumbnail";
 

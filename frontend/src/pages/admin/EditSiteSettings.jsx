@@ -1,6 +1,6 @@
-import { useSettings } from "../../hooks/UseSettings";
+import { useSettings } from "@/hooks/UseSettings";
 import { useRef, useState } from "react";
-import { updateSiteSettings } from "../../services/api";
+import { updateSiteSettings } from "@/services/api";
 import { Button } from "@/components/admin/Button";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
