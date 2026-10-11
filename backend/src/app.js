@@ -17,6 +17,7 @@ const notFound = require("./middleware/not-found.js");
 
 // inicar instancia de express
 const app = express();
+debug("Aplicación de Express iniciada");
 
 // Conectar al base de datos
 app.use(async (req, res, next) => {
@@ -24,6 +25,7 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (error) {
+    debug("Error al conectar con la base de datos: %s", error.message);
     next(error);
   }
 });
