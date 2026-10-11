@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FlickerLink from "@/FlickerLink";
+import FlickerLink from "@/components/public/FlickerLink";
 
 // Enlaces para la navigación
 const links = [
