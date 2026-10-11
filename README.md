@@ -1,10 +1,18 @@
-# Portfolio Dina API
+# Portfolio Dina
 
-API REST desarrollada con **Node.js, Express.js, MongoDB Atlas y Mongoose** para gestionar el contenido de un portfolio de diseño gráfico.
+Sitio web de portfolio de diseño gráfico, totalmente responsive, con un sistema de gestión de contenido (CMS) para mantener el portfolio actualizado.
 
-La API permite administrar proyectos, categorías y la configuración general del sitio. El proyecto también cuenta con un **frontend desarrollado con React y Vite**, que consume la API mediante peticiones HTTP.
+El proyecto se divide en dos partes:
 
-Las imágenes subidas desde el panel de administración se procesan mediante **Multer** y se almacenan en **Cloudinary**.
+- **Backend:** API REST desarrollada con **Node.js, Express, MongoDB Atlas y Mongoose**.
+- **Frontend:** aplicación desarrollada con **React y Vite** que consume la API y que incluye tanto las páginas públicas del portfolio como un panel de administración protegido.
+
+Las imágenes subidas desde el panel de administración se procesan con **Multer** y se almacenan en **Cloudinary**.
+
+## Demo
+
+- **Frontend:** https://dina-abouelella.vercel.app
+- **API:** https://portfolio-dina-rust.vercel.app
 
 ---
 
@@ -13,20 +21,49 @@ Las imágenes subidas desde el panel de administración se procesan mediante **M
 ```mermaid
 flowchart LR
 
-    Frontend[Frontend React + Vite] -->|Peticiones HTTP| API[API Express.js]
+    subgraph Frontend["Frontend · React + Vite · Vercel"]
+        Public["Páginas públicas"]
+        Admin["Panel de administración"]
+        Protected["ProtectedRoute"]
+        AuthCtx["AuthContext<br/>token en localStorage"]
+        ApiService["services/api.js"]
 
-    API --> Routes[Rutas de Express]
-    Routes --> Auth[Middleware de autorización]
-    Auth --> Controllers[Controladores]
+        Public --> ApiService
+        Admin --> Protected --> ApiService
+        AuthCtx -.-> Protected
+    end
 
-    Controllers --> Models[Modelos Mongoose]
-    Models --> DB[(MongoDB Atlas)]
+    subgraph Backend["Backend · Express 5 · Vercel serverless"]
+        Entry["api/index.js"]
+        Base["app.js<br/>conexión a BD · Helmet · CORS · JSON · Logger"]
+        Routes["Rutas<br/>/auth · /projects · /categories · /settings"]
+        Guards["authorization + requireAdmin<br/>solo rutas de escritura"]
+        Upload["Multer<br/>thumbnail e images"]
+        Controllers["Controladores"]
+        Models["Modelos Mongoose<br/>User · Project · Category · SiteSettings"]
+        CloudService["cloudinaryService"]
+        NotFound["Middleware 404"]
+        ErrorHandler["Gestor de errores 500"]
 
-    Controllers -->|Subida de imágenes| Multer[Multer]
-    Multer --> Cloudinary[Cloudinary]
+        Entry --> Base --> Routes
+        Routes -->|"GET públicas"| Controllers
+        Routes -->|"POST · PUT · PATCH · DELETE"| Guards
+        Guards -->|"con imágenes"| Upload --> Controllers
+        Guards --> Controllers
+        Controllers --> Models
+        Controllers --> CloudService
+        Routes -.->|"ruta inexistente"| NotFound
+        Controllers -.->|"error"| ErrorHandler
+    end
 
-    API -.->|404| NotFound[Middleware 404]
-    API -.->|500| ErrorHandler[Gestor de errores]
+    Seed["npm run seed"]
+    DB[("MongoDB Atlas")]
+    Cloudinary["Cloudinary"]
+
+    ApiService -->|"HTTP + JWT"| Entry
+    Models --> DB
+    CloudService --> Cloudinary
+    Seed -.->|"crea el administrador"| DB
 ```
 
 ---
@@ -36,29 +73,32 @@ flowchart LR
 ### Backend
 
 - Node.js
-- Express.js
+- Express 5
 - MongoDB Atlas
 - Mongoose
+- JSON Web Tokens (JWT)
+- bcrypt
 - Multer
 - Cloudinary
-- JSON Web Tokens (JWT)
 - Helmet
 - CORS
-- Nodemon
+- slugify
+- Nodemon (desarrollo)
 
 ### Frontend
 
-- React
+- React 19
 - Vite
 - React Router
-- Tailwind CSS
+- Tailwind CSS 4
+- oxlint
 
 ### Herramientas y servicios
 
-- Git
-- GitHub
+- Git y GitHub
 - Postman
-- Vercel
+- Prettier
+- Vercel (despliegue del frontend y del backend)
 - MongoDB Atlas
 - Cloudinary
 
@@ -68,62 +108,35 @@ flowchart LR
 
 ```text
 portfolio-dina/
-
 ├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   └── cloudinary.js
-│   │   │   └── db.js
-│   │   ├── controllers/
-│   │   │   └── auth-controller.js
-│   │   │   └── category-controller.js
-│   │   │   └── project-controller.js
-│   │   │   └── siteSettings-controller.js
-│   │   ├── middleware/
-│   │   │   └── authorization.js
-│   │   │   └── logger.js
-│   │   │   └── not-found.js
-│   │   │   └── server-error.js
-│   │   │   └── upload.js
-│   │   ├── models/
-│   │   │   └── schemas/
-│   │   │          └── imageSchema.js
-│   │   │   └── Category.js
-│   │   │   └── Project.js
-│   │   │   └── SiteSettings.js
-│   │   │   └── User.js
-│   │   ├── routes/
-│   │   │   └── authRouter.js
-│   │   │   └── categoryRouter.js
-│   │   │   └── projectRouter.js
-│   │   │   └── siteSettingsRouter.js
-│   │   ├── services/
-│   │   │   └── cloudinaryService.js
-│   │   └── app.js
-│   │   └── vercel.json
 │   ├── api/
-│   │   └── index.js
-│   ├── server.js
-│   ├── package.json
-│   ├── .gitignore
+│   │   └── index.js            # Punto de entrada para Vercel
+│   ├── src/
+│   │   ├── config/             # Conexión a MongoDB y Cloudinary
+│   │   ├── controllers/        # Lógica de cada recurso
+│   │   ├── middleware/         # Autorización, subida de archivos, logger y errores
+│   │   ├── models/             # Modelos de Mongoose y schema para imagenes
+│   │   ├── routes/             # Rutas de Express (auth, categoría, proyecto, congifuración del sitio)
+│   │   ├── services/           # Servicios (Cloudinary)
+│   │   └── app.js              # Configuración de Express
+│   ├── seed.js                 # Crea el usuario administrador
+│   ├── server.js               # Servidor para desarrollo local
 │   ├── .env.example
-│   └── .env
+│   └── package.json
 │
 └── frontend/
     ├── src/
-    │   ├── components/
-    │   ├── context/
-    │   ├── hooks/
-    │   ├── layouts/
-    │   ├── pages/
-    │   └── services/
-    ├── App.jsx
-    ├── index.css
-    ├── main.jsx
-    ├── router.jsx
-    ├── .env
-    ├── package.json
-    └── ...
+    │   ├── components/         # Componentes reutilizables
+    │   ├── context/            # Contexto de autenticación
+    │   ├── hooks/              # Hooks personalizados
+    │   ├── layouts/            # Layouts público y de administración
+    │   ├── pages/              # Páginas públicas y de administración
+    │   ├── services/           # Peticiones a la API (api.js)
+    │   ├── App.jsx
+    │   ├── main.jsx
+    │   └── router.jsx          # Definición de rutas
+    ├── vercel.json             # Reescritura de rutas para la SPA
+    └── package.json
 ```
 
 ---
@@ -132,17 +145,11 @@ portfolio-dina/
 
 ### Requisitos previos
 
-Antes de instalar el proyecto es necesario tener instalado:
-
-- Node.js
+- Node.js 22 o superior (desarrollado con la versión 22.14.0)
 - npm
 - Git
-- Una cuenta de MongoDB Atlas
-- Una cuenta de Cloudinary
-
----
-
-## Configuración del backend
+- Una cuenta de [MongoDB Atlas](https://www.mongodb.com/atlas)
+- Una cuenta de [Cloudinary](https://cloudinary.com/)
 
 ### 1. Clonar el repositorio
 
@@ -151,68 +158,62 @@ git clone https://github.com/Allison-Eigsti/portfolio-dina.git
 cd portfolio-dina
 ```
 
-### 2. Instalar las dependencias
+---
 
-Entrar en la carpeta del backend:
+## Configuración del backend
+
+### 1. Instalar las dependencias
 
 ```bash
 cd backend
-```
-
-Instalar las dependencias:
-
-```bash
 npm install
 ```
 
-### 3. Configurar las variables de entorno
+### 2. Configurar las variables de entorno
 
-Crear un archivo `.env` dentro de la carpeta `backend`:
+Copiar el archivo de ejemplo y completarlo:
+
+```bash
+cp .env.example .env
+```
 
 ```env
 PORT=3000
 
+# Base de datos
 MONGO_URI=tu_cadena_de_conexion_de_mongodb
 
-CLOUDINARY_CLOUD_NAME=tu_cloud_name
-CLOUDINARY_API_KEY=tu_api_key
-CLOUDINARY_API_SECRET=tu_api_secret
-
-GOOGLE_CLIENT_ID=tu_google_client_id
-GOOGLE_CLIENT_SECRET=tu_google_client_secret
-
+# Autorización
 JWT_SECRET=tu_jwt_secret
+
+# Usuario administrador (lo crea el script de seed)
+ADMIN_NAME=tu_nombre
+ADMIN_EMAIL=tu_email
+ADMIN_PASSWORD=tu_contraseña
+
+# Cadena de conexión de Cloudinary
+CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
 ```
 
 > El archivo `.env` contiene información sensible y no debe subirse a GitHub.
 
-### Variables de entorno del backend
+| Variable         | Descripción                                                        |
+| ---------------- | ------------------------------------------------------------------ |
+| `PORT`           | Puerto del servidor en desarrollo local (por defecto `3000`).      |
+| `MONGO_URI`      | Cadena de conexión a MongoDB Atlas.                                |
+| `JWT_SECRET`     | Clave utilizada para firmar los tokens JWT.                        |
+| `ADMIN_NAME`     | Nombre del usuario administrador creado con el seed.               |
+| `ADMIN_EMAIL`    | Email del usuario administrador.                                   |
+| `ADMIN_PASSWORD` | Contraseña del usuario administrador (se guarda cifrada con bcrypt). |
+| `CLOUDINARY_URL` | Cadena de conexión de Cloudinary con las credenciales de la cuenta. |
 
-| Variable                | Descripción                                 |
-| ----------------------- | ------------------------------------------- |
-| `PORT`                  | Puerto utilizado por el servidor.           |
-| `MONGO_URI`             | Cadena de conexión a MongoDB Atlas.         |
-| `CLOUDINARY_CLOUD_NAME` | Nombre de la cuenta de Cloudinary.          |
-| `CLOUDINARY_API_KEY`    | Clave API de Cloudinary.                    |
-| `CLOUDINARY_API_SECRET` | Clave secreta de Cloudinary.                |
-| `GOOGLE_CLIENT_ID`      | Identificador de cliente de Google OAuth.   |
-| `GOOGLE_CLIENT_SECRET`  | Clave secreta de Google OAuth.              |
-| `JWT_SECRET`            | Clave utilizada para firmar los tokens JWT. |
-
----
-
-## MongoDB Atlas
-
-La aplicación utiliza **MongoDB Atlas** como base de datos.
-
-Para configurar MongoDB:
+### 3. MongoDB Atlas
 
 1. Crear una cuenta en MongoDB Atlas.
 2. Crear un clúster.
 3. Crear un usuario para la base de datos.
-4. Configurar las direcciones IP permitidas.
-5. Obtener la cadena de conexión.
-6. Añadirla a `MONGO_URI` dentro del archivo `.env`.
+4. Configurar las direcciones IP permitidas (para Vercel hay que permitir el acceso desde cualquier IP, `0.0.0.0/0`).
+5. Copiar la cadena de conexión y añadirla a `MONGO_URI`.
 
 Ejemplo:
 
@@ -220,72 +221,38 @@ Ejemplo:
 MONGO_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/portfolioDina
 ```
 
-La conexión con MongoDB se gestiona mediante **Mongoose**.
-
----
-
-## Configuración de Cloudinary
-
-La aplicación utiliza **Cloudinary** para almacenar las imágenes de proyectos y categorías.
-
-### Crear una cuenta de Cloudinary
+### 4. Cloudinary
 
 1. Crear una cuenta en Cloudinary.
-2. Acceder al panel de control.
-3. Copiar las credenciales de la cuenta.
-4. Añadirlas al archivo `.env`.
+2. Acceder al panel de control (_Dashboard_).
+3. Copiar la variable **API environment variable** (`CLOUDINARY_URL`).
+4. Añadirla al archivo `.env`.
 
-```env
-CLOUDINARY_CLOUD_NAME=tu_cloud_name
-CLOUDINARY_API_KEY=tu_api_key
-CLOUDINARY_API_SECRET=tu_api_secret
+### 5. Crear el usuario administrador
+
+La aplicación no tiene una ruta de registro, ya que solo existe un administrador. Se crea una única vez con el script de seed, que utiliza las variables `ADMIN_NAME`, `ADMIN_EMAIL` y `ADMIN_PASSWORD`:
+
+```bash
+npm run seed
 ```
 
-### Subida de imágenes
+Si el usuario ya existe, el script lo indica y no crea uno nuevo.
 
-Las imágenes se envían desde el frontend utilizando `FormData` y `multipart/form-data`.
-
-El backend utiliza **Multer** para recibir los archivos.
-
-En el caso de las categorías, el campo utilizado es:
-
-```text
-thumbnail
-```
-
-El proceso de subida es:
-
-```text
-Frontend
-    ↓
-FormData
-    ↓
-Multer
-    ↓
-Cloudinary
-    ↓
-URL de la imagen
-    ↓
-MongoDB
-```
-
-La URL generada por Cloudinary se guarda posteriormente en MongoDB junto con los datos de la categoría o proyecto.
-
----
-
-## Ejecutar el backend
-
-Desde la carpeta `backend`:
+### 6. Ejecutar el backend
 
 ```bash
 npm run dev
 ```
 
-El servidor estará disponible en:
+El servidor estará disponible en `http://localhost:3000`.
 
-```text
-http://localhost:3000
-```
+Scripts disponibles:
+
+| Script         | Descripción                                |
+| -------------- | ------------------------------------------ |
+| `npm run dev`  | Inicia el servidor con Nodemon.            |
+| `npm start`    | Inicia el servidor con Node.               |
+| `npm run seed` | Crea el usuario administrador.             |
 
 ---
 
@@ -293,94 +260,43 @@ http://localhost:3000
 
 ### 1. Instalar las dependencias
 
-Abrir una segunda terminal y entrar en la carpeta `frontend`:
+Abrir una segunda terminal desde la raíz del proyecto:
 
 ```bash
 cd frontend
-```
-
-Instalar las dependencias:
-
-```bash
 npm install
 ```
 
 ### 2. Configurar las variables de entorno
 
-Crear un archivo `.env` dentro de la carpeta `frontend`:
+Crear un archivo `.env` dentro de `frontend`:
 
 ```env
 VITE_API_URL=http://localhost:3000
 ```
 
-Esta variable permite que el frontend conozca la URL base de la API.
+Esta variable indica la URL base de la API. En producción debe apuntar a la API desplegada.
 
 ### 3. Ejecutar el frontend
-
-Desde la carpeta `frontend`:
 
 ```bash
 npm run dev
 ```
 
-El frontend estará disponible normalmente en:
+El frontend estará disponible en `http://localhost:5173`.
 
-```text
-http://localhost:5173
-```
+Scripts disponibles:
 
----
+| Script            | Descripción                                   |
+| ----------------- | --------------------------------------------- |
+| `npm run dev`     | Inicia el servidor de desarrollo de Vite.     |
+| `npm run build`   | Genera la versión de producción.              |
+| `npm run preview` | Previsualiza la versión de producción.        |
+| `npm run lint`    | Revisa el código con oxlint.                  |
 
-## Frontend
+### 4. Acceder al panel de administración
 
-El frontend está desarrollado con **React y Vite**.
-
-La aplicación utiliza una estructura basada en componentes, páginas, servicios y hooks personalizados.
-
-```text
-src/
-├── components/
-├── context/
-├── hooks/
-├── pages/
-└── services/
-```
-
-### `components/`
-
-Contiene componentes reutilizables de la interfaz, como:
-
-- Tarjetas de proyectos.
-- Tarjetas de categorías.
-- Formularios.
-- Elementos de navegación.
-
-### `pages/`
-
-Contiene las diferentes páginas de la aplicación.
-
-Las páginas están organizadas entre:
-
-- Páginas públicas.
-- Páginas de administración.
-
-### `services/`
-
-Contiene las funciones encargadas de realizar las peticiones a la API.
-
-Por ejemplo:
-
-```text
-services/api.js
-```
-
-### `hooks/`
-
-Contiene los hooks personalizados utilizados para gestionar los datos de la aplicación.
-
-### `context/`
-
-Contiene los contextos utilizados para compartir información global entre diferentes componentes.
+Con ambos servidores en marcha, entrar en `http://localhost:5173/admin/login` e iniciar sesión con el email y la contraseña definidos en `ADMIN_EMAIL` y `ADMIN_PASSWORD`.
 
 ---
 
@@ -388,203 +304,141 @@ Contiene los contextos utilizados para compartir información global entre difer
 
 ### Páginas públicas
 
-```text
-/
-```
-
-Página principal.
-
-```text
-/category/:slug
-```
-
-Página de una categoría.
-
-```text
-/project/:slug
-```
-
-Página de un proyecto.
+| Ruta            | Descripción                  |
+| --------------- | ---------------------------- |
+| `/`             | Página principal.            |
+| `/category/:id` | Página de una categoría.     |
+| `/project/:id`  | Página de un proyecto.       |
+| `/about`        | Sobre mí.                    |
+| `/contact`      | Contacto.                    |
 
 ### Panel de administración
 
-```text
-/admin/login
-```
+Todas las rutas, excepto el inicio de sesión, están protegidas y requieren haber iniciado sesión.
 
-Inicio de sesión.
+| Ruta                          | Descripción                             |
+| ----------------------------- | --------------------------------------- |
+| `/admin/login`                | Inicio de sesión.                       |
+| `/admin/dashboard`            | Panel principal.                        |
+| `/admin/site-settings/edit`   | Edición de la configuración del sitio.  |
+| `/admin/projects/:id`         | Vista de un proyecto.                   |
+| `/admin/projects/new`         | Creación de un proyecto.                |
+| `/admin/projects/:id/edit`    | Edición de un proyecto.                 |
+| `/admin/categories/:id`       | Vista de una categoría.                 |
+| `/admin/categories/create`    | Creación de una categoría.              |
+| `/admin/categories/:id/edit`  | Edición de una categoría.               |
 
-```text
-/admin/dashboard
-```
-
-Panel principal de administración.
-
-```text
-/admin/projects
-```
-
-Gestión de proyectos.
-
-```text
-/admin/projects/new
-```
-
-Creación de un nuevo proyecto.
-
-```text
-/admin/projects/:id/edit
-```
-
-Edición de un proyecto.
-
-```text
-/admin/categories
-```
-
-Gestión de categorías.
-
-```text
-/admin/categories/create
-```
-
-Creación de una nueva categoría.
-
-```text
-/admin/categories/:id/edit
-```
-
-Edición de una categoría.
+Cualquier otra ruta muestra la página 404.
 
 ---
 
 ## API
 
+### Autenticación
+
+| Método | Ruta          | Protegida | Descripción                              |
+| ------ | ------------- | --------- | ---------------------------------------- |
+| POST   | `/auth/login` | No        | Inicia sesión y devuelve un token JWT.   |
+| GET    | `/auth/me`    | Sí        | Devuelve los datos del usuario actual.   |
+
 ### Proyectos
 
-| Método | Ruta            | Descripción                     |
-| ------ | --------------- | ------------------------------- |
-| GET    | `/projects`     | Obtiene todos los proyectos.    |
-| GET    | `/projects/:id` | Obtiene un proyecto específico. |
-| POST   | `/projects`     | Crea un nuevo proyecto.         |
-| PUT    | `/projects/:id` | Actualiza un proyecto.          |
-| DELETE | `/projects/:id` | Elimina un proyecto.            |
+| Método | Ruta             | Protegida | Descripción                                |
+| ------ | ---------------- | --------- | ------------------------------------------ |
+| GET    | `/projects`      | No        | Obtiene todos los proyectos.               |
+| GET    | `/projects/:id`  | No        | Obtiene un proyecto específico.            |
+| POST   | `/projects`      | Sí        | Crea un proyecto.                          |
+| PUT    | `/projects/:id`  | Sí        | Actualiza un proyecto.                     |
+| PATCH  | `/projects/:id`  | Sí        | Cambia el orden (aún no utilizado en el frontend). |
+| DELETE | `/projects/:id`  | Sí        | Elimina un proyecto.                       |
+
+Los campos de archivo aceptados al crear o editar un proyecto son `thumbnail` (1 imagen) e `images` (hasta 20 imágenes).
 
 ### Categorías
 
-| Método | Ruta              | Descripción                       |
-| ------ | ----------------- | --------------------------------- |
-| GET    | `/categories`     | Obtiene todas las categorías.     |
-| GET    | `/categories/:id` | Obtiene una categoría específica. |
-| POST   | `/categories`     | Crea una nueva categoría.         |
-| PUT    | `/categories/:id` | Actualiza una categoría.          |
-| DELETE | `/categories/:id` | Elimina una categoría.            |
+| Método | Ruta               | Protegida | Descripción                                |
+| ------ | ------------------ | --------- | ------------------------------------------ |
+| GET    | `/categories`      | No        | Obtiene todas las categorías.              |
+| GET    | `/categories/:id`  | No        | Obtiene una categoría específica.          |
+| POST   | `/categories`      | Sí        | Crea una categoría.                        |
+| PUT    | `/categories/:id`  | Sí        | Actualiza una categoría.                   |
+| PATCH  | `/categories/:id`  | Sí        | Cambia el orden (aún no utilizado en el frontend). |
+| DELETE | `/categories/:id`  | Sí        | Elimina una categoría.                     |
 
-Las peticiones de creación y actualización que incluyen imágenes utilizan:
-
-```text
-multipart/form-data
-```
-
-El campo utilizado para la imagen de una categoría es:
-
-```text
-thumbnail
-```
+El campo de archivo aceptado al crear o editar una categoría es `thumbnail` (1 imagen).
 
 ### Configuración del sitio
 
-| Método | Ruta                 | Descripción                           |
-| ------ | -------------------- | ------------------------------------- |
-| GET    | `/site-settings`     | Obtiene la configuración del sitio.   |
-| PUT    | `/site-settings/:id` | Actualiza la configuración del sitio. |
+| Método | Ruta        | Protegida | Descripción                           |
+| ------ | ----------- | --------- | ------------------------------------- |
+| GET    | `/settings` | No        | Obtiene la configuración del sitio.   |
+| PATCH  | `/settings` | Sí        | Actualiza la configuración del sitio. |
 
-### Autenticación
+### Formato de las peticiones
 
-| Método | Ruta          | Descripción                       |
-| ------ | ------------- | --------------------------------- |
-| POST   | `/auth/login` | Inicia sesión como administrador. |
+- Las peticiones que incluyen imágenes (proyectos y categorías) usan `multipart/form-data` mediante `FormData`.
+- El resto de peticiones (inicio de sesión y configuración) usan JSON.
+- Las rutas protegidas requieren la cabecera `Authorization: Bearer <token>`.
+
+---
+
+## Subida de imágenes
+
+```text
+Frontend (FormData)
+    ↓
+Multer (recibe los archivos)
+    ↓
+Cloudinary (almacena las imágenes)
+    ↓
+URL de la imagen
+    ↓
+MongoDB (se guarda junto con los datos del proyecto o la categoría)
+```
 
 ---
 
 ## Autenticación y autorización
 
-Las operaciones administrativas pueden estar protegidas mediante un middleware de autorización.
+El sistema utiliza **JWT** para gestionar las sesiones:
 
-El sistema utiliza **JWT (JSON Web Tokens)** para gestionar la autenticación.
+1. El administrador inicia sesión con su email y contraseña (`POST /auth/login`).
+2. El servidor comprueba las credenciales (la contraseña está cifrada con **bcrypt**) y devuelve un token JWT junto con los datos del usuario.
+3. El frontend guarda el token y el usuario en `localStorage` y en un contexto de React (`AuthContext`).
+4. En cada petición protegida, el frontend envía el token en la cabecera `Authorization`.
+5. En el backend, el middleware `authorization` verifica el token y el middleware `requireAdmin` comprueba que el usuario tenga el rol de administrador.
 
-El flujo general es:
-
-```text
-Usuario
-    ↓
-Inicio de sesión
-    ↓
-Servidor
-    ↓
-Token JWT
-    ↓
-Frontend
-    ↓
-Petición protegida
-    ↓
-Middleware de autorización
-    ↓
-Controlador
-```
-
-Las rutas públicas de consulta pueden utilizarse sin autenticación.
+En el frontend, el componente `ProtectedRoute` protege las rutas del panel de administración.
 
 ---
 
 ## Middleware
 
-La API incluye diferentes middlewares para gestionar las peticiones y los errores.
-
-### CORS
-
-Permite controlar qué aplicaciones frontend pueden realizar peticiones a la API.
-
-### Helmet
-
-Añade diferentes cabeceras HTTP relacionadas con la seguridad.
-
-### Logger
-
-Registra información sobre las peticiones realizadas al servidor.
-
-### Autorización
-
-Comprueba que el usuario tenga los permisos necesarios para acceder a determinadas rutas.
-
-### Error 404
-
-Gestiona las rutas que no existen.
-
-### Error 500
-
-Gestiona los errores internos del servidor.
+| Middleware      | Descripción                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+| `helmet`        | Añade cabeceras HTTP de seguridad.                                       |
+| `cors`          | Permite peticiones desde otros orígenes (habilitado para cualquier origen). |
+| `express.json`  | Procesa los cuerpos de las peticiones en formato JSON.                   |
+| `logger`        | Registra las peticiones realizadas al servidor.                          |
+| `authorization` | Verifica el token JWT.                                                   |
+| `requireAdmin`  | Comprueba que el usuario sea administrador.                              |
+| `upload`        | Configuración de Multer para recibir archivos.                           |
+| `notFound`      | Gestiona las rutas que no existen (404).                                 |
+| `serverError`   | Gestiona los errores internos del servidor (500).                        |
 
 ---
 
 ## Pruebas con Postman
 
-La API puede probarse mediante **Postman**.
+La API puede probarse con **Postman**. Las pruebas incluyen operaciones CRUD de proyectos, categorías y configuración, además de la autenticación.
 
-Las pruebas incluyen operaciones CRUD para:
+Para las rutas protegidas:
 
-- Proyectos.
-- Categorías.
-- Configuración del sitio.
-- Autenticación.
+1. Hacer `POST /auth/login` con `email` y `password` en el cuerpo (JSON).
+2. Copiar el token recibido.
+3. En la petición protegida, añadir la cabecera `Authorization: Bearer <token>`.
 
-También se pueden probar las peticiones que contienen imágenes mediante:
-
-```text
-multipart/form-data
-```
-
-Para crear una categoría con una imagen:
+Ejemplo para crear una categoría con una imagen (`multipart/form-data`):
 
 | Campo          | Tipo |
 | -------------- | ---- |
@@ -597,67 +451,50 @@ Para crear una categoría con una imagen:
 
 ## Despliegue
 
-El backend y el frontend pueden desplegarse utilizando **Vercel**.
+El backend y el frontend se despliegan como dos proyectos independientes en **Vercel**.
 
 ### Backend
 
 1. Subir el proyecto a GitHub.
-2. Importar el repositorio en Vercel.
-3. Configurar el directorio correspondiente al backend.
-4. Añadir las variables de entorno.
-5. Realizar el despliegue.
-6. Comprobar que la API responde correctamente.
+2. En Vercel, importar el repositorio y seleccionar la carpeta `backend` como directorio raíz (_Root Directory_).
+3. Añadir las variables de entorno: `MONGO_URI`, `JWT_SECRET`, `CLOUDINARY_URL` (y `ADMIN_NAME`, `ADMIN_EMAIL` y `ADMIN_PASSWORD` si se va a ejecutar el seed contra esa base de datos).
+4. Realizar el despliegue.
+5. Comprobar que la API responde, por ejemplo en `https://tu-api.vercel.app/projects`.
 
-Las variables necesarias en producción incluyen:
-
-```text
-MONGO_URI
-CLOUDINARY_CLOUD_NAME
-CLOUDINARY_API_KEY
-CLOUDINARY_API_SECRET
-GOOGLE_CLIENT_ID
-GOOGLE_CLIENT_SECRET
-JWT_SECRET
-```
+En Vercel, el archivo `api/index.js` exporta la aplicación de Express como función serverless. El archivo `server.js` solo se usa en desarrollo local.
 
 ### Frontend
 
-El frontend puede desplegarse como un proyecto independiente.
-
-La variable:
+1. En Vercel, importar el mismo repositorio y seleccionar la carpeta `frontend` como directorio raíz.
+2. Añadir la variable de entorno:
 
 ```env
 VITE_API_URL=https://tu-api.vercel.app
 ```
 
-debe apuntar a la URL de la API desplegada.
+3. Realizar el despliegue.
 
-Después del despliegue se debe comprobar que el frontend puede comunicarse correctamente con el backend.
+El archivo `frontend/vercel.json` redirige todas las rutas a `index.html`, lo que permite que React Router funcione al recargar la página o al entrar directamente en una ruta como `/admin/login`.
+
+> Las variables `VITE_` se incorporan en el momento de la compilación, por lo que hay que volver a desplegar el frontend después de cambiarlas.
 
 ---
 
 ## Desarrollo local y producción
 
-Durante el desarrollo local:
+| Entorno    | `VITE_API_URL`                  |
+| ---------- | ------------------------------- |
+| Local      | `http://localhost:3000`         |
+| Producción | `https://tu-api.vercel.app`     |
 
-```env
-VITE_API_URL=http://localhost:3000
-```
-
-En producción:
-
-```env
-VITE_API_URL=https://tu-api.vercel.app
-```
-
-De esta manera, la URL de la API puede cambiar entre los diferentes entornos sin modificar directamente el código del frontend.
+De esta manera la URL de la API cambia entre entornos sin modificar el código del frontend.
 
 ---
 
 ## Notas importantes
 
 - No subir nunca el archivo `.env` al repositorio.
-- No incluir las claves secretas de Cloudinary en el código.
-- No incluir el `JWT_SECRET` directamente en el código.
+- No incluir las claves de Cloudinary ni el `JWT_SECRET` directamente en el código.
 - Reiniciar el servidor de Vite después de modificar las variables de entorno.
 - No establecer manualmente la cabecera `Content-Type` cuando se utiliza `FormData`, ya que el navegador genera automáticamente el `boundary` necesario para `multipart/form-data`.
+- El script de seed solo debe ejecutarse una vez para crear el administrador.
